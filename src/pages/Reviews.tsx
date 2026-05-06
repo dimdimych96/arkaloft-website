@@ -1,5 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+};
 
 const reviews = [
   {
@@ -399,293 +416,270 @@ const tags = [
 
 export const Reviews = () => {
   const [visibleReviews, setVisibleReviews] = useState(6);
-  const [filter, setFilter] = useState<'all' | '5' | '4' | '3' | '2' | '1'>('all');
 
   const loadMore = () => {
     setVisibleReviews((prev) => prev + 3);
   };
 
-  const filteredReviews = filter === 'all' 
-    ? reviews 
-    : reviews.filter((r) => r.rating === parseInt(filter));
-
-  const displayedReviews = filteredReviews.slice(0, visibleReviews);
+  const displayedReviews = reviews.slice(0, visibleReviews);
 
   return (
-    <main className="min-h-screen bg-background-off-white font-body text-text-main overflow-x-hidden">
+    <main className="min-h-screen bg-white font-body text-text-main overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative pt-8 pb-6 overflow-hidden bg-gradient-to-b from-white to-background-off-white">
-        {/* Background Decorations */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-secondary-mint/20 to-transparent rounded-full blur-3xl -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-secondary-peach/20 to-transparent rounded-full blur-3xl -z-10"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-secondary-yellow/10 to-transparent rounded-full blur-3xl -z-10"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden bg-gradient-to-br from-primary/5 via-secondary-mint/10 to-secondary-yellow/5">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-mint/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-2 text-sm text-gray-500 mb-6"
+          >
             <Link to="/" className="hover:text-primary transition-colors">Главная</Link>
             <span className="material-symbols-outlined text-lg">chevron_right</span>
             <span className="text-gray-900 font-bold">Отзывы</span>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center mb-12">
             {/* Left Content */}
             <div>
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-yellow to-secondary-yellow/80 px-4 py-2 rounded-full mb-6 shadow-sm">
-                <span className="material-symbols-outlined text-orange-600 text-lg">reviews</span>
-                <span className="text-sm font-black text-orange-900">Отзывы клиентов</span>
-              </div>
-              
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.1] mb-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 bg-secondary-yellow px-4 py-2 rounded-full mb-6 shadow-lg"
+              >
+                <span className="material-symbols-outlined text-orange-500 text-lg">reviews</span>
+                <span className="text-sm font-black text-orange-800 font-heading">Отзывы клиентов</span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-3xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-[1.1] mb-6 font-heading"
+              >
                 Реальные отзывы
                 <span className="block text-primary">о нашем лофте</span>
-              </h1>
-              
-              <p className="text-lg text-text-secondary leading-relaxed mb-8 max-w-xl">
-                Честные мнения семей, которые уже отметили праздник в АркаЛофт. 
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 max-w-xl"
+              >
+                Честные мнения семей, которые уже отметили праздник в АркаЛофт.
                 Более 500 счастливых детей и их родителей рекомендуют нас!
-              </p>
+              </motion.p>
 
               {/* Quick Stats */}
-              <div className="flex flex-wrap gap-6">
-                <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex flex-wrap gap-4 sm:gap-6"
+              >
+                <div className="flex items-center gap-3 bg-white px-4 sm:px-5 py-3 rounded-2xl shadow-lg border-2 border-gray-100">
+                  <div className="size-10 bg-green-100 rounded-full flex items-center justify-center">
                     <span className="material-symbols-outlined text-primary">star</span>
                   </div>
                   <div>
-                    <div className="text-2xl font-black text-gray-900">4.98</div>
+                    <div className="text-xl sm:text-2xl font-black text-gray-900">4.98</div>
                     <div className="text-xs text-gray-500 font-medium">средний рейтинг</div>
                   </div>
                 </div>
-                
-                <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+
+                <div className="flex items-center gap-3 bg-white px-4 sm:px-5 py-3 rounded-2xl shadow-lg border-2 border-gray-100">
+                  <div className="size-10 bg-blue-100 rounded-full flex items-center justify-center">
                     <span className="material-symbols-outlined text-blue-600">people</span>
                   </div>
                   <div>
-                    <div className="text-2xl font-black text-gray-900">500+</div>
+                    <div className="text-xl sm:text-2xl font-black text-gray-900">500+</div>
                     <div className="text-xs text-gray-500 font-medium">праздников</div>
                   </div>
                 </div>
-                
-                <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+
+                <div className="flex items-center gap-3 bg-white px-4 sm:px-5 py-3 rounded-2xl shadow-lg border-2 border-gray-100">
+                  <div className="size-10 bg-purple-100 rounded-full flex items-center justify-center">
                     <span className="material-symbols-outlined text-purple-600">thumb_up</span>
                   </div>
                   <div>
-                    <div className="text-2xl font-black text-gray-900">98%</div>
+                    <div className="text-xl sm:text-2xl font-black text-gray-900">98%</div>
                     <div className="text-xs text-gray-500 font-medium">рекомендуют</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Right Content - Rating Card */}
-            <div className="relative">
-              <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border-2 border-secondary-mint/30 relative overflow-hidden">
-                {/* Decorative elements */}
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-secondary-yellow/30 rounded-full blur-2xl"></div>
-                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary-mint/30 rounded-full blur-2xl"></div>
-                
-                <div className="relative">
-                  <div className="text-center mb-8">
-                    <div className="text-8xl font-black text-primary mb-4">4.98</div>
-                    <div className="flex justify-center gap-1 mb-4">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span key={star} className="material-symbols-outlined text-5xl text-secondary-yellow fill-current">star</span>
-                      ))}
-                    </div>
-                    <div className="text-gray-500 font-medium text-lg">на основе {reviews.length} отзывов в 2ГИС</div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="relative"
+            >
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-gray-100 relative overflow-hidden">
+                <div className="text-center mb-6">
+                  <div className="text-6xl sm:text-7xl font-black text-primary mb-3">4.9</div>
+                  <div className="flex justify-center gap-1 mb-3">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span key={star} className="text-orange-400 text-3xl sm:text-4xl">★</span>
+                    ))}
                   </div>
+                  <div className="text-gray-600 font-medium text-sm sm:text-base">на основе 362 отзывов</div>
+                </div>
 
-                  {/* Rating Breakdown */}
-                  <div className="space-y-3">
-                    {[5, 4, 3, 2, 1].map((rating) => {
-                      const count = reviews.filter(r => r.rating === rating).length;
-                      const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
-                      return (
-                        <div key={rating} className="flex items-center gap-3">
-                          <div className="flex items-center gap-1 w-16">
-                            <span className="text-sm font-bold text-gray-700">{rating}</span>
-                            <span className="material-symbols-outlined text-sm text-gray-400">star</span>
-                          </div>
-                          <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-gradient-to-r from-secondary-yellow to-secondary-yellow/80 rounded-full transition-all duration-500"
-                              style={{ width: `${percentage}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-sm font-bold text-gray-600 w-8 text-right">{count}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Platform badges */}
-                  <div className="mt-8 pt-6 border-t border-gray-100">
-                    <div className="text-center text-sm text-gray-500 mb-3 font-medium">Мы также на:</div>
-                    <div className="flex justify-center gap-4">
-                      <a href="https://2gis.ru" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl hover:bg-green-100 transition-colors">
-                        <span className="material-symbols-outlined text-green-600">map</span>
-                        <span className="font-bold text-green-700">2ГИС</span>
-                      </a>
-                      <a href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                        <span className="material-symbols-outlined text-red-600">location_on</span>
-                        <span className="font-bold text-red-700">Яндекс</span>
-                      </a>
-                    </div>
+                {/* Platform badges */}
+                <div className="pt-6 border-t border-gray-100">
+                  <div className="text-center text-xs sm:text-sm text-gray-500 mb-3 font-medium">Мы также на:</div>
+                  <div className="flex justify-center gap-3">
+                    <a href="https://2gis.ru/novosibirsk/firm/70000001026613315/tab/reviews?m=82.971997%2C55.054204%2F14.71" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-50 rounded-xl hover:bg-green-100 transition-all text-xs sm:text-sm">
+                      <span className="material-symbols-outlined text-green-600 text-base sm:text-lg">map</span>
+                      <span className="font-bold text-green-700">2ГИС</span>
+                    </a>
+                    <a href="https://yandex.com/maps/org/loft_arka/214653608019/reviews/?ll=82.968247%2C55.052227&z=16" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-50 rounded-xl hover:bg-red-100 transition-all text-xs sm:text-sm">
+                      <span className="material-symbols-outlined text-red-600 text-base sm:text-lg">location_on</span>
+                      <span className="font-bold text-red-700">Яндекс</span>
+                    </a>
                   </div>
                 </div>
               </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border-2 border-secondary-peach/30 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-3xl text-secondary-peach fill-current">star</span>
-                  <span className="font-black text-gray-900">5.0</span>
-                </div>
-              </div>
-              
-              <div className="absolute -bottom-4 -left-4 bg-white p-3 rounded-xl shadow-lg border-2 border-secondary-mint/30 animate-bounce" style={{ animationDuration: '4s' }}>
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-2xl text-primary">verified</span>
-                  <span className="text-xs font-bold text-gray-700">Проверенные отзывы</span>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
+        </div>
+      </section>
 
-          {/* Filter */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            <span className="text-sm font-bold text-gray-600 mr-2">Фильтр:</span>
-            {(['all', '5', '4', '3', '2', '1'] as const).map((rating) => (
-              <button
-                key={rating}
-                onClick={() => setFilter(rating)}
-                className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all flex items-center gap-2 ${
-                  filter === rating
-                    ? 'bg-primary text-white shadow-lg shadow-primary/30 scale-105'
-                    : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-primary hover:shadow-md'
-                }`}
-              >
-                {rating === 'all' ? (
-                  <>
-                    <span className="material-symbols-outlined text-base">filter_list</span>
-                    Все отзывы
-                  </>
-                ) : (
-                  <>
-                    <span className="material-symbols-outlined text-base">star</span>
-                    {rating} звезды
-                  </>
-                )}
-              </button>
-            ))}
-          </div>
-
+      {/* Reviews Section */}
+      <section className="py-12 sm:py-16 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Reviews Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-12"
+          >
             {displayedReviews.map((review) => (
-              <div
+              <motion.div
                 key={review.id}
-                className="bg-white rounded-[2rem] p-6 md:p-8 shadow-lg border-2 border-gray-100 hover:border-primary/30 transition-all"
+                variants={itemVariants}
+                className="bg-white rounded-2xl p-5 sm:p-6 md:p-8 shadow-lg border-2 border-gray-100 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary-mint rounded-full flex items-center justify-center text-white font-black text-lg">
+                    <div className="size-10 sm:size-12 bg-gradient-to-br from-primary to-secondary-mint rounded-full flex items-center justify-center text-white font-black text-base sm:text-lg">
                       {review.author.charAt(0)}
                     </div>
                     <div>
-                      <div className="font-black text-gray-900">{review.author}</div>
-                      <div className="text-xs text-gray-500">{review.reviews} • {review.date}</div>
+                      <div className="font-black text-gray-900 text-sm sm:text-base">{review.author}</div>
+                      <div className="text-[10px] sm:text-xs text-gray-500">{review.reviews} • {review.date}</div>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        className={`material-symbols-outlined text-lg ${
-                          star <= review.rating ? 'text-secondary-yellow fill-current' : 'text-gray-300'
-                        }`}
-                      >
-                        star
-                      </span>
+                  <div className="flex gap-0.5">
+                    {[...Array(review.rating)].map((_, idx) => (
+                      <span key={idx} className="text-orange-400 text-lg sm:text-xl">★</span>
                     ))}
                   </div>
                 </div>
 
                 {review.verified && (
-                  <div className="flex items-center gap-2 mb-3 text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full w-fit">
-                    <span className="material-symbols-outlined text-sm">check_circle</span>
+                  <div className="flex items-center gap-2 mb-3 text-[10px] sm:text-xs font-bold text-green-700 bg-green-50 px-2 sm:px-3 py-1 rounded-full w-fit">
+                    <span className="material-symbols-outlined text-xs sm:text-sm">check_circle</span>
                     Отзыв подтверждён
                   </div>
                 )}
 
-                <p className="text-gray-700 leading-relaxed mb-4">{review.text}</p>
+                <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">{review.text}</p>
 
                 {review.response && (
-                  <div className="mt-4 p-4 bg-green-50 rounded-xl border-l-4 border-primary">
+                  <div className="mt-4 p-3 sm:p-4 bg-green-50 rounded-xl border-l-4 border-primary">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="material-symbols-outlined text-primary text-lg">support_agent</span>
-                      <span className="text-xs font-bold text-gray-500">Официальный ответ • {review.response.date}</span>
+                      <span className="material-symbols-outlined text-primary text-base sm:text-lg">support_agent</span>
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-500">Официальный ответ • {review.response.date}</span>
                     </div>
-                    <p className="text-sm text-gray-700">{review.response.text}</p>
+                    <p className="text-xs sm:text-sm text-gray-700">{review.response.text}</p>
                   </div>
                 )}
-
-                <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100">
-                  <button className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">thumb_up</span>
-                    Полезно
-                  </button>
-                  <button className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">share</span>
-                    Поделиться
-                  </button>
-                </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Load More */}
-          {visibleReviews < filteredReviews.length && (
-            <div className="text-center mb-12">
+          {visibleReviews < reviews.length && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
               <button
                 onClick={loadMore}
-                className="px-8 py-4 bg-white border-2 border-primary text-primary font-black text-lg rounded-full hover:bg-primary hover:text-white transition-colors shadow-md"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-white border-2 border-primary text-primary font-black text-base sm:text-lg rounded-full hover:bg-primary hover:text-white transition-all shadow-lg"
               >
                 Показать ещё отзывы
               </button>
-            </div>
+            </motion.div>
           )}
+        </div>
+      </section>
 
-          {/* CTA Section */}
-          <div className="bg-primary rounded-[2.5rem] p-8 md:p-12 text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">Оставьте свой отзыв</h2>
-            <p className="text-white/90 mb-8 max-w-2xl mx-auto">
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-primary via-primary-hover to-primary relative overflow-hidden">
+        {/* Wave top */}
+        <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+          <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 Q300,60 600,30 T1200,0 L1200,120 L0,120 Z" className="fill-white"></path>
+          </svg>
+        </div>
+
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 sm:mb-6 font-heading leading-tight">
+              Оставьте свой отзыв
+            </h2>
+            <p className="text-base sm:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
               Поделитесь впечатлениями о вашем празднике в АркаЛофт! Ваше мнение поможет нам стать лучше.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <a
                 href="https://2gis.ru/novosibirsk/firm/70000001026613315/tab/reviews"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:bg-secondary-yellow transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary rounded-full font-bold text-base sm:text-lg hover:bg-secondary-yellow hover:scale-105 transition-all shadow-2xl"
               >
-                <span className="material-symbols-outlined mr-2">rate_review</span>
+                <span className="material-symbols-outlined">rate_review</span>
                 Написать на 2ГИС
               </a>
               <a
                 href="https://t.me/arkaloft_bot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white/20 text-white rounded-full font-bold text-lg hover:bg-white/30 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-base sm:text-lg hover:bg-white/30 transition-all"
               >
-                <span className="material-symbols-outlined mr-2">telegram</span>
+                <span className="material-symbols-outlined">send</span>
                 Написать в Telegram
               </a>
             </div>
-          </div>
+          </motion.div>
+        </div>
+
+        {/* Wave bottom */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+          <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 Q300,60 600,30 T1200,0 L1200,120 L0,120 Z" className="fill-white"></path>
+          </svg>
         </div>
       </section>
     </main>

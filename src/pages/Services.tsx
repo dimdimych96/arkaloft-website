@@ -1,33 +1,23 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+};
 
 const services = [
-  {
-    category: 'rent',
-    icon: 'meeting_room',
-    iconBg: 'bg-green-100',
-    iconColor: 'text-primary',
-    title: 'Аренда залов',
-    items: [
-      {
-        name: 'Зал 0+',
-        description: '135 м², огромная горка, сухой бассейн, мягкая зона для родителей и банкетная посадка до 30 человек.',
-        area: '135 м²',
-        guests: 'до 40 чел.',
-        price: '3500 ₽/час',
-        priceColor: 'text-primary',
-        image: '/images/halls/0/1.jpg',
-      },
-      {
-        name: 'Зал 7+',
-        description: '75 м², игровая консоль PS5, проектор, светомузыка, зона TikTok и настольные игры.',
-        area: '75 м²',
-        guests: 'до 20 чел.',
-        price: '2500 ₽/час',
-        priceColor: 'text-orange-500',
-        image: '/images/halls/7/1.jpg',
-      },
-    ],
-  },
   {
     category: 'shows',
     icon: 'theater_comedy',
@@ -111,184 +101,236 @@ const services = [
 
 export const Services = () => {
   return (
-    <main className="min-h-screen bg-background-off-white font-body text-text-main overflow-x-hidden">
+    <main className="min-h-screen bg-white font-body text-text-main overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative pt-12 pb-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary-mint/30 blob-shape blur-3xl -z-10 translate-x-1/4 -translate-y-1/4"></div>
-        <div className="absolute top-20 left-0 w-[300px] h-[300px] bg-secondary-peach/20 blob-shape-2 blur-3xl -z-10 -translate-x-1/4"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block py-1 px-3 rounded-full bg-secondary-yellow/50 text-yellow-800 text-xs font-black uppercase tracking-widest mb-4">
-            Каталог развлечений
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 font-heading mb-6 max-w-4xl mx-auto leading-tight">
-            Все услуги для{' '}
-            <span className="text-primary relative inline-block">
-              идеального
-              <svg className="absolute w-full h-3 -bottom-1 left-0 text-secondary-peach -z-10 opacity-60" preserveAspectRatio="none" viewBox="0 0 100 10">
-                <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" strokeWidth="8"></path>
-              </svg>
-            </span>
-            {' '}праздника
-          </h1>
-          <p className="text-lg text-text-secondary mb-10 leading-relaxed max-w-2xl mx-auto">
-            Мы берем на себя все заботы: от подбора аниматора до украшения торта. Профессиональная организация событий в наших уютных лофтах или на выезде.
-          </p>
-          
+      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden bg-gradient-to-br from-primary/5 via-secondary-mint/10 to-secondary-yellow/5">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-mint/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 bg-secondary-yellow px-4 py-2 rounded-full mb-6 shadow-lg"
+          >
+            <span className="material-symbols-outlined text-orange-500 text-lg">auto_awesome</span>
+            <span className="text-sm font-black text-orange-800 font-heading">Каталог развлечений</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-3xl sm:text-5xl md:text-6xl font-black leading-[1.1] text-gray-900 font-heading mb-6 relative max-w-4xl mx-auto"
+          >
+            Все услуги для <br className="sm:hidden" />
+            <span className="text-primary">идеального праздника</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto"
+          >
+            Мы берем на себя все заботы: от подбора аниматора до украшения торта. Профессиональная организация событий в наших уютных лофтах.
+          </motion.p>
+
           {/* Quick Navigation */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 no-scrollbar overflow-x-auto pb-4 px-4 snap-x">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-wrap justify-center gap-3 md:gap-4"
+          >
             {services.map((service) => (
               <a
                 key={service.category}
                 href={`#${service.category}`}
-                className="snap-start flex items-center gap-2 px-5 py-3 rounded-full bg-white border-2 border-green-100 text-gray-700 font-bold hover:border-primary hover:text-primary transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-3 rounded-full bg-white border-2 border-gray-100 text-gray-700 font-bold hover:border-primary hover:text-primary hover:shadow-lg transition-all whitespace-nowrap text-sm"
               >
                 <span className={`material-symbols-outlined ${service.iconColor} text-lg`}>{service.icon}</span>
                 {service.title}
               </a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Services Sections */}
-      {services.map((section) => (
+      {services.map((section, sectionIndex) => (
         <section
           key={section.category}
           id={section.category}
-          className={`py-16 ${section.category === 'rent' || section.category === 'decor' ? 'bg-white' : 'bg-background-subtle relative border-y border-dashed border-gray-200'}`}
+          className={`py-12 sm:py-16 relative overflow-hidden ${
+            sectionIndex % 2 === 0 ? 'bg-white' : 'bg-background-subtle'
+          }`}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Wave top для нечетных секций */}
+          {sectionIndex % 2 === 1 && (
+            <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
+              <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+              </svg>
+            </div>
+          )}
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* Section Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-4"
+            >
               <div className="flex items-center gap-3">
-                <div className={`size-10 ${section.iconBg} rounded-full flex items-center justify-center ${section.iconColor}`}>
-                  <span className="material-symbols-outlined">{section.icon}</span>
+                <div className={`size-12 sm:size-14 ${section.iconBg} rounded-2xl flex items-center justify-center ${section.iconColor}`}>
+                  <span className="material-symbols-outlined text-2xl">{section.icon}</span>
                 </div>
                 <div>
-                  <h2 className="text-3xl font-black text-gray-900 font-heading">{section.title}</h2>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 font-heading">{section.title}</h2>
                   {section.subtitle && (
                     <p className="text-sm text-gray-500 font-medium mt-1">{section.subtitle}</p>
                   )}
                 </div>
               </div>
-              <a className="text-primary font-bold hover:text-primary-hover transition-colors flex items-center gap-1" href="#">
-                Все {section.title.toLowerCase()} <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </a>
-            </div>
+            </motion.div>
 
             {/* Section Content */}
-            {section.category === 'rent' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {section.items.map((item: any) => (
-                  <div key={item.name} className="group bg-white rounded-3xl border border-gray-100 shadow-lg hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
-                    <div className="h-64 overflow-hidden relative">
-                      <img alt={item.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={item.image} />
-                      <div className={`absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-black uppercase ${item.priceColor}`}>
-                        {item.name}
-                      </div>
-                      <div className={`absolute bottom-4 right-4 ${item.priceColor.replace('text-', 'bg-')} text-white px-4 py-2 rounded-xl font-bold shadow-md`}>
-                        {item.price}
-                      </div>
-                    </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="text-2xl font-black text-gray-800 font-heading mb-2">
-                        {item.name === 'Зал 0+' ? 'Просторный зал для малышей' : 'Стильный лофт для подростков'}
-                      </h3>
-                      <p className="text-gray-500 text-sm mb-4 line-clamp-2">{item.description}</p>
-                      <div className="flex gap-4 text-sm font-medium text-gray-600 mb-6">
-                        <span className="flex items-center gap-1">
-                          <span className={`material-symbols-outlined ${item.priceColor} text-lg`}>straighten</span> {item.area}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <span className={`material-symbols-outlined ${item.priceColor} text-lg`}>groups</span> {item.guests}
-                        </span>
-                      </div>
-                      <div className="mt-auto">
-                        <Link to="/contact" className={`inline-flex items-center ${item.priceColor} font-bold hover:underline`}>
-                          Забронировать <span className="material-symbols-outlined text-sm ml-1">arrow_forward</span>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
             {section.category === 'shows' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+              >
                 {section.items.map((item: any) => (
-                  <div key={item.name} className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all group">
-                    <div className="relative rounded-xl overflow-hidden mb-4 h-48">
-                      {item.badge && (
-                        <div className="absolute top-2 right-2 z-10 bg-secondary-yellow text-xs font-black px-2 py-1 rounded text-orange-900 uppercase">
-                          {item.badge}
-                        </div>
-                      )}
+                  <motion.div
+                    key={item.name}
+                    variants={itemVariants}
+                    className="bg-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all group relative overflow-hidden"
+                  >
+                    {item.badge && (
+                      <div className="absolute top-2 right-2 z-10 bg-secondary-yellow text-[10px] font-black px-2 py-1 rounded-full text-orange-900 uppercase shadow-lg">
+                        {item.badge}
+                      </div>
+                    )}
+                    <div className="relative rounded-xl overflow-hidden mb-3 aspect-square">
                       <img alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={item.image} />
                     </div>
-                    <h3 className="text-lg font-black text-gray-800 font-heading mb-1">{item.name}</h3>
-                    <p className="text-xs text-gray-500 mb-3 line-clamp-2">{item.description}</p>
-                    <div className="flex justify-between items-center border-t border-gray-100 pt-3">
-                      <span className="text-primary font-black">{item.price}</span>
-                      <button className="text-primary hover:bg-primary hover:text-white p-2 rounded-full transition-colors">
-                        <span className="material-symbols-outlined text-lg">add_circle</span>
-                      </button>
+                    <h3 className="text-sm sm:text-base font-black text-gray-800 font-heading mb-1 text-center">{item.name}</h3>
+                    <p className="text-[10px] sm:text-xs text-gray-600 mb-2 leading-relaxed line-clamp-2 text-center">{item.description}</p>
+                    <div className="text-center">
+                      <span className="text-primary font-black text-xs sm:text-sm">{item.price}</span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             )}
 
             {section.category === 'animators' && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+              >
                 {section.items.map((item: any) => (
-                  <div key={item.name} className="bg-white rounded-2xl p-3 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
+                  <motion.div
+                    key={item.name}
+                    variants={itemVariants}
+                    className="bg-white rounded-2xl p-3 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all group cursor-pointer"
+                  >
                     <div className="relative rounded-xl overflow-hidden mb-3 aspect-square">
                       <img alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={item.image} />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
                     </div>
-                    <h3 className="text-sm font-black text-gray-800 text-center mb-1">{item.name}</h3>
+                    <h3 className="text-xs sm:text-sm font-black text-gray-800 text-center mb-1">{item.name}</h3>
                     <p className="text-xs text-primary font-bold text-center">{item.price}</p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             )}
 
             {(section.category === 'decor' || section.category === 'catering') && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+              >
                 {section.items.map((item: any) => (
-                  <div key={item.name} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
-                    <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-4">
-                      <span className="material-symbols-outlined text-primary">celebration</span>
+                  <motion.div
+                    key={item.name}
+                    variants={itemVariants}
+                    className="bg-white rounded-2xl p-4 sm:p-5 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all"
+                  >
+                    <div className={`size-12 sm:size-14 ${section.iconBg} rounded-2xl flex items-center justify-center mb-3 sm:mb-4 mx-auto`}>
+                      <span className={`material-symbols-outlined text-xl sm:text-2xl ${section.iconColor}`}>celebration</span>
                     </div>
-                    <h3 className="text-lg font-black text-gray-800 font-heading mb-2">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mb-3">{item.description}</p>
-                    <div className="text-primary font-black text-lg">{item.price}</div>
-                  </div>
+                    <h3 className="text-sm sm:text-base font-black text-gray-800 font-heading mb-2 text-center">{item.name}</h3>
+                    <p className="text-[10px] sm:text-xs text-gray-600 mb-3 leading-relaxed text-center line-clamp-2">{item.description}</p>
+                    <div className="text-primary font-black text-xs sm:text-sm text-center">{item.price}</div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             )}
           </div>
+
+          {/* Wave bottom для нечетных секций */}
+          {sectionIndex % 2 === 1 && (
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+              <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+              </svg>
+            </div>
+          )}
         </section>
       ))}
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold font-heading text-white mb-6">
-            Нужна помощь с выбором?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Наши менеджеры помогут подобрать идеальные услуги для вашего праздника
-          </p>
-          <Link
-            to="/contact"
-            className="inline-flex items-center px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:bg-secondary-yellow transition-colors shadow-lg"
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-primary via-primary-hover to-primary relative overflow-hidden">
+        {/* Wave top */}
+        <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+          <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 Q300,60 600,30 T1200,0 L1200,120 L0,120 Z" className="fill-white"></path>
+          </svg>
+        </div>
+
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
-            Получить консультацию
-            <span className="material-symbols-outlined ml-2">arrow_forward</span>
-          </Link>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 font-heading leading-tight">
+              Нужна помощь с выбором?
+            </h2>
+            <p className="text-base sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Наши менеджеры помогут подобрать идеальные услуги для вашего праздника
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary rounded-full font-bold text-base sm:text-lg hover:bg-secondary-yellow hover:scale-105 transition-all shadow-2xl"
+            >
+              Получить консультацию
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Wave bottom */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+          <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 Q300,60 600,30 T1200,0 L1200,120 L0,120 Z" className="fill-white"></path>
+          </svg>
         </div>
       </section>
     </main>

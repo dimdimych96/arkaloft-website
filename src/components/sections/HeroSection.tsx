@@ -34,7 +34,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-white">
       {/* Background Images with Auto-change */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">

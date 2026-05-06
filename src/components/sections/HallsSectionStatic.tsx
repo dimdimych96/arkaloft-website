@@ -9,9 +9,16 @@ export const HallsSectionStatic = () => {
 
   return (
     <section className="py-12 sm:py-20 px-3 sm:px-6 lg:px-8 bg-white relative">
+      {/* Wave top */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
+        <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+        </svg>
+      </div>
+
       <div className="absolute top-1/2 left-0 w-48 sm:w-64 h-48 sm:h-64 bg-secondary-mint/20 rounded-full blur-3xl -z-10" aria-hidden="true"></div>
       <div className="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-secondary-peach/20 rounded-full blur-3xl -z-10" aria-hidden="true"></div>
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto relative z-10">
         <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-800 font-heading mb-4 sm:mb-6">Выберите пространство</h2>
           <div className="inline-flex bg-gray-100 p-1 sm:p-1.5 rounded-full relative" role="tablist" aria-label="Выбор зала">
@@ -148,6 +155,13 @@ export const HallsSectionStatic = () => {
             <span className="material-symbols-outlined text-primary text-base sm:text-lg group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
           </div>
         </motion.div>
+      </div>
+
+      {/* Wave bottom */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+        <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+        </svg>
       </div>
     </section>
   );

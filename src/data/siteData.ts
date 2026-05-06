@@ -158,12 +158,12 @@ export const reviewTags = [
 ];
 
 export const partyFormats = [
-  { name: 'День Рождения', image: '/images/halls/0/1.jpg', border: 'border-secondary-mint' },
-  { name: 'Гендер Пати', image: '/images/halls/0/2.jpg', border: 'border-secondary-peach' },
-  { name: 'Выпускной', image: '/images/halls/0/3.jpeg', border: 'border-secondary-yellow' },
-  { name: 'Вечеринка', image: '/images/halls/7/1.jpg', border: 'border-purple-200' },
-  { name: 'Фотосессия', image: '/images/halls/7/2.jpg', border: 'border-blue-200' },
-  { name: 'Мастер-класс', image: '/images/halls/7/3.jpg', border: 'border-pink-200' },
+  { name: 'День Рождения', image: '/images/halls/0/1.jpg', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
+  { name: 'Гендер Пати', image: '/images/halls/7/1.jpg', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
+  { name: 'Свадьба', image: '/images/halls/7/2.jpg', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
+  { name: 'Корпоратив', image: '/images/halls/7/3.jpg', border: 'border-purple-200', bgClass: 'bg-purple-200' },
+  { name: 'Фотосессия', image: '/images/halls/7/4.jpg', border: 'border-blue-200', bgClass: 'bg-blue-200' },
+  { name: 'Вечеринка', image: '/images/halls/0/2.jpg', border: 'border-pink-200', bgClass: 'bg-pink-200' },
 ];
 
 export const features = [
@@ -172,6 +172,7 @@ export const features = [
   { icon: 'restaurant_menu', title: 'Своя еда', description: 'Приносите любые угощения и напитки. У нас нет пробкового сбора!', bg: 'bg-secondary-yellow', color: 'text-yellow-800' },
   { icon: 'directions_car', title: 'Парковка', description: 'Бесплатная парковка для всех гостей. Рядом метро для тех, кто пешком.', bg: 'bg-blue-100', color: 'text-blue-800' },
   { icon: 'cleaning_services', title: 'Без уборки', description: 'Мы сами всё уберем после праздника. Отдыхайте до последней минуты.', bg: 'bg-purple-100', color: 'text-purple-800' },
+  { icon: 'celebration', title: 'Всё под ключ', description: 'Аниматоры, шоу, декор, фото. Организуем праздник от А до Я.', bg: 'bg-pink-100', color: 'text-pink-800' },
 ];
 
 export const packages = [

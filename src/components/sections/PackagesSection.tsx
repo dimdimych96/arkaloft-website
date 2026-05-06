@@ -71,6 +71,13 @@ export const PackagesSection = ({ onBookingClick }: PackagesSectionProps) => {
 
   return (
     <section id="packages" className="py-12 sm:py-16 bg-gradient-to-br from-gray-50 via-emerald-50/30 to-gray-50 relative overflow-hidden">
+      {/* Wave top */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
+        <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+        </svg>
+      </div>
+
       {/* Decorative elements */}
       <div className="hidden sm:block absolute top-20 left-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
       <div className="hidden sm:block absolute bottom-20 right-10 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -86,7 +93,7 @@ export const PackagesSection = ({ onBookingClick }: PackagesSectionProps) => {
             Пакеты услуг
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4 leading-relaxed">
-            Выберите подходящий пакет для вашего праздника. Все пакеты включают экологически чистые материалы и безопасную среду
+            Выберите подходящий пакет для вашего праздника
           </p>
 
           {/* Urgency banner */}
@@ -101,7 +108,103 @@ export const PackagesSection = ({ onBookingClick }: PackagesSectionProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* Mobile: Horizontal scroll */}
+        <div className="lg:hidden mb-4">
+          <div className="flex items-center justify-end gap-2 px-3 mb-3">
+            <span className="material-symbols-outlined text-primary text-sm animate-pulse">swipe</span>
+            <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">Листайте</span>
+          </div>
+          <div className="flex overflow-x-auto gap-4 pb-6 px-3 snap-x snap-mandatory no-scrollbar -mx-3 px-3">
+            {packages.map((pkg, index) => (
+              <div
+                key={pkg.id}
+                className={`snap-center shrink-0 w-[280px] sm:w-[320px] relative overflow-visible transition-all duration-300 hover:shadow-2xl flex flex-col bg-white rounded-2xl shadow-lg ${
+                  pkg.popular ? 'ring-2 ring-primary' : ''
+                }`}
+              >
+                {pkg.popular && (
+                  <div className="absolute -top-2 -right-2 bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold z-10 shadow-lg whitespace-nowrap">
+                    ⭐ Популярный
+                  </div>
+                )}
+
+                <div className="relative h-40">
+                  {imageLoading[pkg.id] && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                      <span className="material-symbols-outlined text-3xl animate-spin text-primary">progress_activity</span>
+                    </div>
+                  )}
+                  <img
+                    src={getImageUrl(pkg)}
+                    alt={`${pkg.name} - пакет услуг`}
+                    className={`w-full h-full object-cover ${
+                      imageLoading[pkg.id] ? 'opacity-0' : 'opacity-100'
+                    }`}
+                    loading="lazy"
+                    onLoad={() => handleImageLoad(pkg.id)}
+                    onError={() => handleImageError(pkg.id)}
+                  />
+                  <div className="absolute top-3 left-3 p-2 rounded-lg bg-white/90 backdrop-blur-sm">
+                    <span className="material-symbols-outlined text-xl text-primary">{pkg.icon || 'celebration'}</span>
+                  </div>
+                </div>
+
+                <div className="text-center p-4">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">
+                    {pkg.name}
+                  </h3>
+                  <p className="text-xs text-gray-600 leading-relaxed mb-3">{pkg.description}</p>
+                  <div className="mb-4">
+                    {isWeekend() && pkg.priceWeekend ? (
+                      <div>
+                        <div className="text-sm text-gray-400 line-through">₽{pkg.price.toLocaleString()}</div>
+                        <div className="text-2xl font-bold text-primary">₽{pkg.priceWeekend.toLocaleString()}</div>
+                        <div className="mt-1">
+                          <Badge variant="warning" size="sm">Выходные</Badge>
+                          <span className="text-xs text-gray-600 ml-2">/ {pkg.duration}ч</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <span className="text-3xl font-bold text-primary">₽{pkg.price.toLocaleString()}</span>
+                        <span className="text-sm text-gray-600 ml-1">/ {pkg.duration}ч</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="p-4 pt-0 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2 mb-4">
+                    {pkg.includedItems.slice(0, 4).map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-base flex-shrink-0">check_circle</span>
+                        <span className="text-xs text-gray-700 leading-relaxed">{feature}</span>
+                      </div>
+                    ))}
+                    {pkg.includedItems.length > 4 && (
+                      <p className="text-xs text-gray-500 italic pl-6">+{pkg.includedItems.length - 4} ещё</p>
+                    )}
+                  </div>
+
+                  <Button
+                    onClick={onBookingClick}
+                    className={`w-full ${
+                      pkg.popular
+                        ? 'bg-primary hover:bg-primary-hover'
+                        : 'bg-gray-900 hover:bg-gray-800'
+                    }`}
+                  >
+                    Выбрать
+                    <span className="material-symbols-outlined ml-2 text-base">arrow_forward</span>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: Grid */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8">
           {packages.map((pkg, index) => (
             <Card
               key={pkg.id}
@@ -198,6 +301,13 @@ export const PackagesSection = ({ onBookingClick }: PackagesSectionProps) => {
             Создать индивидуальный пакет
           </Button>
         </div>
+      </div>
+
+      {/* Wave bottom */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+        <svg className="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
+        </svg>
       </div>
     </section>
   );

@@ -3,7 +3,20 @@ import { useState, useEffect } from 'react';
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+
+  // Отслеживаем скролл
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // На не-главных страницах хедер всегда в "scrolled" состоянии для десктопа
+  const isHeaderScrolled = location.pathname === '/' ? isScrolled : true;
 
   // Блокируем скролл страницы при открытом меню
   useEffect(() => {
@@ -28,42 +41,58 @@ export const Header = () => {
 
   return (
     <>
-      {/* Header container - полностью прозрачный на мобильных */}
-      <div className="w-full bg-transparent sm:bg-white/95 sm:backdrop-blur-md sm:border-b-2 sm:border-secondary-mint/30 fixed top-0 z-30">
+      {/* Header container - transparent with gradient on scroll (desktop only) */}
+      <div className={`w-full fixed top-0 z-30 transition-all duration-300 ${
+        isHeaderScrolled
+          ? 'lg:bg-white lg:shadow-md'
+          : 'bg-transparent'
+      }`}>
         <header className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between relative z-10">
-          {/* Logo - скрыт на мобильных */}
-          <Link to="/" className="hidden sm:flex items-center touch-target group">
-            <img
-              src="/logo/arka3.png"
-              alt="Арка Лофт"
-              className="h-10 w-auto sm:h-12 md:h-14 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 object-contain"
-            />
-          </Link>
+          {/* Desktop Logo/Home - показываем на не-главных страницах */}
+          {location.pathname !== '/' && (
+            <Link
+              to="/"
+              className="hidden lg:flex items-center gap-2 touch-target group"
+            >
+              <span className="material-symbols-outlined text-primary text-2xl">home</span>
+              <span className="text-sm font-bold text-gray-900">Главная</span>
+            </Link>
+          )}
 
           {/* Mobile Home Button - показываем только на не-главной странице */}
           {location.pathname !== '/' && (
             <Link
               to="/"
-              className="sm:hidden size-11 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm hover:bg-white active:bg-white/80 transition-all duration-200 touch-target shadow-lg border border-gray-200"
+              className={`lg:hidden size-11 flex items-center justify-center rounded-full transition-all duration-300 touch-target shadow-lg ${
+                isScrolled
+                  ? 'bg-black/20 backdrop-blur-md hover:bg-black/30'
+                  : 'bg-white/90 backdrop-blur-sm hover:bg-white active:bg-white/80 border border-gray-200'
+              }`}
               aria-label="На главную"
             >
-              <span className="material-symbols-outlined text-gray-900">home</span>
+              <span className={`material-symbols-outlined ${
+                isScrolled ? 'text-white' : 'text-gray-900'
+              }`}>home</span>
             </Link>
           )}
 
-          {/* Spacer для мобильных чтобы бургер был справа */}
-          <div className="flex-1 sm:hidden"></div>
+          {/* Spacer для мобильных */}
+          <div className="flex-1 lg:hidden"></div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1 bg-gray-50 p-1.5 rounded-full border border-gray-100">
+          {/* Desktop Nav - centered */}
+          <nav className={`hidden lg:flex items-center gap-1 ${location.pathname === '/' ? 'flex-1 justify-center' : 'justify-center flex-1'}`}>
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-5 py-2.5 text-sm font-bold rounded-full transition-all duration-200 ${
+                className={`px-4 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${
                   isActive(item.path)
-                    ? 'bg-white text-primary shadow-sm'
-                    : 'text-text-secondary hover:text-primary hover:bg-white'
+                    ? isHeaderScrolled
+                      ? 'text-primary bg-primary/10'
+                      : 'text-primary bg-white/20'
+                    : isHeaderScrolled
+                      ? 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                      : 'text-white/90 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {item.label}
@@ -71,43 +100,49 @@ export const Header = () => {
             ))}
           </nav>
 
-          {/* Mobile Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="tel:+79830012520"
-              className="hidden lg:flex items-center gap-2 group"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 group ${
+                isHeaderScrolled
+                  ? 'bg-gray-100 hover:bg-gray-200'
+                  : 'bg-white/10 hover:bg-white/20'
+              }`}
             >
-              <div className="size-10 flex items-center justify-center rounded-full bg-secondary-yellow text-gray-700 group-hover:scale-110 transition-all duration-200 shadow-sm">
-                <span className="material-symbols-outlined">call</span>
-              </div>
-              <span className="text-sm font-black text-gray-800 font-heading">8 (983) 001-25-20</span>
-            </a>
-            <a
-              href="tel:+79830012520"
-              className="hidden sm:flex lg:hidden size-10 items-center justify-center rounded-full bg-secondary-yellow text-gray-700 hover:scale-110 active:scale-105 transition-all duration-200 shadow-sm touch-target"
-              aria-label="Позвонить"
-            >
-              <span className="material-symbols-outlined">call</span>
+              <span className={`material-symbols-outlined text-xl ${isHeaderScrolled ? 'text-gray-700' : 'text-white'}`}>call</span>
+              <span className={`text-sm font-bold ${isHeaderScrolled ? 'text-gray-700' : 'text-white'}`}>8 (983) 001-25-20</span>
             </a>
             <Link
               to="/contact"
-              className="hidden sm:flex h-10 px-5 md:px-6 items-center justify-center rounded-full bg-primary text-white font-black text-sm hover:bg-primary-hover transition-all duration-200 shadow-[0_4px_0_0_#2E7D32] active:shadow-none touch-target relative"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-all duration-200 shadow-lg"
             >
+              <span className="material-symbols-outlined text-lg">event_available</span>
               Забронировать
             </Link>
-            {/* Mobile Menu Button - белая иконка на прозрачном фоне для главной, темная для остальных */}
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
+            {/* Mobile Menu Button - адаптивный цвет */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden size-11 flex items-center justify-center rounded-full transition-all duration-200 touch-target relative z-20 shadow-lg ${
-                location.pathname === '/'
-                  ? 'bg-white/20 backdrop-blur-sm hover:bg-white/30 active:bg-white/40'
-                  : 'bg-white/90 backdrop-blur-sm hover:bg-white active:bg-white/80 border border-gray-200'
+              className={`size-11 flex items-center justify-center rounded-full transition-all duration-300 touch-target relative z-20 shadow-lg ${
+                isScrolled
+                  ? 'bg-black/20 backdrop-blur-md hover:bg-black/30'
+                  : location.pathname === '/'
+                    ? 'bg-white/20 backdrop-blur-sm hover:bg-white/30 active:bg-white/40'
+                    : 'bg-white/90 backdrop-blur-sm hover:bg-white active:bg-white/80 border border-gray-200'
               }`}
               aria-label="Меню"
               aria-expanded={isMobileMenuOpen}
             >
               <span className={`material-symbols-outlined transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''} ${
-                location.pathname === '/' ? 'text-white' : 'text-gray-900'
+                isScrolled
+                  ? 'text-white'
+                  : location.pathname === '/'
+                    ? 'text-white'
+                    : 'text-gray-900'
               }`}>
                 {isMobileMenuOpen ? 'close' : 'menu'}
               </span>
@@ -124,8 +159,22 @@ export const Header = () => {
         />
       )}
 
+      {/* SVG Clip Path Definition */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
+            <path d="M 0,0 L 1,0 L 1,0.95 Q 0.75,0.98 0.5,0.95 Q 0.25,0.92 0,0.95 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
       {/* Mobile Menu - iOS Glass Style */}
-      <div className={`lg:hidden fixed top-0 left-0 right-0 z-[50] bg-white/30 backdrop-blur-3xl border-b border-white/30 shadow-2xl transform transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'}`}>
+      <div
+        className={`lg:hidden fixed top-0 left-0 right-0 z-[50] bg-white/30 backdrop-blur-3xl shadow-2xl transform transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'}`}
+        style={{
+          clipPath: isMobileMenuOpen ? 'url(#wave-clip)' : undefined
+        }}
+      >
         {/* Mobile Menu Header с кнопкой закрытия */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-white/20">
           <h2 className="text-2xl font-black text-gray-900 font-heading tracking-tight">Арка Лофт</h2>
@@ -138,7 +187,7 @@ export const Header = () => {
           </button>
         </div>
 
-        <nav className="max-w-7xl mx-auto px-4 py-6">
+        <nav className="max-w-7xl mx-auto px-4 py-6 pb-10">
           <div className="grid grid-cols-2 gap-3 mb-4">
             {navItems.map((item, index) => (
               <Link
