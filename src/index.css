@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #4CAF50;
+  --color-primary-hover: #43a047;
+  --color-secondary-peach: #FFAB91;
+  --color-secondary-mint: #B2DFDB;
+  --color-secondary-yellow: #FFF59D;
+  --color-background-light: #ffffff;
+  --color-background-off-white: #FFFDF9;
+  --color-background-subtle: #F1F8F6;
+  --color-text-main: #2D3748;
+  --color-text-secondary: #4A5568;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-4xl: 3rem;
+
+  --shadow-soft: 0 10px 40px -10px rgba(76, 175, 80, 0.15);
+  --shadow-bubbly: 0 8px 0px 0px rgba(0,0,0,0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--color-text-main);
+  background-color: var(--color-background-off-white);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Убираем лишние отступы на мобильных */
+@media (max-width: 640px) {
+  /* Контейнеры на всю ширину */
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+body * {
+  selection-background-color: var(--color-secondary-mint);
+  selection-color: var(--color-primary-hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.blob-shape {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+.blob-shape-2 {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.text-shadow-sm {
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+/* Mobile-first utilities */
+@media (max-width: 640px) {
+  .text-h1-mobile {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  .text-h2-mobile {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  .text-h3-mobile {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+}
+
+/* Touch-friendly buttons */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
