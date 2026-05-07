@@ -7,19 +7,14 @@ interface HeroSectionProps {
 }
 
 const heroImages = [
-  '/images/halls/0/1.jpg',
-  '/images/halls/0/2.jpg',
-  '/images/halls/0/3.jpeg',
-  '/images/halls/0/4.jpg',
-  '/images/halls/0/5.jpg',
-  '/images/halls/0/6.jpg',
-  '/images/halls/7/1.jpg',
-  '/images/halls/7/2.jpg',
-  '/images/halls/7/3.jpg',
-  '/images/halls/7/4.jpg',
-  '/images/halls/7/5.jpg',
-  '/images/halls/7/6.jpg',
-  '/images/halls/7/7.jpg',
+  '/images/hero/hero (1).JPG',
+  '/images/hero/hero (2).JPG',
+  '/images/hero/hero (3).jpg',
+  '/images/hero/hero (4).jpg',
+  '/images/hero/hero (5).JPG',
+  '/images/hero/hero (6).jpg',
+  '/images/hero/hero (7).jpg',
+  '/images/hero/hero (8).jpg',
 ];
 
 export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {

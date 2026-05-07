@@ -1,8 +1,10 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Link, useSearchParams } from 'react-router-dom';
 import leadService from '../lib/services/leadService';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import InputMask from 'react-input-mask';
+import { PackageBuilder } from '../components/PackageBuilder';
 import {
   User,
   Phone,
@@ -33,6 +35,14 @@ interface ContactFormData {
 }
 
 const packages = [
+  {
+    id: 'paket-start',
+    name: 'Старт',
+    price: 'от 12 000 ₽',
+    priceDetails: 'В будние: 12 000 ₽\nВыходные: 14 000 ₽',
+    description: 'Бюджетный вариант для небольшого праздника',
+    features: ['2 часа аренды лофта', 'Аниматор (стандарт) 50 минут', 'Фотозона (фонтан и надпись)']
+  },
   {
     id: 'paket-1',
     name: 'Минимальный',
@@ -80,6 +90,14 @@ const packages = [
     priceDetails: 'Только в будние дни с 10:00 до 13:00',
     description: 'Специальный тариф для утренних праздников',
     features: ['Только аренда лофта', 'Бронирование от 3-х часов', 'Скидка на стоимость часа (вместо 3500₽)']
+  },
+  {
+    id: 'custom',
+    name: 'Индивидуальный расчёт',
+    price: 'По запросу',
+    priceDetails: 'Свяжемся с вами для обсуждения деталей',
+    description: 'Создадим уникальное предложение под ваши пожелания',
+    features: ['Персональный подход', 'Гибкая комплектация услуг', 'Индивидуальное ценообразование', 'Консультация менеджера']
   }
 ];
 
@@ -90,8 +108,49 @@ export const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<ContactFormData | null>(null);
+  const [expandedPackage, setExpandedPackage] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'ready' | 'individual' | 'constructor'>('ready');
+  const [customPackageDetails, setCustomPackageDetails] = useState<string>('');
 
-  const { register, handleSubmit, reset, watch, setValue, formState: { errors, isSubmitting } } = useForm<ContactFormData>({
+  // Получаем сегодняшнюю дату в формате YYYY-MM-DD для min атрибута
+  const today = new Date().toISOString().split('T')[0];
+
+  // Группировка пакетов по категориям
+  const packageCategories = {
+    ready: {
+      label: 'Готовые пакеты',
+      icon: '📦',
+      description: 'Со скидкой'
+    },
+    individual: {
+      label: 'Индивидуально',
+      icon: '💬',
+      description: 'Свяжется менеджер'
+    },
+    constructor: {
+      label: 'Конструктор',
+      icon: '🛠️',
+      description: 'Соберите сами'
+    }
+  };
+
+  // Готовые пакеты для вкладки "ready"
+  const readyPackages = {
+    basic: {
+      label: 'Базовые',
+      packages: [packages[0], packages[1], packages[2]] // Минимальный, Стандартный, Максимальный
+    },
+    premium: {
+      label: 'Премиум',
+      packages: [packages[3]] // VIP
+    },
+    special: {
+      label: 'Специальные',
+      packages: [packages[4], packages[5]] // Уэнсдей, Утренние часы
+    }
+  };
+
+  const { register, handleSubmit, reset, watch, setValue, control, formState: { errors, isSubmitting } } = useForm<ContactFormData>({
     defaultValues: {
       package: initialPackage,
       hall: initialHall
@@ -120,7 +179,11 @@ export const Contact = () => {
       try {
         await leadService.createLead({
           ...data,
-          source: 'Контактная страница'
+          source: 'Контактная страница',
+          // Добавляем детали индивидуального пакета в сообщение
+          message: data.package === 'custom' && customPackageDetails
+            ? `${data.message ? data.message + '\n\n' : ''}Выбранные услуги: ${customPackageDetails}`
+            : data.message
         });
       } catch (e) {
         console.warn('API error, continuing to success screen for messengers', e);
@@ -198,7 +261,7 @@ export const Contact = () => {
             </a>
 
             <a
-              href="https://vk.com/im/convo/-139149900"
+              href="https://vk.com/im/convo/-139149900?t2fs=204ac90745b10d3e39_2"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 px-6 rounded-2xl bg-[#0077FF] text-white font-black hover:bg-[#006be6] transition-all flex items-center justify-center gap-3 shadow-lg"
@@ -297,12 +360,17 @@ export const Contact = () => {
                       <input
                         id="contact-name"
                         type="text"
+                        autoFocus
+                        aria-label="Ваше имя"
+                        aria-required="true"
+                        aria-invalid={errors.name ? 'true' : 'false'}
+                        aria-describedby={errors.name ? 'name-error' : undefined}
                         {...register('name', { required: 'Имя обязательно' })}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                         placeholder="Александр"
                       />
                     </div>
-                    {errors.name && <p className="mt-2 text-xs font-bold text-red-500 ml-1">{errors.name.message}</p>}
+                    {errors.name && <p id="name-error" className="mt-2 text-xs font-bold text-red-500 ml-1" role="alert">{errors.name.message}</p>}
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
@@ -313,21 +381,33 @@ export const Contact = () => {
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
                         <Phone className="w-5 h-5" />
                       </div>
-                      <input
-                        id="contact-phone"
-                        type="tel"
-                        {...register('phone', {
+                      <Controller
+                        name="phone"
+                        control={control}
+                        rules={{
                           required: 'Телефон обязателен',
                           pattern: {
-                            value: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
+                            value: /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/,
                             message: 'Неверный формат телефона'
                           }
-                        })}
-                        className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
-                        placeholder="+7 (999) 000-00-00"
+                        }}
+                        render={({ field }) => (
+                          <InputMask
+                            {...field}
+                            mask="+7 (999) 999-99-99"
+                            id="contact-phone"
+                            type="tel"
+                            aria-label="Номер телефона"
+                            aria-required="true"
+                            aria-invalid={errors.phone ? 'true' : 'false'}
+                            aria-describedby={errors.phone ? 'phone-error' : undefined}
+                            className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
+                            placeholder="+7 (999) 000-00-00"
+                          />
+                        )}
                       />
                     </div>
-                    {errors.phone && <p className="mt-2 text-xs font-bold text-red-500 ml-1">{errors.phone.message}</p>}
+                    {errors.phone && <p id="phone-error" className="mt-2 text-xs font-bold text-red-500 ml-1" role="alert">{errors.phone.message}</p>}
                   </motion.div>
                 </div>
 
@@ -343,6 +423,8 @@ export const Contact = () => {
                       <input
                         id="contact-date"
                         type="date"
+                        min={today}
+                        aria-label="Дата праздника"
                         {...register('date')}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                       />
@@ -360,6 +442,7 @@ export const Contact = () => {
                       <input
                         id="contact-guests"
                         type="number"
+                        aria-label="Количество гостей"
                         {...register('guests')}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                         placeholder="15"
@@ -379,6 +462,7 @@ export const Contact = () => {
                       </div>
                       <select
                         id="contact-hall"
+                        aria-label="Выберите пространство"
                         {...register('hall')}
                         className="w-full pl-12 pr-10 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 appearance-none text-base"
                       >
@@ -394,68 +478,190 @@ export const Contact = () => {
                   </motion.div>
 
                   <motion.div variants={itemVariants} className="md:col-span-2">
-                    <div className="flex items-center justify-between mb-2 sm:mb-3">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
                       <label className="block text-xs sm:text-sm font-black text-gray-700 ml-1 uppercase tracking-wider flex items-center gap-2">
                         <Package className="w-4 h-4 text-primary" />
                         Пакет услуг
                       </label>
                     </div>
 
-                    <div className="flex flex-col gap-3 sm:gap-4">
+                    {/* Tabs */}
+                    <div
+                      className="flex gap-2 mb-4 overflow-x-auto pb-2"
+                      style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        WebkitOverflowScrolling: 'touch'
+                      }}
+                    >
+                      {(Object.keys(packageCategories) as Array<keyof typeof packageCategories>).map((key) => {
+                        const category = packageCategories[key];
+                        const isActive = activeTab === key;
+
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => setActiveTab(key)}
+                            className={`
+                              flex flex-col items-center gap-1 px-4 py-3 rounded-xl font-bold text-sm whitespace-nowrap transition-all
+                              ${isActive
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                              }
+                            `}
+                          >
+                            <span className="text-xl">{category.icon}</span>
+                            <span>{category.label}</span>
+                            <span className={`text-xs font-normal ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
+                              {category.description}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Packages Grid или Конструктор */}
+                    {activeTab === 'individual' ? (
+                      // Индивидуальная консультация
+                      <motion.div
+                        key="individual"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-gradient-to-br from-primary/5 to-secondary-mint/10 rounded-2xl p-6 border-2 border-primary/20"
+                      >
+                        <div className="text-center space-y-4">
+                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                            <MessageSquare className="w-8 h-8 text-primary" />
+                          </div>
+                          <h3 className="font-black text-xl text-gray-900">Индивидуальная консультация</h3>
+                          <p className="text-text-secondary leading-relaxed">
+                            Наш менеджер свяжется с вами, обсудит все детали праздника и подберёт оптимальный вариант под ваши пожелания и бюджет.
+                          </p>
+                          <div className="flex items-center justify-center gap-2 text-sm text-primary font-bold">
+                            <Check className="w-5 h-5" />
+                            <span>Персональный подход к каждому клиенту</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : activeTab === 'constructor' ? (
+                      // Конструктор пакета
+                      <motion.div
+                        key="constructor"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <PackageBuilder
+                          onComplete={(selectedServices, totalPrice) => {
+                            // Формируем описание выбранных услуг
+                            const servicesText = selectedServices
+                              .map(s => s.name)
+                              .join(', ');
+
+                            setCustomPackageDetails(`${servicesText} | Итого: ${totalPrice.toLocaleString('ru-RU')} ₽`);
+                            setValue('package', 'constructor', { shouldValidate: true });
+                          }}
+                        />
+                      </motion.div>
+                    ) : (
+                      // Готовые пакеты
+                      <motion.div
+                        key="ready"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                      >
                       {packages.map((pkg) => {
                         const isSelected = selectedPackage === pkg.id;
+                        const isExpanded = expandedPackage === pkg.id;
 
                         return (
                           <div
                             key={pkg.id}
-                            onClick={() => setValue('package', isSelected ? '' : pkg.id, { shouldValidate: true })}
                             className={`
-                                relative cursor-pointer rounded-2xl p-4 sm:p-5 transition-all duration-300 border-2 text-left w-full block
+                                relative rounded-2xl border-2 text-left w-full transition-all duration-300
                                 ${isSelected
                                 ? 'border-primary bg-primary/5 shadow-md'
                                 : 'border-gray-100 bg-white hover:border-primary/30 hover:bg-gray-50'
                               }
                               `}
                           >
-                            {isSelected && (
-                              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center shadow-sm">
-                                <Check className="w-4 h-4" />
-                              </div>
-                            )}
+                            <div
+                              onClick={() => {
+                                setValue('package', isSelected ? '' : pkg.id, { shouldValidate: true });
+                                // На мобильных автоматически раскрываем выбранный пакет
+                                if (window.innerWidth < 640) {
+                                  setExpandedPackage(isSelected ? null : pkg.id);
+                                }
+                              }}
+                              className="cursor-pointer p-4"
+                            >
+                              {isSelected && (
+                                <div className="absolute top-3 right-3 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center shadow-sm">
+                                  <Check className="w-4 h-4" />
+                                </div>
+                              )}
 
-                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3 sm:mb-4 pr-8">
-                              <div>
-                                <h3 className={`font-black text-lg sm:text-xl mb-1 ${isSelected ? 'text-primary' : 'text-gray-900'}`}>
+                              <div className="pr-8">
+                                <h3 className={`font-black text-base sm:text-lg mb-1 ${isSelected ? 'text-primary' : 'text-gray-900'}`}>
                                   {pkg.name}
                                 </h3>
-                                <p className="text-sm text-text-secondary">
+                                <p className="text-xs sm:text-sm text-text-secondary mb-2">
                                   {pkg.description}
                                 </p>
-                              </div>
-                              <div className="sm:text-right shrink-0">
-                                <div className={`text-lg sm:text-xl font-black ${isSelected ? 'text-primary/90' : 'text-orange-600'}`}>
+                                <div className={`text-lg font-black ${isSelected ? 'text-primary/90' : 'text-orange-600'} mb-1`}>
                                   {pkg.price}
                                 </div>
-                                <div className="text-xs text-gray-500 whitespace-pre-line leading-relaxed mt-1 bg-gray-100/50 p-1.5 rounded-lg border border-gray-100">
+                                <div className="text-xs text-gray-500 whitespace-pre-line leading-relaxed bg-gray-100/50 p-1.5 rounded-lg border border-gray-100">
                                   {pkg.priceDetails}
                                 </div>
                               </div>
+
+                              {/* Кнопка раскрытия для мобильных */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedPackage(isExpanded ? null : pkg.id);
+                                }}
+                                className="sm:hidden mt-3 text-xs font-bold text-primary flex items-center gap-1"
+                              >
+                                {isExpanded ? 'Скрыть детали' : 'Показать детали'}
+                                <ChevronRight className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                              </button>
                             </div>
 
-                            <div className="bg-white/50 rounded-xl">
-                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                                {pkg.features.map((feat, idx) => (
-                                  <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-gray-700 font-medium">
-                                    <ChevronRight className={`w-4 h-4 shrink-0 mt-0.5 ${isSelected ? 'text-primary' : 'text-orange-400'}`} />
-                                    <span className="leading-snug">{feat}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                            {/* Детали пакета - всегда видны на desktop, accordion на mobile */}
+                            <motion.div
+                              initial={false}
+                              animate={{
+                                height: window.innerWidth >= 640 || isExpanded ? 'auto' : 0,
+                                opacity: window.innerWidth >= 640 || isExpanded ? 1 : 0
+                              }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-4 pb-4">
+                                <div className="bg-white/50 rounded-xl p-3">
+                                  <ul className="space-y-2">
+                                    {pkg.features.map((feat, idx) => (
+                                      <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-gray-700 font-medium">
+                                        <ChevronRight className={`w-4 h-4 shrink-0 mt-0.5 ${isSelected ? 'text-primary' : 'text-orange-400'}`} />
+                                        <span className="leading-snug">{feat}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </motion.div>
                           </div>
                         );
                       })}
-                    </div>
+                    </motion.div>
+                    )}
                   </motion.div>
                 </div>
 
@@ -470,6 +676,7 @@ export const Contact = () => {
                     <textarea
                       id="contact-message"
                       rows={3}
+                      aria-label="Ваши пожелания"
                       {...register('message')}
                       className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 resize-none text-base"
                       placeholder="Напишите, что для вас важно в этот день..."
@@ -481,20 +688,20 @@ export const Contact = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 sm:py-5 rounded-2xl bg-primary text-white font-black text-lg sm:text-xl hover:bg-primary-hover transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 relative"
+                    className="w-full py-4 sm:py-5 rounded-2xl bg-primary text-white font-black text-lg sm:text-xl hover:bg-primary-hover transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative"
                     style={{ transform: isSubmitting ? 'translateY(6px)' : 'none', boxShadow: isSubmitting ? 'none' : '0 6px 0 0 #2E7D32' }}
-                    onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(6px)'; e.currentTarget.style.boxShadow = 'none'; }}
-                    onMouseUp={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 6px 0 0 #2E7D32'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 6px 0 0 #2E7D32'; }}
+                    onMouseDown={(e) => { if (!isSubmitting) { e.currentTarget.style.transform = 'translateY(6px)'; e.currentTarget.style.boxShadow = 'none'; } }}
+                    onMouseUp={(e) => { if (!isSubmitting) { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 6px 0 0 #2E7D32'; } }}
+                    onMouseLeave={(e) => { if (!isSubmitting) { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 6px 0 0 #2E7D32'; } }}
                   >
                     {isSubmitting ? (
                       <>
                         <motion.div
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full"
+                          className="w-5 h-5 sm:w-6 sm:h-6 border-3 border-white/30 border-t-white rounded-full"
                         />
-                        Отправка...
+                        Отправка заявки...
                       </>
                     ) : (
                       <>
@@ -606,7 +813,7 @@ export const Contact = () => {
                 </div>
 
                 <a
-                  href="https://vk.com/im/convo/-139149900"
+                  href="https://vk.com/im/convo/-139149900?t2fs=204ac90745b10d3e39_2"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative z-10 mt-8 inline-flex items-center justify-center gap-3 h-14 rounded-2xl bg-white text-[#0077FF] font-black text-base hover:bg-gray-50 transition-all shadow-xl group-hover:shadow-2xl"

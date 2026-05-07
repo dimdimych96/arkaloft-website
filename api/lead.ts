@@ -2,8 +2,6 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import axios from 'axios';
 
 // Environment variables
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID; // The ID where notifications will be sent
 const AMOCRM_DOMAIN = process.env.AMOCRM_DOMAIN; // e.g. 'company.amocrm.ru'
 const AMOCRM_ACCESS_TOKEN = process.env.AMOCRM_ACCESS_TOKEN;
 
@@ -20,44 +18,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const results = {
-    telegram: false,
     amocrm: false,
     error: null as string | null,
   };
 
-  // 1. Send to Telegram
-  if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-    try {
-      const text = `
-🚀 Новая заявка!
-👤 Имя: ${name || 'Не указано'}
-📞 Телефон: ${phone}
-📅 Дата: ${date || 'Не указана'}
-👥 Гостей: ${guests || 'Не указано'}
-🏢 Зал: ${hall || 'Не указан'}
-📦 Пакет: ${pkg || 'Не указан'}
-💬 Сообщение: ${message || 'Нет'}
-📍 Источник: ${source || 'Главная страница'}
-      `.trim();
-
-      await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        chat_id: TELEGRAM_CHAT_ID,
-        text: text,
-      });
-      results.telegram = true;
-    } catch (err: any) {
-      console.error('Telegram error:', err.response?.data || err.message);
-    }
-  }
-
-  // 2. Send to AmoCRM
+  // Send to AmoCRM
   if (AMOCRM_DOMAIN && AMOCRM_ACCESS_TOKEN) {
     try {
       // Simple lead creation logic for AmoCRM
       // First, create a contact or find existing one
       // Then create a lead
       const amocrmUrl = `https://${AMOCRM_DOMAIN}/api/v4/leads/complex`;
-      
+
       const leadData = [
         {
           name: `Заявка от ${name || phone}`,
@@ -88,6 +60,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               field_name: 'Дата',
               values: [{ value: date || '' }],
             },
+            {
+              field_name: 'Гости',
+              values: [{ value: guests || '' }],
+            },
+            {
+              field_name: 'Зал',
+              values: [{ value: hall || '' }],
+            },
+            {
+              field_name: 'Пакет',
+              values: [{ value: pkg || '' }],
+            },
+            {
+              field_name: 'Источник',
+              values: [{ value: source || 'Главная страница' }],
+            },
           ],
         },
       ];
@@ -101,12 +89,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       results.amocrm = true;
     } catch (err: any) {
       console.error('AmoCRM error:', err.response?.data || err.message);
+      results.error = err.response?.data?.detail || err.message || 'AmoCRM error';
     }
   }
 
   return res.status(200).json({
-    success: true,
-    message: 'Lead received',
+    success: results.amocrm,
+    message: results.amocrm ? 'Lead sent to AmoCRM' : 'Failed to send lead',
     results,
   });
 }

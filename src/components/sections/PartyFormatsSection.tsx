@@ -19,31 +19,99 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
 };
 
-// Моковые данные для stories (позже можно заменить на реальные)
-const storiesData: Record<string, { image: string; title: string }[]> = {
-  'День Рождения': [
-    { image: '/images/halls/0/1.jpg', title: 'Детский праздник' },
-    { image: '/images/halls/0/2.jpg', title: 'Игровая зона' },
-    { image: '/images/halls/0/3.jpeg', title: 'Украшения' },
+// Данные для stories
+const storiesData: Record<string, { image?: string; video?: string; title: string; type: 'image' | 'video' }[]> = {
+  'Зал 0+': [
+    // Видео
+    { video: '/images/halls/0/halls0video.mp4', title: 'Обзор зала 0+', type: 'video' },
+    // Halls фото
+    { image: '/images/halls/0/halls (1).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (2).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (3).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (4).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (5).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (6).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (7).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (8).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (9).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (10).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (11).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (12).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (13).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (14).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (15).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (16).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (17).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (18).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (19).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (20).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (21).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (22).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (23).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (24).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (25).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (26).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (27).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (28).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (29).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (30).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (31).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (32).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (33).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (34).JPG', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (35).jpg', title: 'Зал 0+', type: 'image' },
+    { image: '/images/halls/0/halls (36).jpg', title: 'Зал 0+', type: 'image' },
   ],
-  'Гендер Пати': [
-    { image: '/images/halls/7/1.jpg', title: 'Гендер пати декор' },
-    { image: '/images/halls/7/arka3.jpg', title: 'Розовый или голубой?' },
+  'Зал 7+': [
+    // Видео
+    { video: '/images/halls/7/halls7video1.mp4', title: 'Обзор зала 7+', type: 'video' },
+    // Listovka
+    { image: '/images/halls/7/listovka (1).png', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/listovka (4).png', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/listovka (5).png', title: 'Зал 7+', type: 'image' },
+    // Halls фото
+    { image: '/images/halls/7/halls7 (1).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (2).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (3).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (4).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (5).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (6).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (7).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (8).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (9).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (10).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (11).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (12).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (13).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (14).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (15).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (16).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (17).jpg', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (18).jpg', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (19).JPG', title: 'Зал 7+', type: 'image' },
+    { image: '/images/halls/7/halls7 (20).jpg', title: 'Зал 7+', type: 'image' },
   ],
-  'Свадьба': [
-    { image: '/images/hero/arka3.jpg', title: 'Камерная свадьба' },
-    { image: '/images/halls/7/1.jpg', title: 'Банкетный зал' },
+  'ДР': [
+    { video: '/stories/birthday1.mp4', title: 'День рождения', type: 'video' },
+    { video: '/stories/birthday2.mp4', title: 'Праздник для детей', type: 'video' },
+    { video: '/stories/birthday3.mp4', title: 'Веселье и радость', type: 'video' },
   ],
-  'Корпоратив': [
-    { image: '/images/halls/7/arka3.jpg', title: 'Корпоративное мероприятие' },
+  'Гендер пати': [
+    { video: '/stories/gender_party1.mp4', title: 'Гендер пати', type: 'video' },
+    { video: '/stories/gender_party2.mp4', title: 'Розовый или голубой?', type: 'video' },
+    { video: '/stories/gender_party3.mp4', title: 'Праздник ожидания', type: 'video' },
   ],
-  'Фотосессия': [
-    { image: '/images/hero/main.jpg', title: 'Фотозона' },
-    { image: '/images/halls/7/1.jpg', title: 'Студийный свет' },
+  'Вечеринки': [
+    { video: '/stories/party1.mp4', title: 'Вечеринка', type: 'video' },
+    { video: '/stories/party2.mp4', title: 'Танцы и веселье', type: 'video' },
+    { video: '/stories/party3.mp4', title: 'Дискотека', type: 'video' },
+    { video: '/stories/party4.mp4', title: 'Праздничная атмосфера', type: 'video' },
+    { video: '/stories/party5.mp4', title: 'Незабываемые моменты', type: 'video' },
   ],
-  'Вечеринка': [
-    { image: '/images/halls/7/arka3.jpg', title: 'Танцпол' },
-    { image: '/images/halls/0/1.jpg', title: 'Вечеринка' },
+  'Фотосессии': [
+    { image: '/images/halls/7/halls7 (1).JPG', title: 'Фотозона в лофте', type: 'image' },
+    { image: '/images/halls/0/halls (1).jpg', title: 'Яркие декорации', type: 'image' },
+    { image: '/images/halls/7/halls7 (5).JPG', title: 'Студийный свет', type: 'image' },
   ],
 };
 
@@ -74,9 +142,12 @@ export const PartyFormatsSection = () => {
             viewport={{ once: true }}
             className="text-center mb-8 sm:mb-12"
           >
-            <span className="text-primary font-black tracking-widest uppercase text-xs sm:text-sm mb-2 block font-heading">Форматы</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-800 font-heading">Что будем праздновать?</h2>
-            <p className="text-sm text-gray-500 mt-2">Нажмите на категорию, чтобы увидеть примеры</p>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary-mint/10 px-4 py-2 rounded-full mb-4">
+              <span className="material-symbols-outlined text-primary text-lg animate-pulse">play_circle</span>
+              <span className="text-primary font-black tracking-widest uppercase text-xs sm:text-sm font-heading">У нас есть Stories!</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-800 font-heading">Смотрите наши залы и праздники</h2>
+            <p className="text-sm text-gray-500 mt-2">Нажмите на категорию, чтобы посмотреть фото и видео</p>
           </motion.div>
 
           <motion.div

@@ -663,7 +663,7 @@ export const Reviews = () => {
                 Написать на 2ГИС
               </a>
               <a
-                href="https://t.me/arkaloft_bot"
+                href="https://t.me/+79830012520"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-base sm:text-lg hover:bg-white/30 transition-all"

@@ -58,7 +58,7 @@ export const Footer = () => {
             {/* Social links */}
             <div className="flex gap-3">
               <a
-                href="https://vk.com/arka_loft"
+                href="https://vk.com/im/convo/-139149900?t2fs=204ac90745b10d3e39_2"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-primary transition-all"
@@ -66,7 +66,7 @@ export const Footer = () => {
                 <span className="font-bold text-xs">VK</span>
               </a>
               <a
-                href="https://t.me/arkaloft_bot"
+                href="https://t.me/+79830012520"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-primary transition-all"

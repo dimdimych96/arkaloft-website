@@ -1,4 +1,5 @@
 import type { Hall, Package, Service } from '../types';
+import { getHallImages } from '../utils/hallImages';
 
 export const reviews = [
   {
@@ -158,12 +159,12 @@ export const reviewTags = [
 ];
 
 export const partyFormats = [
-  { name: 'День Рождения', image: '/images/halls/0/1.jpg', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
-  { name: 'Гендер Пати', image: '/images/halls/7/1.jpg', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
-  { name: 'Свадьба', image: '/images/halls/7/2.jpg', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
-  { name: 'Корпоратив', image: '/images/halls/7/3.jpg', border: 'border-purple-200', bgClass: 'bg-purple-200' },
-  { name: 'Фотосессия', image: '/images/halls/7/4.jpg', border: 'border-blue-200', bgClass: 'bg-blue-200' },
-  { name: 'Вечеринка', image: '/images/halls/0/2.jpg', border: 'border-pink-200', bgClass: 'bg-pink-200' },
+  { name: 'Зал 0+', image: '/images/halls/0/halls (1).jpg', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
+  { name: 'Зал 7+', image: '/images/halls/7/halls7 (1).JPG', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
+  { name: 'ДР', image: '/images/halls/0/halls (5).jpg', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
+  { name: 'Гендер пати', image: '/images/halls/7/halls7 (10).JPG', border: 'border-purple-200', bgClass: 'bg-purple-200' },
+  { name: 'Вечеринки', image: '/images/halls/0/halls (15).jpg', border: 'border-blue-200', bgClass: 'bg-blue-200' },
+  { name: 'Фотосессии', image: '/images/halls/7/halls7 (5).JPG', border: 'border-pink-200', bgClass: 'bg-pink-200' },
 ];
 
 export const features = [
@@ -252,11 +253,11 @@ export const hallsData = [
     tag: 'Малыши & Kids',
     tag2: 'Популярный',
     size: '135 м²',
-    capacity: 'До 40 гостей',
+    capacity: 'До 30 гостей',
     price: '3500 ₽/час',
     description: 'Идеальное пространство для малышей и шумных компаний. Огромная игровая зона, где можно бегать, прыгать и веселиться без ограничений!',
-    image: '/images/halls/0/1.jpg',
-    images: ['/images/halls/0/1.jpg', '/images/halls/0/2.jpg', '/images/halls/0/3.jpeg'],
+    image: '/images/halls/0/halls (1).jpg',
+    images: getHallImages(0),
     available: true,
     features: [
       { icon: 'slide_library', text: 'Большая горка' },
@@ -281,8 +282,8 @@ export const hallsData = [
     capacity: 'До 25 гостей',
     price: '2500 ₽/час',
     description: 'Стильное и современное пространство для подростков и взрослых. Лаунж-зона, приставка и атмосфера настоящего лофта для ваших лучших тусовок.',
-    image: '/images/halls/7/1.jpg',
-    images: ['/images/halls/7/1.jpg', '/images/halls/7/2.jpg', '/images/halls/7/3.jpg'],
+    image: '/images/halls/7/halls7 (1).JPG',
+    images: getHallImages(1),
     available: true,
     features: [
       { icon: 'sports_esports', text: 'PS5 + Проектор' },
@@ -311,10 +312,10 @@ export const servicesData = [
         name: 'Зал 0+',
         description: '135 м², огромная горка, сухой бассейн, мягкая зона для родителей и банкетная посадка до 30 человек.',
         area: '135 м²',
-        guests: 'до 40 чел.',
+        guests: 'до 30 чел.',
         price: '3500 ₽/час',
         priceColor: 'text-primary',
-        image: '/images/halls/0/1.jpg',
+        image: '/images/halls/0/halls (1).jpg',
       },
       {
         name: 'Зал 7+',
@@ -323,7 +324,7 @@ export const servicesData = [
         guests: 'до 20 чел.',
         price: '2500 ₽/час',
         priceColor: 'text-orange-500',
-        image: '/images/halls/7/1.jpg',
+        image: '/images/halls/7/halls7 (1).JPG',
       },
     ],
   },
@@ -340,25 +341,25 @@ export const servicesData = [
         description: 'Килограммы блестящей фольги, в которой можно купаться и танцевать.',
         price: 'от 5 000 ₽',
         badge: 'Hit',
-        image: '/images/halls/7/4.jpg',
+        image: '/images/halls/7/halls7 (8).JPG',
       },
       {
         name: 'Мыльное шоу',
         description: 'Гигантские мыльные пузыри и пенная вечеринка для детей любого возраста.',
         price: 'от 4 500 ₽',
-        image: '/images/halls/7/5.jpg',
+        image: '/images/halls/0/halls (10).jpg',
       },
       {
         name: 'Бумажная дискотека',
         description: 'Танцы с конфетти, серпантином и светящимися палочками.',
         price: 'от 3 500 ₽',
-        image: '/images/halls/7/6.jpg',
+        image: '/images/halls/7/halls7 (12).JPG',
       },
       {
         name: 'Научное шоу',
         description: 'Увлекательные эксперименты и химические реакции.',
         price: 'от 6 000 ₽',
-        image: '/images/halls/7/7.jpg',
+        image: '/images/halls/0/halls (20).jpg',
       },
     ],
   },
@@ -370,12 +371,12 @@ export const servicesData = [
     title: 'Аниматоры',
     subtitle: 'Любимые герои сказок и мультфильмов',
     items: [
-      { name: 'Фиксики', price: '3500 ₽/час', image: '/images/halls/0/4.jpg' },
-      { name: 'Щенячий патруль', price: '3500 ₽/час', image: '/images/halls/0/5.jpg' },
-      { name: 'Холодное сердце', price: '4000 ₽/час', image: '/images/halls/0/6.jpg' },
-      { name: 'Человек паук', price: '4000 ₽/час', image: '/images/halls/7/1.jpg' },
-      { name: 'Единорог', price: '4500 ₽/час', image: '/images/halls/7/2.jpg' },
-      { name: 'Аквамен', price: '4000 ₽/час', image: '/images/halls/7/3.jpg' },
+      { name: 'Фиксики', price: '3500 ₽/час', image: '/images/halls/0/halls (15).jpg' },
+      { name: 'Щенячий патруль', price: '3500 ₽/час', image: '/images/halls/0/halls (18).jpg' },
+      { name: 'Холодное сердце', price: '4000 ₽/час', image: '/images/halls/0/halls (25).jpg' },
+      { name: 'Человек паук', price: '4000 ₽/час', image: '/images/halls/7/halls7 (5).JPG' },
+      { name: 'Единорог', price: '4500 ₽/час', image: '/images/halls/7/halls7 (10).JPG' },
+      { name: 'Аквамен', price: '4000 ₽/час', image: '/images/halls/7/halls7 (15).JPG' },
     ],
   },
   {

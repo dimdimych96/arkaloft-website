@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { hallsData } from '../../data/siteData';
@@ -6,6 +6,21 @@ import { hallsData } from '../../data/siteData';
 export const HallsSectionStatic = () => {
   const [activeHall, setActiveHall] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0, 1, 2])); // Предзагружаем первые 3 изображения
+
+  // Предзагрузка изображений при прокрутке
+  useEffect(() => {
+    const preloadNearbyImages = () => {
+      const toLoad = new Set(loadedImages);
+      // Загружаем текущее + 2 следующих + 2 предыдущих
+      for (let i = Math.max(0, activeImageIndex - 2); i <= Math.min(hallsData[activeHall].images.length - 1, activeImageIndex + 2); i++) {
+        toLoad.add(i);
+      }
+      setLoadedImages(toLoad);
+    };
+
+    preloadNearbyImages();
+  }, [activeImageIndex, activeHall]);
 
   return (
     <section className="py-12 sm:py-20 px-3 sm:px-6 lg:px-8 bg-white relative">
@@ -32,6 +47,7 @@ export const HallsSectionStatic = () => {
                 onClick={() => {
                   setActiveHall(idx);
                   setActiveImageIndex(0);
+                  setLoadedImages(new Set([0, 1, 2])); // Сброс при смене зала
                 }}
                 className={`px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full font-bold text-xs sm:text-sm md:text-base z-10 transition-all touch-target flex items-center justify-center ${
                   activeHall === idx
@@ -54,6 +70,7 @@ export const HallsSectionStatic = () => {
         >
           <div className="md:w-1/2 h-56 sm:h-64 md:h-auto relative group overflow-hidden">
             <div
+              id={`gallery-${hallsData[activeHall].id}`}
               className="w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
               onScroll={(e) => {
                 const scrollLeft = e.currentTarget.scrollLeft;
@@ -64,31 +81,58 @@ export const HallsSectionStatic = () => {
             >
               {hallsData[activeHall].images.map((img, idx) => (
                 <div key={idx} className="w-full h-full flex-shrink-0 snap-center relative">
-                  <img
-                    alt={`${hallsData[activeHall].name} - фото ${idx + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src={img}
-                    loading="lazy"
-                  />
+                  {loadedImages.has(idx) ? (
+                    <img
+                      alt={`${hallsData[activeHall].name} - фото ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                      src={img}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-4xl text-gray-400 animate-pulse">image</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent md:bg-gradient-to-r md:from-black/50 md:to-transparent pointer-events-none" aria-hidden="true"></div>
                 </div>
               ))}
             </div>
 
+            {/* Navigation buttons for desktop */}
+            {activeImageIndex > 0 && (
+              <button
+                onClick={() => {
+                  const container = document.getElementById(`gallery-${hallsData[activeHall].id}`);
+                  if (container) {
+                    container.scrollTo({ left: (activeImageIndex - 1) * container.clientWidth, behavior: 'smooth' });
+                  }
+                }}
+                className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 z-30"
+                aria-label="Предыдущее фото"
+              >
+                <span className="material-symbols-outlined text-gray-700">chevron_left</span>
+              </button>
+            )}
+            {activeImageIndex < hallsData[activeHall].images.length - 1 && (
+              <button
+                onClick={() => {
+                  const container = document.getElementById(`gallery-${hallsData[activeHall].id}`);
+                  if (container) {
+                    container.scrollTo({ left: (activeImageIndex + 1) * container.clientWidth, behavior: 'smooth' });
+                  }
+                }}
+                className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 z-30"
+                aria-label="Следующее фото"
+              >
+                <span className="material-symbols-outlined text-gray-700">chevron_right</span>
+              </button>
+            )}
+
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full" aria-hidden="true">
-              {hallsData[activeHall].images.map((_, idx) => (
-                <button
-                  key={idx}
-                  aria-label={`Перейти к слайду ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${activeImageIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
-                  onClick={(e) => {
-                    const container = e.currentTarget.closest('.relative')?.querySelector('.flex');
-                    if (container) {
-                      container.scrollTo({ left: idx * container.clientWidth, behavior: 'smooth' });
-                    }
-                  }}
-                />
-              ))}
+              {/* Показываем только текущий индекс из общего количества */}
+              <span className="text-white text-xs font-bold">
+                {activeImageIndex + 1} / {hallsData[activeHall].images.length}
+              </span>
             </div>
 
             <div className="md:hidden absolute top-4 left-4 z-20 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-sm" aria-hidden="true">
@@ -144,6 +188,7 @@ export const HallsSectionStatic = () => {
           onClick={() => {
             setActiveHall(activeHall === 0 ? 1 : 0);
             setActiveImageIndex(0);
+            setLoadedImages(new Set([0, 1, 2]));
           }}
           className="mt-6 sm:mt-8 flex justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer group"
         >

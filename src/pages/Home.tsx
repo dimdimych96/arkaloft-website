@@ -74,7 +74,7 @@ export const Home = () => {
     },
     "sameAs": [
       "https://vk.com/arka_loft",
-      "https://t.me/arkaloft_bot"
+      "https://t.me/+79830012520"
     ]
   };
 
