@@ -8,6 +8,11 @@ import { Contact } from './pages/Contact';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Reviews } from './pages/Reviews';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import { NotFound } from './pages/NotFound';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsOfService } from './pages/TermsOfService';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +27,11 @@ export const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
+      { path: 'blog', element: <Blog /> },
+      { path: 'blog/:slug', element: <BlogPost /> },
+      { path: 'privacy', element: <PrivacyPolicy /> },
+      { path: 'terms', element: <TermsOfService /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

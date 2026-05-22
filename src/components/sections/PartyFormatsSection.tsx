@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { partyFormats } from '../../data/siteData';
-import { StoriesViewer } from '../StoriesViewer';
+
+// Lazy load StoriesViewer - загружается только при клике
+const StoriesViewer = lazy(() => import('../StoriesViewer').then(module => ({ default: module.StoriesViewer })));
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -109,9 +111,13 @@ const storiesData: Record<string, { image?: string; video?: string; title: strin
     { video: '/stories/party5.mp4', title: 'Незабываемые моменты', type: 'video' },
   ],
   'Фотосессии': [
-    { image: '/images/halls/7/halls7 (1).JPG', title: 'Фотозона в лофте', type: 'image' },
-    { image: '/images/halls/0/halls (1).jpg', title: 'Яркие декорации', type: 'image' },
-    { image: '/images/halls/7/halls7 (5).JPG', title: 'Студийный свет', type: 'image' },
+    { image: '/stories/photosession/photosession (1).jpg', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (2).jpg', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (3).jpg', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (4).JPG', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (5).jpg', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (6).jpg', title: 'Фотосессия', type: 'image' },
+    { image: '/stories/photosession/photosession (7).jpg', title: 'Фотосессия', type: 'image' },
   ],
 };
 
@@ -142,9 +148,9 @@ export const PartyFormatsSection = () => {
             viewport={{ once: true }}
             className="text-center mb-8 sm:mb-12"
           >
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary-mint/10 px-4 py-2 rounded-full mb-4">
-              <span className="material-symbols-outlined text-primary text-lg animate-pulse">play_circle</span>
-              <span className="text-primary font-black tracking-widest uppercase text-xs sm:text-sm font-heading">У нас есть Stories!</span>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 px-5 py-2.5 rounded-full mb-4 shadow-lg hover:shadow-xl transition-shadow">
+              <span className="material-symbols-outlined text-white text-xl animate-pulse">play_circle</span>
+              <span className="text-white font-black tracking-wide uppercase text-sm sm:text-base font-heading">У нас есть Stories!</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-800 font-heading">Смотрите наши залы и праздники</h2>
             <p className="text-sm text-gray-500 mt-2">Нажмите на категорию, чтобы посмотреть фото и видео</p>
@@ -179,13 +185,15 @@ export const PartyFormatsSection = () => {
       </section>
 
       {selectedCategory && currentFormat && (
-        <StoriesViewer
-          isOpen={isStoriesOpen}
-          onClose={handleCloseStories}
-          stories={currentStories}
-          categoryName={selectedCategory}
-          categoryColor={currentFormat.bgClass}
-        />
+        <Suspense fallback={null}>
+          <StoriesViewer
+            isOpen={isStoriesOpen}
+            onClose={handleCloseStories}
+            stories={currentStories}
+            categoryName={selectedCategory}
+            categoryColor={currentFormat.bgClass}
+          />
+        </Suspense>
       )}
     </>
   );

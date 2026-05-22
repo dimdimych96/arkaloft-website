@@ -52,7 +52,7 @@ export const services: Service[] = [
     name: 'Зал 0+ (будни)',
     price: 2500,
     unit: 'руб/час',
-    priceDetails: 'С 4-го часа: 2500 руб/час',
+    priceDetails: 'Первые 3 часа: 2500 руб/час. С 4-го часа: 2500 руб/час',
     minQuantity: 3,
     maxQuantity: 8
   },
@@ -62,17 +62,17 @@ export const services: Service[] = [
     name: 'Зал 0+ (выходные)',
     price: 3500,
     unit: 'руб/час',
-    priceDetails: 'С 4-го часа: 3000 руб/час',
+    priceDetails: 'Первые 3 часа: 3500 руб/час. С 4-го часа: 3000 руб/час',
     minQuantity: 3,
     maxQuantity: 8
   },
   {
     id: 'hall-7-any',
     category: 'venue',
-    name: 'Зал 7+',
+    name: 'Зал 7+ (любой день)',
     price: 2500,
     unit: 'руб/час',
-    priceDetails: 'С 4-го часа: 2000 руб/час',
+    priceDetails: 'Первые 3 часа: 2500 руб/час. С 4-го часа: 2000 руб/час',
     minQuantity: 3,
     maxQuantity: 8
   },
@@ -93,6 +93,7 @@ export const services: Service[] = [
     name: 'Аниматор (премиум костюм)',
     price: 5500,
     unit: 'руб/50 мин',
+    priceDetails: 'Стандарт 4500 руб + премиум костюм 1000 руб',
     minQuantity: 1,
     maxQuantity: 3
   },
@@ -102,6 +103,7 @@ export const services: Service[] = [
     name: 'Ростовая кукла',
     price: 5500,
     unit: 'руб/30 мин',
+    priceDetails: 'От 5500 руб за 30 минут',
     minQuantity: 1,
     maxQuantity: 2
   },
@@ -304,5 +306,15 @@ export const services: Service[] = [
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 3
+  },
+  {
+    id: 'playroom',
+    category: 'venue',
+    name: 'Игротека',
+    price: 450,
+    unit: 'руб/час',
+    priceDetails: '2 взрослых + 1 ребенок. За 2-го ребенка +300 руб/час',
+    minQuantity: 1,
+    maxQuantity: 5
   }
 ];

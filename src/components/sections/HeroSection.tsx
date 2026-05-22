@@ -11,14 +11,47 @@ const heroImages = [
   '/images/hero/hero (2).JPG',
   '/images/hero/hero (3).jpg',
   '/images/hero/hero (4).jpg',
-  '/images/hero/hero (5).JPG',
+  '/images/hero/hero (5).jpg',
   '/images/hero/hero (6).jpg',
   '/images/hero/hero (7).jpg',
-  '/images/hero/hero (8).jpg',
+  '/images/hero/hero (8).JPG',
 ];
 
 export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0])); // Первое изображение загружено
+
+  // Preload следующих изображений после загрузки первого
+  useEffect(() => {
+    // Загружаем следующие 2 изображения в фоне
+    const preloadNext = () => {
+      [1, 2].forEach((index) => {
+        if (!loadedImages.has(index)) {
+          const img = new Image();
+          img.src = heroImages[index];
+          img.onload = () => {
+            setLoadedImages((prev) => new Set(prev).add(index));
+          };
+        }
+      });
+    };
+
+    // Начинаем preload через 1 секунду после монтирования
+    const timer = setTimeout(preloadNext, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Preload изображения перед переключением
+  useEffect(() => {
+    const nextIndex = (currentImageIndex + 1) % heroImages.length;
+    if (!loadedImages.has(nextIndex)) {
+      const img = new Image();
+      img.src = heroImages[nextIndex];
+      img.onload = () => {
+        setLoadedImages((prev) => new Set(prev).add(nextIndex));
+      };
+    }
+  }, [currentImageIndex]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,8 +129,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
           transition={{ delay: 0.7, duration: 0.8 }}
           className="text-base sm:text-lg lg:text-xl text-white/90 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-lg"
         >
-          Пространство-трансформер в Новосибирске<br className="hidden sm:block" />
-          для детских праздников, вечеринок и камерных свадеб
+          Пространство-трансформер в Новосибирске<br className="hidden sm:block" /> для детских праздников, вечеринок и камерных свадеб
         </motion.p>
 
         {/* CTA Buttons */}

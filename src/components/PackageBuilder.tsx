@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, X, Check } from 'lucide-react';
+import { ShoppingCart, X, Check, Plus, Minus } from 'lucide-react';
 import { services, serviceCategories, Service } from '../data/services';
 
 interface SelectedService extends Service {
@@ -37,9 +37,39 @@ export const PackageBuilder = ({ onComplete }: PackageBuilderProps) => {
       // Удаляем услугу
       setSelectedServices(prev => prev.filter(s => s.id !== service.id));
     } else {
-      // Добавляем услугу с количеством 1
-      setSelectedServices(prev => [...prev, { ...service, quantity: 1 }]);
+      // Для залов (venue) - взаимоисключающий выбор
+      if (service.category === 'venue') {
+        // Удаляем все другие залы перед добавлением нового
+        setSelectedServices(prev => {
+          const withoutVenues = prev.filter(s => s.category !== 'venue');
+          const initialQuantity = service.minQuantity || 1;
+          return [...withoutVenues, { ...service, quantity: initialQuantity }];
+        });
+      } else {
+        // Добавляем услугу с минимальным количеством или 1
+        const initialQuantity = service.minQuantity || 1;
+        setSelectedServices(prev => [...prev, { ...service, quantity: initialQuantity }]);
+      }
     }
+  };
+
+  // Изменить количество услуги
+  const updateQuantity = (serviceId: string, delta: number) => {
+    setSelectedServices(prev => prev.map(s => {
+      if (s.id === serviceId) {
+        const newQuantity = s.quantity + delta;
+        const minQty = s.minQuantity || 1;
+        const maxQty = s.maxQuantity || 99;
+
+        // Проверяем границы
+        if (newQuantity < minQty || newQuantity > maxQty) {
+          return s;
+        }
+
+        return { ...s, quantity: newQuantity };
+      }
+      return s;
+    }));
   };
 
   // Удалить услугу
@@ -86,6 +116,15 @@ export const PackageBuilder = ({ onComplete }: PackageBuilderProps) => {
         })}
       </div>
 
+      {/* Подсказка для категории "Аренда зала" */}
+      {activeCategory === 'venue' && (
+        <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded-lg">
+          <p className="text-sm text-blue-800">
+            <span className="font-bold">💡 Подсказка:</span> Можно выбрать только один зал. При выборе нового зала предыдущий выбор будет снят.
+          </p>
+        </div>
+      )}
+
       {/* Список услуг */}
       <motion.div
         key={activeCategory}
@@ -95,21 +134,24 @@ export const PackageBuilder = ({ onComplete }: PackageBuilderProps) => {
       >
         {filteredServices.map((service) => {
           const isSelected = isServiceSelected(service.id);
+          const selectedService = selectedServices.find(s => s.id === service.id);
 
           return (
             <div
               key={service.id}
               className={`
-                p-4 rounded-xl border-2 transition-all cursor-pointer
+                p-4 rounded-xl border-2 transition-all
                 ${isSelected
                   ? 'border-primary bg-primary/5'
                   : 'border-gray-100 bg-white hover:border-gray-200'
                 }
               `}
-              onClick={() => toggleService(service)}
             >
               <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
+                <div
+                  className="flex-1 cursor-pointer"
+                  onClick={() => !isSelected && toggleService(service)}
+                >
                   <h4 className="font-bold text-sm sm:text-base text-gray-900 mb-1">
                     {service.name}
                   </h4>
@@ -126,19 +168,56 @@ export const PackageBuilder = ({ onComplete }: PackageBuilderProps) => {
                   )}
                 </div>
 
-                {/* Checkbox */}
-                <div className="flex items-center">
-                  <div
-                    className={`
-                      w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
-                      ${isSelected
-                        ? 'bg-primary border-primary'
-                        : 'border-gray-300 bg-white'
-                      }
-                    `}
-                  >
-                    {isSelected && <Check className="w-4 h-4 text-white" />}
-                  </div>
+                {/* Checkbox или счетчик */}
+                <div className="flex items-center gap-2">
+                  {isSelected && selectedService && (service.maxQuantity && service.maxQuantity > 1) ? (
+                    // Счетчик количества
+                    <div className="flex items-center gap-2 bg-white rounded-lg border-2 border-primary p-1">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateQuantity(service.id, -1);
+                        }}
+                        disabled={selectedService.quantity <= (service.minQuantity || 1)}
+                        className="w-7 h-7 flex items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <Minus className="w-4 h-4 text-gray-700" />
+                      </button>
+                      <span className="w-8 text-center font-black text-gray-900">
+                        {selectedService.quantity}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateQuantity(service.id, 1);
+                        }}
+                        disabled={selectedService.quantity >= (service.maxQuantity || 99)}
+                        className="w-7 h-7 flex items-center justify-center rounded-md bg-primary hover:bg-primary-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <Plus className="w-4 h-4 text-white" />
+                      </button>
+                    </div>
+                  ) : (
+                    // Обычный checkbox
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => toggleService(service)}
+                    >
+                      <div
+                        className={`
+                          w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
+                          ${isSelected
+                            ? 'bg-primary border-primary'
+                            : 'border-gray-300 bg-white'
+                          }
+                        `}
+                      >
+                        {isSelected && <Check className="w-4 h-4 text-white" />}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -158,23 +237,31 @@ export const PackageBuilder = ({ onComplete }: PackageBuilderProps) => {
             <div className="space-y-3">
               {/* Выбранные услуги */}
               <div className="max-h-40 overflow-y-auto space-y-2">
-                {selectedServices.map((service) => (
-                  <div key={service.id} className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 flex-1">
-                      <button
-                        type="button"
-                        onClick={() => removeService(service.id)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                      <span className="text-gray-700">{service.name}</span>
+                {selectedServices.map((service) => {
+                  const itemPrice = typeof service.price === 'number' ? service.price * service.quantity : 0;
+                  return (
+                    <div key={service.id} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 flex-1">
+                        <button
+                          type="button"
+                          onClick={() => removeService(service.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        <span className="text-gray-700">
+                          {service.name}
+                          {service.quantity > 1 && (
+                            <span className="text-gray-500 ml-1">× {service.quantity}</span>
+                          )}
+                        </span>
+                      </div>
+                      <span className="font-bold text-gray-900">
+                        {itemPrice.toLocaleString('ru-RU')} ₽
+                      </span>
                     </div>
-                    <span className="font-bold text-gray-900">
-                      {(typeof service.price === 'number' ? service.price : 0).toLocaleString('ru-RU')} ₽
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Итого */}

@@ -16,7 +16,7 @@ export const reviews = [
   },
   {
     name: 'Анна С.',
-    text: 'Лучшее место для детского праздника! Пакет "Максимальный" полностью оправдал себя. Шоу пузырей было волшебным.',
+    text: 'Лучшее место для детского праздника! Пакет "ХИТ" полностью оправдал себя. Шоу пузырей было волшебным.',
     rating: 5,
     date: '28.03.2024'
   }
@@ -177,12 +177,23 @@ export const features = [
 ];
 
 export const packages = [
-  { 
+  {
+    id: 'paket-start',
+    name: 'Старт',
+    subtitle: 'Бюджетный вариант для небольшого праздника',
+    price: 'от 12 000 ₽',
+    weekend: 'В будние: 12 000 ₽ | Выходные: 14 000 ₽',
+    features: ['2 часа аренды лофта', 'Аниматор (стандарт) 50 минут', 'Фотозона (фонтан и надпись)'],
+    popular: false,
+    border: 'border-transparent hover:border-blue-200',
+    checkColor: 'text-blue-500',
+  },
+  {
     id: 'paket-1',
-    name: 'Минимальный', 
+    name: 'Минимальный',
     subtitle: 'Базовый набор для отличного праздника',
     price: 'от 15 000 ₽',
-    weekend: 'В будние: 15 000 ₽ | Пт и выходные: 18 000 ₽', 
+    weekend: 'В будние: 15 000 ₽ | Пт и выходные: 18 000 ₽',
     features: ['3 часа аренды лофта', 'Аниматор (стандарт) 1 час', 'Дискотека со спецэффектами 30 минут', 'Фотозона'],
     popular: false,
     border: 'border-transparent hover:border-secondary-mint',
@@ -199,12 +210,12 @@ export const packages = [
     border: 'border-4 border-primary',
     checkColor: 'text-primary',
   },
-  { 
+  {
     id: 'paket-4',
-    name: 'Максимальный', 
+    name: 'ХИТ',
     subtitle: 'С шоу на выбор и мыльными пузырями',
     price: 'от 21 500 ₽',
-    weekend: 'В будние: 21 500 ₽ | Пт и выходные: 24 500 ₽', 
+    weekend: 'В будние: 21 500 ₽ | Пт и выходные: 24 500 ₽',
     features: ['3 часа аренды лофта', 'Аниматор (стандарт) 1 час', 'Погружение в мыльный пузырь', 'Шоу на выбор (серебряная/неоновая диско)', 'Фотозона под ключ'],
     popular: false,
     border: 'border-transparent hover:border-secondary-peach',
@@ -264,7 +275,6 @@ export const hallsData = [
       { icon: 'pool', text: 'Сухой бассейн' },
       { icon: 'restaurant', text: 'Зона на 30 мест' },
       { icon: 'speaker', text: 'Музыка и свет' },
-      { icon: 'videocam', text: 'Проектор' },
       { icon: 'wifi', text: 'Бесплатный Wi-Fi' },
     ],
     bgClass: 'bg-green-50',
@@ -286,7 +296,8 @@ export const hallsData = [
     images: getHallImages(1),
     available: true,
     features: [
-      { icon: 'sports_esports', text: 'PS5 + Проектор' },
+      { icon: 'sports_esports', text: 'PS5' },
+      { icon: 'videocam', text: 'Проектор' },
       { icon: 'tv', text: '75" экран' },
       { icon: 'mic', text: 'Караоке' },
       { icon: 'kitchen', text: 'Кухня' },

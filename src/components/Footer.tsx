@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import InputMask from 'react-input-mask';
 import leadService from '../lib/services/leadService';
 
 export const Footer = () => {
   const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreedToPolicy, setAgreedToPolicy] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ export const Footer = () => {
       });
       alert('Спасибо! Мы перезвоним вам в ближайшее время.');
       setPhone('');
+      setAgreedToPolicy(false);
     } catch (err) {
       console.error('Footer form error:', err);
       alert('Ошибка при отправке. Пожалуйста, попробуйте позже.');
@@ -138,14 +141,36 @@ export const Footer = () => {
               Оставьте номер, мы перезвоним в течение 15 минут
             </p>
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input
+              <InputMask
+                mask="+7 (999) 999-99-99"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 placeholder="+7 (___) ___-__-__"
                 type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
                 required
               />
+
+              <label className="flex items-start gap-2 text-xs text-gray-400 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={agreedToPolicy}
+                  onChange={(e) => setAgreedToPolicy(e.target.checked)}
+                  required
+                  className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/10 text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                />
+                <span className="leading-relaxed">
+                  Я согласен с{' '}
+                  <Link to="/privacy" className="text-primary hover:underline">
+                    политикой конфиденциальности
+                  </Link>
+                  {' '}и{' '}
+                  <Link to="/terms" className="text-primary hover:underline">
+                    пользовательским соглашением
+                  </Link>
+                </span>
+              </label>
+
               <button
                 className="w-full bg-primary text-white font-bold px-4 py-2.5 rounded-lg text-sm hover:bg-primary-hover transition-all disabled:opacity-50"
                 type="submit"
@@ -161,8 +186,8 @@ export const Footer = () => {
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <p>© 2026 Arkaloft. Все права защищены.</p>
           <div className="flex gap-4">
-            <Link to="/privacy" className="hover:text-primary transition-colors">Политика</Link>
-            <Link to="/offer" className="hover:text-primary transition-colors">Оферта</Link>
+            <Link to="/privacy" className="hover:text-primary transition-colors">Политика конфиденциальности</Link>
+            <Link to="/terms" className="hover:text-primary transition-colors">Пользовательское соглашение</Link>
           </div>
         </div>
       </div>

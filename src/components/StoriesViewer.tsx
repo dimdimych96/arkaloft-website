@@ -218,9 +218,9 @@ export const StoriesViewer = ({ isOpen, onClose, stories, categoryName, category
           }}
         >
           {/* Progress bars */}
-          <div className="absolute top-0 left-0 right-0 z-10 flex gap-1 px-2 pt-3 pb-2 safe-top">
+          <div className="absolute top-0 left-0 right-0 z-10 flex gap-1.5 px-2 pt-2 pb-2">
             {stories.map((_, idx) => (
-              <div key={idx} className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
+              <div key={idx} className="flex-1 h-0.5 bg-white/30 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-white rounded-full"
                   initial={false}
@@ -234,7 +234,7 @@ export const StoriesViewer = ({ isOpen, onClose, stories, categoryName, category
           </div>
 
           {/* Header */}
-          <div className="absolute top-4 left-0 right-0 z-10 flex items-center justify-between px-4 safe-top">
+          <div className="absolute top-5 left-0 right-0 z-10 flex items-center justify-between px-3">
             <div className="flex items-center gap-3">
               <div className={`w-10 h-10 rounded-full ${categoryColor} flex items-center justify-center`}>
                 <span className="text-white font-black text-sm">{categoryName[0]}</span>

@@ -111,6 +111,7 @@ export const Contact = () => {
   const [expandedPackage, setExpandedPackage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'ready' | 'individual' | 'constructor'>('ready');
   const [customPackageDetails, setCustomPackageDetails] = useState<string>('');
+  const [agreedToPolicy, setAgreedToPolicy] = useState(false);
 
   // Получаем сегодняшнюю дату в формате YYYY-MM-DD для min атрибута
   const today = new Date().toISOString().split('T')[0];
@@ -199,6 +200,7 @@ export const Contact = () => {
   const handleReturn = () => {
     setIsSubmitted(false);
     setSubmittedData(null);
+    setAgreedToPolicy(false);
     reset({
       name: '',
       phone: '',
@@ -684,6 +686,28 @@ export const Contact = () => {
                   </div>
                 </motion.div>
 
+                <motion.div variants={itemVariants}>
+                  <label className="flex items-start gap-3 text-sm text-gray-700 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={agreedToPolicy}
+                      onChange={(e) => setAgreedToPolicy(e.target.checked)}
+                      required
+                      className="mt-1 w-5 h-5 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                    />
+                    <span className="leading-relaxed">
+                      Я согласен с{' '}
+                      <Link to="/privacy" className="text-primary hover:underline font-semibold">
+                        политикой конфиденциальности
+                      </Link>
+                      {' '}и{' '}
+                      <Link to="/terms" className="text-primary hover:underline font-semibold">
+                        пользовательским соглашением
+                      </Link>
+                    </span>
+                  </label>
+                </motion.div>
+
                 <motion.div variants={itemVariants} className="pt-2 sm:pt-4">
                   <button
                     type="submit"
@@ -776,14 +800,14 @@ export const Contact = () => {
                     </div>
                   </div>
 
-                  <a href="mailto:info@arkaloft.ru" className="flex items-center gap-6 group/item">
+                  <a href="mailto:arkaloft@mail.ru" className="flex items-center gap-6 group/item">
                     <div className="w-14 h-14 bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex items-center justify-center shrink-0 border border-gray-50 group-hover/item:scale-110 group-hover/item:bg-blue-50 transition-all duration-500">
                       <Mail className="w-7 h-7 text-blue-600" />
                     </div>
                     <div>
                       <p className="text-xs font-black text-primary uppercase tracking-[0.2em] mb-1.5">Email</p>
                       <p className="text-gray-900 font-bold text-lg group-hover/item:text-primary transition-colors">
-                        info@arkaloft.ru
+                        arkaloft@mail.ru
                       </p>
                     </div>
                   </a>

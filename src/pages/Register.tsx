@@ -8,6 +8,7 @@ interface RegisterForm {
   name: string;
   email: string;
   password: string;
+  agreedToPolicy: boolean;
 }
 
 export const Register = () => {
@@ -106,18 +107,26 @@ export const Register = () => {
             </div>
             
             <div className="flex items-start gap-2">
-              <input type="checkbox" id="terms" className="w-4 h-4 mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+              <input
+                type="checkbox"
+                id="terms"
+                {...register('agreedToPolicy', { required: 'Необходимо согласие с политикой' })}
+                className="w-4 h-4 mt-1 rounded border-gray-300 text-primary focus:ring-primary"
+              />
               <label htmlFor="terms" className="text-sm text-gray-600">
                 Я согласен с{' '}
                 <Link to="/privacy" className="text-primary font-bold hover:underline">
-                  условиями использования
+                  политикой конфиденциальности
                 </Link>{' '}
                 и{' '}
-                <Link to="/privacy" className="text-primary font-bold hover:underline">
-                  политикой конфиденциальности
+                <Link to="/terms" className="text-primary font-bold hover:underline">
+                  пользовательским соглашением
                 </Link>
               </label>
             </div>
+            {errors.agreedToPolicy && (
+              <p className="text-sm text-red-600">{errors.agreedToPolicy.message}</p>
+            )}
             
             <button
               type="submit"
