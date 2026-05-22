@@ -47,12 +47,6 @@ const services = [
         price: '2 500 ₽/час',
         details: 'С 4-го часа: 2 000 ₽/час',
       },
-      {
-        name: 'Игротека',
-        description: 'Пока ребенок играет, вы отдыхаете за чашкой чая',
-        price: '450 ₽/час',
-        details: '2 взрослых + 1 ребенок. За 2-го ребенка +300 ₽/час',
-      },
     ],
   },
   {
@@ -246,33 +240,39 @@ export const Services = () => {
                 viewport={{ once: true }}
                 className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
               >
-                {section.items.map((item: any) => (
-                  <motion.div
-                    key={item.id || item.name}
-                    variants={itemVariants}
-                    onClick={() => item.id && handleShowClick(item.id)}
-                    className="bg-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all group relative overflow-hidden cursor-pointer"
-                  >
-                    {item.badge && (
-                      <div className="absolute top-2 right-2 z-10 bg-secondary-yellow text-[10px] font-black px-2 py-1 rounded-full text-orange-900 uppercase shadow-lg">
-                        {item.badge}
+                {section.items.map((item: any) => {
+                  // Определяем эмодзи для каждого шоу
+                  const showEmojis: Record<string, string> = {
+                    'bubble-show': '🫧',
+                    'tiktok-party': '📱',
+                    'science-show': '🔬',
+                    'silver-disco': '✨'
+                  };
+                  const emoji = showEmojis[item.id] || '🎪';
+
+                  return (
+                    <motion.div
+                      key={item.id || item.name}
+                      variants={itemVariants}
+                      onClick={() => item.id && handleShowClick(item.id)}
+                      className="bg-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all group relative overflow-hidden cursor-pointer"
+                    >
+                      {item.badge && (
+                        <div className="absolute top-2 right-2 z-10 bg-secondary-yellow text-[10px] font-black px-2 py-1 rounded-full text-orange-900 uppercase shadow-lg">
+                          {item.badge}
+                        </div>
+                      )}
+                      <div className="relative rounded-xl overflow-hidden mb-3 aspect-square bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+                        <span className="text-6xl sm:text-7xl group-hover:scale-110 transition-transform duration-500">{emoji}</span>
                       </div>
-                    )}
-                    <div className="relative rounded-xl overflow-hidden mb-3 aspect-square">
-                      <img alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={item.image} />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity">
-                          visibility
-                        </span>
+                      <h3 className="text-sm sm:text-base font-black text-gray-800 font-heading mb-1 text-center">{item.name}</h3>
+                      <p className="text-[10px] sm:text-xs text-gray-600 mb-2 leading-relaxed line-clamp-2 text-center">{item.description}</p>
+                      <div className="text-center">
+                        <span className="text-primary font-black text-xs sm:text-sm">{item.price}</span>
                       </div>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-black text-gray-800 font-heading mb-1 text-center">{item.name}</h3>
-                    <p className="text-[10px] sm:text-xs text-gray-600 mb-2 leading-relaxed line-clamp-2 text-center">{item.description}</p>
-                    <div className="text-center">
-                      <span className="text-primary font-black text-xs sm:text-sm">{item.price}</span>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             )}
 

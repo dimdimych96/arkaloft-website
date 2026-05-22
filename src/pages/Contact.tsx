@@ -38,8 +38,8 @@ const packages = [
   {
     id: 'paket-start',
     name: 'Старт',
-    price: 'от 12 000 ₽',
-    priceDetails: 'В будние: 12 000 ₽\nВыходные: 14 000 ₽',
+    price: 'от 10 000 ₽',
+    priceDetails: 'В будние: 10 000 ₽\nВыходные: 12 000 ₽',
     description: 'Бюджетный вариант для небольшого праздника',
     features: ['2 часа аренды лофта', 'Аниматор (стандарт) 50 минут', 'Фотозона (фонтан и надпись)']
   },
@@ -242,6 +242,16 @@ export const Contact = () => {
           </p>
 
           <div className="space-y-4 mb-8">
+            <a
+              href="https://max.ru/u/f9LHodD0cOIYcK23a0o_Efgdj1uOCimE6v8OEr8dA2se3LYlescl0tOCNJQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-3 shadow-lg"
+            >
+              <MessageCircle className="w-6 h-6" />
+              Отправить в MAX
+            </a>
+
             <a
               href={`https://wa.me/${phoneNum}?text=${messageText}`}
               target="_blank"

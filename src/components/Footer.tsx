@@ -61,6 +61,15 @@ export const Footer = () => {
             {/* Social links */}
             <div className="flex gap-3">
               <a
+                href="https://max.ru/u/f9LHodD0cOIYcK23a0o_Efgdj1uOCimE6v8OEr8dA2se3LYlescl0tOCNJQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-primary transition-all"
+                title="MAX"
+              >
+                <span className="font-bold text-xs">MAX</span>
+              </a>
+              <a
                 href="https://vk.com/im/convo/-139149900?t2fs=204ac90745b10d3e39_2"
                 target="_blank"
                 rel="noopener noreferrer"

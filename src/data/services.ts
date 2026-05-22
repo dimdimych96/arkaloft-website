@@ -307,14 +307,4 @@ export const services: Service[] = [
     minQuantity: 1,
     maxQuantity: 3
   },
-  {
-    id: 'playroom',
-    category: 'venue',
-    name: 'Игротека',
-    price: 450,
-    unit: 'руб/час',
-    priceDetails: '2 взрослых + 1 ребенок. За 2-го ребенка +300 руб/час',
-    minQuantity: 1,
-    maxQuantity: 5
-  }
 ];

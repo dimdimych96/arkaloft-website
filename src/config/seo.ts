@@ -10,6 +10,7 @@ export const defaultSEO = {
   email: 'arkaloft@mail.ru',
   address: 'пр. Дзержинского, 18, Новосибирск',
   social: {
+    max: 'https://max.ru/u/f9LHodD0cOIYcK23a0o_Efgdj1uOCimE6v8OEr8dA2se3LYlescl0tOCNJQ',
     vk: 'https://vk.com/arka_loft',
     telegram: 'https://t.me/+79830012520',
   },
