@@ -14,7 +14,8 @@
     "functions:build": "npm --prefix functions run build",
     "functions:serve": "npm --prefix functions run serve",
     "vercel:dev": "vercel dev",
-    "vercel:deploy": "vercel --prod"
+    "vercel:deploy": "vercel --prod",
+  "cloudflare:deploy": "wrangler pages deploy dist --project-name=arkaloft"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

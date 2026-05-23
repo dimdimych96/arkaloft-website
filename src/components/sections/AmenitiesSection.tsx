@@ -20,7 +20,7 @@ export const AmenitiesSection = () => {
   const amenities = [
     { icon: 'kitchen', text: 'Кухня', description: 'Микроволновка, холодильник', color: 'text-blue-500', bg: 'bg-blue-50' },
     { icon: 'restaurant', text: 'Посуда', description: 'Всё необходимое на месте', color: 'text-pink-500', bg: 'bg-pink-50' },
-    { icon: 'cleaning_services', text: 'Уборка', description: 'Мы всё уберём после вас', color: 'text-green-500', bg: 'bg-green-50' },
+    { icon: 'cleaning_services', text: 'Уборка', description: 'Мы всё уберём после праздника', color: 'text-green-500', bg: 'bg-green-50' },
     { icon: 'wifi', text: 'Wi-Fi', description: 'Быстрый интернет', color: 'text-purple-500', bg: 'bg-purple-50' },
     { icon: 'music_note', text: 'Музыка', description: 'Колонки и караоке', color: 'text-red-500', bg: 'bg-red-50' },
     { icon: 'local_cafe', text: 'Чай', description: 'Бесплатно для всех гостей', color: 'text-orange-500', bg: 'bg-orange-50' }
