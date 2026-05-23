@@ -61,7 +61,7 @@ const packages = [
   },
   {
     id: 'paket-4',
-    name: 'Максимальный',
+    name: 'Хит',
     price: 'от 21 500 ₽',
     priceDetails: 'В будние: 21 500 ₽\nПт (с 18:00) и выходные: 24 500 ₽',
     description: 'С шоу на выбор и мыльными пузырями',
@@ -139,7 +139,7 @@ export const Contact = () => {
   const readyPackages = {
     basic: {
       label: 'Базовые',
-      packages: [packages[0], packages[1], packages[2]] // Минимальный, Стандартный, Максимальный
+      packages: [packages[0], packages[1], packages[2]] // Минимальный, Стандартный, Хит
     },
     premium: {
       label: 'Премиум',

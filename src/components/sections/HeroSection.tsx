@@ -164,7 +164,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         >
           {[
             { label: 'Проведено событий', val: '500+', icon: 'celebration' },
-            { label: 'Средний рейтинг', val: '5.0', icon: 'star' },
+            { label: 'Средний рейтинг', val: '4.9', icon: 'star' },
             { label: 'Уникальных зала', val: '2', icon: 'home' },
           ].map((stat, i) => (
             <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 sm:px-6 py-3 sm:py-4">
