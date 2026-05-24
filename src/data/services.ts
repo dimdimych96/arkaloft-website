@@ -140,7 +140,7 @@ export const services: Service[] = [
     id: 'cryo-show',
     category: 'entertainment',
     name: 'Крио-шоу с азотом',
-    price: 9500,
+    price: 9000,
     unit: 'руб/45 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -168,7 +168,7 @@ export const services: Service[] = [
     id: 'quest',
     category: 'entertainment',
     name: 'Квест',
-    price: 6500,
+    price: 9500,
     unit: 'руб/час',
     priceDetails: 'Детективный, Форт Боярд, Джуманджи и т.п.',
     minQuantity: 1,
@@ -196,7 +196,7 @@ export const services: Service[] = [
     id: 'circus-show',
     category: 'entertainment',
     name: 'Цирковое шоу',
-    price: 8500,
+    price: 11000,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 1
