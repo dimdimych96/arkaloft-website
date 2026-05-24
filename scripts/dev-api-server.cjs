@@ -157,9 +157,9 @@ const server = http.createServer(async (req, res) => {
           },
           body: JSON.stringify({
             models: [
+              'z-ai/glm-4.5-air:free',
               'meta-llama/llama-3.3-70b-instruct:free',
-              'qwen/qwen-2.5-72b-instruct:free',
-              'liquid/lfm-2.5-1.2b-instruct:free'
+              'qwen/qwen-2.5-72b-instruct:free'
             ],
             messages: formattedMessages,
             temperature: 0.7,
