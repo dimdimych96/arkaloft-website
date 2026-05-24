@@ -156,7 +156,7 @@ const server = http.createServer(async (req, res) => {
             'X-Title': 'Arkaloft Dev'
           },
           body: JSON.stringify({
-            model: 'qwen/qwen-2.5-72b-instruct:free', 
+            model: 'meta-llama/llama-3.3-70b-instruct:free', 
             messages: formattedMessages,
             temperature: 0.7,
             max_tokens: 1000
