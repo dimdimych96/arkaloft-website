@@ -135,9 +135,12 @@ const server = http.createServer(async (req, res) => {
         
         const openRouterKey = process.env.OPENROUTER_API_KEY || env.OPENROUTER_API_KEY;
 
-        // Форматируем историю диалога под OpenAI API
+        // Формируем историю диалога под OpenAI API
+        const currentDateTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Novosibirsk' });
+        const dynamicSystemPrompt = `${SYSTEM_PROMPT}\n\nСИСТЕМНАЯ ИНФОРМАЦИЯ:\nТекущая дата и время: ${currentDateTime} (Новосибирск). Обязательно учитывай это, если клиент говорит "сегодня", "завтра" или называет день недели!`;
+
         const formattedMessages = [
-          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'system', content: dynamicSystemPrompt },
           ...messages.map(msg => ({
             role: msg.role === 'assistant' || msg.role === 'model' ? 'assistant' : 'user',
             content: msg.text || msg.content || ''
@@ -182,6 +185,63 @@ const server = http.createServer(async (req, res) => {
         console.error('Ошибка в обработчике /api/chat:', err);
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Ошибка сервера при обращении к ИИ', details: err.message }));
+      }
+    });
+  } else if (req.method === 'POST' && req.url === '/api/amocrm') {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', async () => {
+      try {
+        const payload = JSON.parse(body);
+        const { name, phone } = payload;
+        
+        if (!phone) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Телефон обязателен' }));
+          return;
+        }
+
+        const AMO_BASE_URL = env.AMO_BASE_URL || process.env.AMO_BASE_URL;
+        const AMO_TOKEN = env.AMO_LONG_LIVED_TOKEN || process.env.AMO_LONG_LIVED_TOKEN;
+
+        if (!AMO_BASE_URL || !AMO_TOKEN) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Конфигурация AmoCRM не настроена в .env' }));
+          return;
+        }
+
+        let leadName = `Заявка с сайта (Локальный тест)`;
+        if (name) leadName += `: ${name}`;
+
+        console.log(`[dev-server] Отправка лида в AmoCRM: ${leadName}, ${phone}`);
+
+        const leadResponse = await fetch(`${AMO_BASE_URL}/api/v4/leads/complex`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${AMO_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify([{
+            name: leadName,
+            price: 0,
+            _embedded: {
+              contacts: [{
+                first_name: name || 'Без имени',
+                custom_fields_values: [{ field_code: 'PHONE', values: [{ value: phone, enum_code: 'MOB' }] }]
+              }]
+            }
+          }])
+        });
+
+        const leadData = await leadResponse.json();
+        console.log('[dev-server] AmoCRM ответ:', leadResponse.status);
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, data: leadData }));
+      } catch (err) {
+        console.error('Ошибка /api/amocrm:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Ошибка сервера AmoCRM', details: err.message }));
       }
     });
   } else {

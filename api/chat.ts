@@ -101,8 +101,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // Форматируем историю сообщений под требования OpenAI/OpenRouter API
+    const currentDateTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Novosibirsk' });
+    const dynamicSystemPrompt = `${SYSTEM_PROMPT}\n\nСИСТЕМНАЯ ИНФОРМАЦИЯ:\nТекущая дата и время: ${currentDateTime} (Новосибирск). Обязательно учитывай это, если клиент говорит "сегодня", "завтра" или называет день недели!`;
+
     const formattedMessages = [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: dynamicSystemPrompt },
       ...messages.map((msg: any) => ({
         role: msg.role === 'assistant' || msg.role === 'model' ? 'assistant' : 'user',
         content: msg.text || msg.content || ''
