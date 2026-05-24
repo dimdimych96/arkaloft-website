@@ -115,7 +115,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       models: [
         'meta-llama/llama-3.3-70b-instruct:free',
         'qwen/qwen-2.5-72b-instruct:free',
-        'nousresearch/hermes-3-llama-3.1-405b:free',
         'liquid/lfm-2.5-1.2b-instruct:free'
       ],
       messages: formattedMessages,
