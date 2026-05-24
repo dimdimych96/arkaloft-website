@@ -140,18 +140,56 @@ export const AIConsultant = () => {
         .map(msg => `${msg.role === 'user' ? 'Клиент' : 'Аркаша'}: ${msg.text}`)
         .join('\n');
 
-      // Пытаемся найти имя в истории (простой поиск по фразам "Меня зовут X" или "Я X")
+      // Ищем данные только в сообщениях клиента
+      const userText = currentMessages
+        .filter(msg => msg.role === 'user')
+        .map(msg => msg.text)
+        .join(' \n ');
+
+      // Умный поиск имени
       let name = 'Клиент из чата';
-      const nameRegex = /(?:меня зовут|я)\s+([А-Яа-яA-Za-z]+)/i;
-      const nameMatch = historyText.match(nameRegex);
-      if (nameMatch && nameMatch[1]) {
+      const nameMatch = userText.match(/(?:меня зовут|имя)\s+([А-Яа-яA-Za-z]{2,15})/i);
+      if (nameMatch) {
         name = nameMatch[1];
+      } else {
+        // Ищем просто слова с большой буквы, исключая частые
+        const stopWords = ['Зал', 'Завтра', 'Сегодня', 'Привет', 'Здравствуйте', 'Добрый', 'День', 'Подскажите', 'Спасибо', 'Да', 'Нет'];
+        const words = userText.match(/\b([А-Я][а-я]{2,15})\b/g);
+        if (words) {
+          const validNames = words.filter(w => !stopWords.includes(w));
+          if (validNames.length > 0) name = validNames[validNames.length - 1];
+        } else {
+          // Если клиент написал просто "дима" отдельным коротким сообщением
+          const lastShortMessage = currentMessages.reverse().find(m => m.role === 'user' && m.text.length < 15 && !m.text.match(/\d/));
+          if (lastShortMessage) {
+            name = lastShortMessage.text.trim();
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+          }
+        }
       }
+
+      // Поиск даты
+      let date = '';
+      const dateMatch = userText.match(/(завтра|сегодня|послезавтра|\d{1,2}[\.\/]\d{1,2})/i);
+      if (dateMatch) date = dateMatch[0];
+
+      // Поиск зала
+      let hall = '';
+      if (userText.match(/0\+?/i) || userText.match(/big/i)) hall = 'big-loft';
+      else if (userText.match(/7\+?/i) || userText.match(/teen/i)) hall = 'teen-loft';
+
+      // Поиск гостей
+      let guests = '';
+      const guestsMatch = userText.match(/(\d{1,2})\s*(гост|челов|дет|ребят)/i);
+      if (guestsMatch) guests = guestsMatch[1];
 
       try {
         await leadService.createLead({
           name,
           phone,
+          date,
+          hall,
+          guests,
           message: `Авто-заявка от AI-помощника Аркаши.\n\nИстория переписки:\n${historyText}`,
           source: 'ИИ-консультант'
         });

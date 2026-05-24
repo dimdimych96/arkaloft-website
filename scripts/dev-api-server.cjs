@@ -194,7 +194,7 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const payload = JSON.parse(body);
-        const { name, phone } = payload;
+        const { name, phone, date, hall, guests, message, source } = payload;
         
         if (!phone) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -214,7 +214,7 @@ const server = http.createServer(async (req, res) => {
         let leadName = `Заявка с сайта (Локальный тест)`;
         if (name) leadName += `: ${name}`;
 
-        console.log(`[dev-server] Отправка лида в AmoCRM: ${leadName}, ${phone}`);
+        console.log(`[dev-server] Отправка лида в AmoCRM: ${leadName}, ${phone}, ${date}, ${hall}`);
 
         const leadResponse = await fetch(`${AMO_BASE_URL}/api/v4/leads/complex`, {
           method: 'POST',
@@ -226,6 +226,12 @@ const server = http.createServer(async (req, res) => {
             name: leadName,
             price: 0,
             _embedded: {
+              tags: [
+                { name: "Сайт" },
+                ...(source ? [{ name: source }] : []),
+                ...(hall ? [{ name: hall }] : []),
+                ...(date ? [{ name: date }] : [])
+              ],
               contacts: [{
                 first_name: name || 'Без имени',
                 custom_fields_values: [{ field_code: 'PHONE', values: [{ value: phone, enum_code: 'MOB' }] }]
