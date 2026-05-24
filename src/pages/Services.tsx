@@ -942,7 +942,7 @@ export const Services = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 size-12 sm:size-14 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-2xl active:scale-95 transition-all focus:outline-none border-2 border-white/20"
+            className="fixed bottom-24 right-4 sm:bottom-40 sm:right-6 z-40 size-12 sm:size-14 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-2xl active:scale-95 transition-all focus:outline-none border-2 border-white/20"
             aria-label="Наверх"
           >
             <span className="material-symbols-outlined text-2xl font-bold">arrow_upward</span>

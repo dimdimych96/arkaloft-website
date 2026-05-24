@@ -27,7 +27,7 @@ const ScrollToTop = () => {
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
           onClick={scrollToTop}
           aria-label="Прокрутить наверх"
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-primary text-white shadow-2xl hover:bg-primary-hover active:scale-95 transition-all flex items-center justify-center group"
+          className="fixed bottom-24 right-4 sm:bottom-40 sm:right-6 z-40 p-3 sm:p-4 rounded-2xl bg-primary text-white shadow-2xl hover:bg-primary-hover active:scale-95 transition-all flex items-center justify-center group"
         >
           <span className="material-symbols-outlined text-2xl group-hover:-translate-y-1 transition-transform">arrow_upward</span>
         </motion.button>
