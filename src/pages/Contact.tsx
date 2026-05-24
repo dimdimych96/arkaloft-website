@@ -2,6 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Link, useSearchParams } from 'react-router-dom';
 import leadService from '../lib/services/leadService';
 import { useEffect, useState } from 'react';
+import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 import { motion } from 'framer-motion';
 import InputMask from 'react-input-mask';
 import { PackageBuilder } from '../components/PackageBuilder';
@@ -172,6 +173,14 @@ export const Contact = () => {
   const onSubmit = async (data: ContactFormData) => {
     try {
       setSubmitError(null);
+
+      // Send GA4 event for form submission
+      sendGAEvent(EventNames.FORM_SUBMIT, {
+        form_type: 'booking',
+        package: data.package,
+        hall: data.hall,
+        guests: data.guests,
+      });
 
       // Save data for messenger links
       setSubmittedData(data);
@@ -785,7 +794,11 @@ export const Contact = () => {
                     </div>
                   </a>
 
-                  <a href="tel:+79830012520" className="flex items-center gap-6 group/item">
+                  <a
+                    href="tel:+79830012520"
+                    onClick={() => sendGAEvent(EventNames.CLICK_PHONE, { phone_number: '+79830012520', location: 'contact_form' })}
+                    className="flex items-center gap-6 group/item"
+                  >
                     <div className="w-14 h-14 bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex items-center justify-center shrink-0 border border-gray-50 group-hover/item:scale-110 group-hover/item:bg-secondary-yellow/20 transition-all duration-500">
                       <Phone className="w-7 h-7 text-orange-700" />
                     </div>

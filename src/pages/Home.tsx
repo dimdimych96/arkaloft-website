@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEO } from '../components/SEO';
 import { HeroSection } from '../components/sections/HeroSection';
@@ -7,6 +6,7 @@ import { PartyFormatsSection } from '../components/sections/PartyFormatsSection'
 import { WhyUsSection } from '../components/sections/WhyUsSection';
 import { HallsSectionStatic } from '../components/sections/HallsSectionStatic';
 import { PackagesSectionStatic } from '../components/sections/PackagesSectionStatic';
+import { ServicesTeaserSection } from '../components/sections/ServicesTeaserSection';
 import { ReviewsSection } from '../components/ReviewsSection';
 import { AmenitiesSection } from '../components/sections/AmenitiesSection';
 
@@ -75,7 +75,12 @@ export const Home = () => {
     "sameAs": [
       "https://vk.com/arka_loft",
       "https://t.me/+79830012520"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "362"
+    }
   };
 
   return (
@@ -93,6 +98,7 @@ export const Home = () => {
       <WhyUsSection />
       <HallsSectionStatic />
       <PackagesSectionStatic />
+      <ServicesTeaserSection />
       <ReviewsSection />
       <AmenitiesSection />
       <ScrollToTop />

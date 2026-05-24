@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -104,6 +105,7 @@ export const Header = () => {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href="tel:+79830012520"
+              onClick={() => sendGAEvent(EventNames.CLICK_PHONE, { phone_number: '+79830012520' })}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 group ${
                 isHeaderScrolled
                   ? 'bg-gray-100 hover:bg-gray-200'
@@ -115,6 +117,7 @@ export const Header = () => {
             </a>
             <Link
               to="/contact"
+              onClick={() => sendGAEvent(EventNames.CLICK_BOOKING, { location: 'header_desktop' })}
               className="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-all duration-200 shadow-lg"
             >
               <span className="material-symbols-outlined text-lg">event_available</span>
@@ -214,6 +217,7 @@ export const Header = () => {
           <div className="flex flex-col gap-3">
             <a
               href="tel:+79830012520"
+              onClick={() => sendGAEvent(EventNames.CLICK_PHONE, { phone_number: '+79830012520', location: 'header_mobile' })}
               className="flex items-center justify-center gap-3 px-6 py-4 rounded-full font-bold text-base bg-white/25 backdrop-blur-xl border border-white/30 text-gray-900 hover:bg-white/40 active:bg-white/60 transition-all duration-200 touch-target"
             >
               <span className="material-symbols-outlined">call</span>
@@ -222,7 +226,10 @@ export const Header = () => {
 
             <Link
               to="/contact"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                sendGAEvent(EventNames.CLICK_BOOKING, { location: 'header_mobile' });
+              }}
               className="flex items-center justify-center gap-3 px-6 py-4 rounded-full font-bold text-base bg-primary/80 backdrop-blur-xl border border-primary/50 text-white hover:bg-primary/90 active:bg-primary transition-all duration-200 shadow-lg shadow-primary/30 touch-target"
             >
               <span className="material-symbols-outlined">event_available</span>

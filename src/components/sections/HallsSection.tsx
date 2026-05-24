@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useActiveHalls } from '../../hooks/useHalls';
+import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 
 interface HallsSectionProps {
   onBookingClick?: () => void;
@@ -235,7 +236,10 @@ export const HallsSection = ({ onBookingClick }: HallsSectionProps) => {
 
                     <div className="flex gap-3">
                       <Button
-                        onClick={onBookingClick}
+                        onClick={() => {
+                          sendGAEvent(EventNames.CLICK_BOOKING, { location: 'halls_section', hall_id: hall.id });
+                          if (onBookingClick) onBookingClick();
+                        }}
                         className={`flex-1 h-12 text-base font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
                           isRose
                             ? 'bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600'

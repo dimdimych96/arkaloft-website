@@ -66,7 +66,7 @@ export const AmenitiesSection = () => {
               key={idx}
               variants={itemVariants}
               whileHover={{ y: -8, scale: 1.02 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 flex flex-col items-center text-center group hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 flex flex-col items-center text-center group hover:shadow-xl transition-all duration-300 h-full"
             >
               <div className={`size-16 sm:size-20 rounded-2xl ${item.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                 <span className={`material-symbols-outlined text-3xl sm:text-4xl ${item.color}`}>{item.icon}</span>

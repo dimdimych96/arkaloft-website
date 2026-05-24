@@ -59,9 +59,9 @@ export const WhyUsSection = () => {
               key={feature.title}
               variants={itemVariants}
               whileHover={{ scale: 1.05, y: -5 }}
-              className={`${feature.bg} p-4 rounded-2xl shadow-lg border-2 border-white/50 backdrop-blur-sm flex flex-col items-center text-center`}
+              className={`${feature.bg} p-3.5 sm:p-4 rounded-2xl shadow-lg border-2 border-white/50 backdrop-blur-sm flex flex-col items-center text-center h-full`}
             >
-              <div className={`size-14 bg-white rounded-xl flex items-center justify-center ${feature.color} mb-3 shadow-md`}>
+              <div className={`size-12 sm:size-14 bg-white rounded-xl flex items-center justify-center ${feature.color} mb-3 shadow-md`}>
                 <span className="material-symbols-outlined text-2xl font-bold" aria-hidden="true">{feature.icon}</span>
               </div>
               <h3 className="text-sm font-black text-gray-900 mb-1.5 font-heading leading-tight">
@@ -87,7 +87,7 @@ export const WhyUsSection = () => {
               key={feature.title}
               variants={itemVariants}
               whileHover={{ scale: 1.05, y: -8 }}
-              className={`${feature.bg} p-6 rounded-3xl shadow-xl border-2 border-white/50 backdrop-blur-sm flex flex-col items-center text-center`}
+              className={`${feature.bg} p-6 rounded-3xl shadow-xl border-2 border-white/50 backdrop-blur-sm flex flex-col items-center text-center h-full`}
             >
               <div className={`size-16 bg-white rounded-2xl flex items-center justify-center ${feature.color} mb-4 shadow-lg`}>
                 <span className="material-symbols-outlined text-3xl font-bold" aria-hidden="true">{feature.icon}</span>

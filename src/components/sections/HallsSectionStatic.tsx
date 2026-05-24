@@ -7,6 +7,26 @@ export const HallsSectionStatic = () => {
   const [activeHall, setActiveHall] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0, 1, 2])); // Предзагружаем первые 3 изображения
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+
+  // Synchronize scroll position of the Lightbox scroll container when it opens
+  useEffect(() => {
+    if (isLightboxOpen) {
+      const timer = setTimeout(() => {
+        const container = document.getElementById('lightbox-scroll-container');
+        if (container) {
+          container.scrollLeft = container.offsetWidth * lightboxImageIndex;
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isLightboxOpen]);
+
+  const openLightbox = (index: number) => {
+    setLightboxImageIndex(index);
+    setIsLightboxOpen(true);
+  };
 
   // Предзагрузка изображений при прокрутке
   useEffect(() => {
@@ -80,7 +100,7 @@ export const HallsSectionStatic = () => {
               }}
             >
               {hallsData[activeHall].images.map((img, idx) => (
-                <div key={idx} className="w-full h-full flex-shrink-0 snap-center relative">
+                <div key={idx} className="w-full h-full flex-shrink-0 snap-center relative cursor-pointer" onClick={() => openLightbox(idx)}>
                   {loadedImages.has(idx) ? (
                     <img
                       alt={`${hallsData[activeHall].name} - фото ${idx + 1}`}
@@ -208,6 +228,107 @@ export const HallsSectionStatic = () => {
           <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-white"></path>
         </svg>
       </div>
+
+      {/* Fullscreen Lightbox Modal */}
+      <AnimatePresence>
+        {isLightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black z-50 flex flex-col justify-between overflow-hidden"
+          >
+            {/* Immersive Blurred Background based on active photo */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+              <img
+                src={hallsData[activeHall].images[lightboxImageIndex]}
+                alt=""
+                className="w-full h-full object-cover blur-[60px] sm:blur-[100px] scale-125 opacity-40 transition-all duration-500 ease-in-out"
+                aria-hidden="true"
+              />
+              <div className="absolute inset-0 bg-black/30" aria-hidden="true"></div>
+            </div>
+
+            {/* Lightbox Header */}
+            <div className="flex items-center justify-between p-4 text-white z-10 bg-gradient-to-b from-black/80 to-transparent">
+              <span className="text-sm font-bold font-heading">
+                {lightboxImageIndex + 1} из {hallsData[activeHall].images.length}
+              </span>
+              <button
+                onClick={() => setIsLightboxOpen(false)}
+                className="size-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 transition-all focus:outline-none"
+              >
+                <span className="material-symbols-outlined text-2xl">close</span>
+              </button>
+            </div>
+
+            {/* Gallery Swipe Container */}
+            <div className="flex-1 w-full flex items-center justify-center relative bg-transparent select-none z-10">
+              {/* Desktop Left navigation */}
+              {lightboxImageIndex > 0 && (
+                <button
+                  onClick={() => {
+                    const container = document.getElementById('lightbox-scroll-container');
+                    if (container) {
+                      const targetIndex = lightboxImageIndex - 1;
+                      container.scrollTo({ left: container.offsetWidth * targetIndex, behavior: 'smooth' });
+                      setLightboxImageIndex(targetIndex);
+                    }
+                  }}
+                  className="hidden md:flex absolute left-4 text-white/70 hover:text-white size-12 bg-white/10 hover:bg-white/20 rounded-full items-center justify-center transition-all z-20 focus:outline-none"
+                >
+                  <span className="material-symbols-outlined text-2xl">chevron_left</span>
+                </button>
+              )}
+              
+              <div
+                id="lightbox-scroll-container"
+                className="w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar"
+                onScroll={(e) => {
+                  const scrollLeft = e.currentTarget.scrollLeft;
+                  const width = e.currentTarget.offsetWidth;
+                  if (width > 0) {
+                    const index = Math.round(scrollLeft / width);
+                    setLightboxImageIndex(index);
+                  }
+                }}
+              >
+                {hallsData[activeHall].images.map((img, idx) => (
+                  <div key={idx} className="snap-center shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img
+                      src={img}
+                      alt=""
+                      className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl pointer-events-none"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Right navigation */}
+              {lightboxImageIndex < hallsData[activeHall].images.length - 1 && (
+                <button
+                  onClick={() => {
+                    const container = document.getElementById('lightbox-scroll-container');
+                    if (container) {
+                      const targetIndex = lightboxImageIndex + 1;
+                      container.scrollTo({ left: container.offsetWidth * targetIndex, behavior: 'smooth' });
+                      setLightboxImageIndex(targetIndex);
+                    }
+                  }}
+                  className="hidden md:flex absolute right-4 text-white/70 hover:text-white size-12 bg-white/10 hover:bg-white/20 rounded-full items-center justify-center transition-all z-20 focus:outline-none"
+                >
+                  <span className="material-symbols-outlined text-2xl">chevron_right</span>
+                </button>
+              )}
+            </div>
+
+            {/* Footer space / swipe instructions */}
+            <div className="p-4 text-center text-white/40 text-xs bg-gradient-to-t from-black/80 to-transparent z-10">
+              Листайте влево / вправо для просмотра других фото
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

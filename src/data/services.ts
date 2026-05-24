@@ -302,7 +302,7 @@ export const services: Service[] = [
     id: 'cotton-candy',
     category: 'catering',
     name: 'Сахарная вата безлимит',
-    price: 3000,
+    price: 6000,
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 3

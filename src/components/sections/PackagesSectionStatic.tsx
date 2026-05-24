@@ -45,12 +45,12 @@ export const PackagesSectionStatic = () => {
             <span className="material-symbols-outlined text-primary text-sm animate-pulse">swipe</span>
             <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">Листайте</span>
           </div>
-          <div className="flex overflow-x-auto gap-4 pb-6 px-3 snap-x snap-mandatory no-scrollbar pt-4">
+          <div className="flex items-stretch overflow-x-auto gap-4 pb-6 px-3 snap-x snap-mandatory no-scrollbar pt-4">
             {packages.map((pkg) => (
               <motion.div
                 key={pkg.name}
                 variants={itemVariants}
-                className={`snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-2xl p-5 sm:p-6 transition-all shadow-soft relative flex flex-col ${
+                className={`snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-2xl p-5 sm:p-6 transition-all shadow-soft relative flex flex-col h-full ${
                   pkg.popular ? 'ring-2 ring-primary shadow-xl' : `${pkg.border} border-2`
                 }`}
               >

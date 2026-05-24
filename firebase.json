@@ -6,6 +6,18 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      { "source": "/contacts", "destination": "/contact", "type": 301 },
+      { "source": "/uslugi-price", "destination": "/services", "type": 301 },
+      { "source": "/uslugi", "destination": "/services", "type": 301 },
+      { "source": "/price", "destination": "/services", "type": 301 },
+      { "source": "/halls", "destination": "/", "type": 301 },
+      { "source": "/halls/big-loft", "destination": "/contact?hall=big-loft", "type": 301 },
+      { "source": "/halls/teen-loft", "destination": "/contact?hall=teen-loft", "type": 301 },
+      { "source": "/terms-of-service", "destination": "/terms", "type": 301 },
+      { "source": "/admin/login", "destination": "/login", "type": 301 },
+      { "source": "/admin", "destination": "/login", "type": 301 }
+    ],
     "rewrites": [
       {
         "source": "**",

@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { AIConsultant } from './components/AIConsultant';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Outlet />
       </div>
       <Footer />
+      <AIConsultant />
     </div>
   );
 }

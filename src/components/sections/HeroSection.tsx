@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { sendGAEvent, EventNames } from '../../lib/googleAnalytics';
 
 interface HeroSectionProps {
   onBookingClick?: () => void;
@@ -141,6 +142,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         >
           <Link
             to="/contact"
+            onClick={() => sendGAEvent(EventNames.CLICK_BOOKING, { location: 'hero_section' })}
             className="flex-1 max-w-[240px] h-14 sm:h-16 px-6 sm:px-8 rounded-full bg-white/20 backdrop-blur-xl border border-primary/50 text-white font-black text-base sm:text-lg hover:bg-white/30 hover:scale-105 hover:shadow-[0_0_20px_rgba(76,175,80,0.6)] transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-primary/20 touch-target group"
           >
             <span className="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform" aria-hidden="true">celebration</span>
@@ -148,6 +150,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
           </Link>
           <a
             href="tel:+79830012520"
+            onClick={() => sendGAEvent(EventNames.CLICK_PHONE, { phone_number: '+79830012520', location: 'hero_section' })}
             className="size-14 sm:size-16 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30 hover:scale-110 transition-all active:scale-95 flex items-center justify-center shadow-lg touch-target"
             aria-label="Позвонить"
           >

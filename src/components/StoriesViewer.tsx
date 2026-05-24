@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 
 interface Story {
   image?: string;
@@ -108,6 +109,13 @@ export const StoriesViewer = ({ isOpen, onClose, stories, categoryName, category
   // Таймер для текущего story
   useEffect(() => {
     if (!isOpen) return;
+
+    // Отправляем событие о просмотре story при каждом переключении
+    sendGAEvent(EventNames.VIEW_STORY, {
+      story_category: categoryName,
+      story_index: currentIndex,
+      story_type: isVideo ? 'video' : 'image',
+    });
 
     // Очищаем предыдущий таймер
     if (timerRef.current) {
@@ -338,7 +346,14 @@ export const StoriesViewer = ({ isOpen, onClose, stories, categoryName, category
 
                 <Link
                   to={`/contact?format=${encodeURIComponent(categoryName)}`}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    sendGAEvent(EventNames.CLICK_BOOKING, {
+                      location: 'stories_viewer',
+                      story_category: categoryName,
+                      story_index: currentIndex,
+                    });
+                  }}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-black text-sm sm:text-base rounded-2xl hover:bg-primary-hover transition-all active:scale-95 shadow-lg pointer-events-auto touch-target"
                 >
                   <span className="material-symbols-outlined text-lg">event_available</span>

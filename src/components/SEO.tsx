@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { defaultSEO } from '../config/seo';
 
 interface MetaProps {
   title?: string;
@@ -75,8 +76,15 @@ export const SEO = ({
       updateMeta('twitter:image', fullImageUrl);
     }
 
-    // Yandex verification (добавь свой код верификации)
-    // updateMeta('yandex-verification', 'YOUR_YANDEX_VERIFICATION_CODE');
+    // Google verification
+    if (defaultSEO.googleVerification) {
+      updateMeta('google-site-verification', defaultSEO.googleVerification);
+    }
+
+    // Yandex verification
+    if (defaultSEO.yandexVerification) {
+      updateMeta('yandex-verification', defaultSEO.yandexVerification);
+    }
 
     // Canonical
     let canonicalElement = document.querySelector('link[rel="canonical"]');

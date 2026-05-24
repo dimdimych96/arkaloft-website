@@ -10,6 +10,18 @@
       "maxDuration": 60
     }
   },
+  "redirects": [
+    { "source": "/contacts", "destination": "/contact", "permanent": true },
+    { "source": "/uslugi-price", "destination": "/services", "permanent": true },
+    { "source": "/uslugi", "destination": "/services", "permanent": true },
+    { "source": "/price", "destination": "/services", "permanent": true },
+    { "source": "/halls", "destination": "/", "permanent": true },
+    { "source": "/halls/big-loft", "destination": "/contact?hall=big-loft", "permanent": true },
+    { "source": "/halls/teen-loft", "destination": "/contact?hall=teen-loft", "permanent": true },
+    { "source": "/terms-of-service", "destination": "/terms", "permanent": true },
+    { "source": "/admin/login", "destination": "/login", "permanent": true },
+    { "source": "/admin", "destination": "/login", "permanent": true }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",

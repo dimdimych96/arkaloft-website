@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import InputMask from 'react-input-mask';
 import leadService from '../lib/services/leadService';
+import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 
 export const Footer = () => {
   const [phone, setPhone] = useState('');
@@ -124,7 +125,11 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">phone</span>
-                <a href="tel:+79830012520" className="text-sm text-gray-400 hover:text-primary transition-colors">
+                <a
+                  href="tel:+79830012520"
+                  onClick={() => sendGAEvent(EventNames.CLICK_PHONE, { phone_number: '+79830012520', location: 'footer' })}
+                  className="text-sm text-gray-400 hover:text-primary transition-colors"
+                >
                   8 (983) 001-25-20
                 </a>
               </li>
