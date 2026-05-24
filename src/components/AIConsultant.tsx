@@ -216,41 +216,44 @@ export const AIConsultant = () => {
   };
 
   return (
-    <div className="fixed bottom-24 right-6 z-40 font-sans">
+    <>
       {/* Кнопка открытия виджета */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(true)}
-            className="w-14 h-14 rounded-full bg-primary hover:bg-primary-hover text-white shadow-2xl flex items-center justify-center relative cursor-pointer group"
-            style={{ boxShadow: '0 8px 30px rgba(76, 175, 80, 0.4)' }}
-            aria-label="Открыть чат с AI-консультантом"
-          >
-            <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform duration-200" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-yellow opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary-yellow text-[10px] text-orange-900 font-black items-center justify-center">AI</span>
-            </span>
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <div className="fixed bottom-6 right-4 sm:bottom-24 sm:right-6 z-40 font-sans">
+        <AnimatePresence>
+          {!isOpen && (
+            <motion.button
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(true)}
+              className="w-14 h-14 rounded-full bg-primary hover:bg-primary-hover text-white shadow-2xl flex items-center justify-center relative cursor-pointer group"
+              style={{ boxShadow: '0 8px 30px rgba(76, 175, 80, 0.4)' }}
+              aria-label="Открыть чат с AI-консультантом"
+            >
+              <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform duration-200" />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-yellow opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary-yellow text-[10px] text-orange-900 font-black items-center justify-center">AI</span>
+              </span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Окно чата */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="w-[350px] sm:w-[380px] h-[550px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-100"
-            style={{ boxShadow: '0 12px 50px rgba(0, 0, 0, 0.15)' }}
-          >
+          <div className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 z-[100] flex items-center justify-center sm:block font-sans bg-black/20 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none p-4 sm:p-0">
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 50, scale: 0.9 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="w-full max-w-[400px] h-[85dvh] sm:w-[380px] sm:h-[550px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-100"
+              style={{ boxShadow: '0 12px 50px rgba(0, 0, 0, 0.15)' }}
+            >
             {/* Шапка чата */}
             <div className="bg-gradient-to-r from-primary to-primary-hover p-4 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -308,7 +311,26 @@ export const AIConsultant = () => {
                         {/* Рендеринг Markdown для ИИ и обычный текст для пользователя */}
                         {isAssistant ? (
                           <div className="prose prose-sm prose-green max-w-none text-gray-800 break-words font-medium">
-                            <ReactMarkdown>{msg.text}</ReactMarkdown>
+                            <ReactMarkdown
+                              components={{
+                                a: ({ node, ...props }) => (
+                                  <a
+                                    href={props.href || '#'}
+                                    onClick={(e) => {
+                                      // Если ссылка внутренняя, закрываем чат для удобства навигации
+                                      if (props.href?.startsWith('/')) {
+                                        setIsOpen(false);
+                                      }
+                                    }}
+                                    className="text-primary hover:text-primary-hover underline underline-offset-2 font-bold decoration-primary/30 hover:decoration-primary transition-colors"
+                                  >
+                                    {props.children}
+                                  </a>
+                                ),
+                              }}
+                            >
+                              {msg.text}
+                            </ReactMarkdown>
                           </div>
                         ) : (
                           <p className="whitespace-pre-line font-medium break-words">{msg.text}</p>
@@ -380,8 +402,9 @@ export const AIConsultant = () => {
               </button>
             </form>
           </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 };
