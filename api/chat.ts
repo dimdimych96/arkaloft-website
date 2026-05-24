@@ -94,52 +94,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Параметр messages должен быть массивом' });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY не задан в переменных окружения бэкенда' });
+    return res.status(500).json({ error: 'OPENROUTER_API_KEY не задан в переменных окружения бэкенда' });
   }
 
   try {
-    // Форматируем историю сообщений под требования Gemini API
-    // Gemini принимает структуру:
-    // { role: "user" | "model", parts: [{ text: "..." }] }
-    const formattedContents = messages.map((msg: any) => {
-      const role = msg.role === 'assistant' || msg.role === 'model' ? 'model' : 'user';
-      return {
-        role,
-        parts: [{ text: msg.text || msg.content || '' }]
-      };
-    });
+    // Форматируем историю сообщений под требования OpenAI/OpenRouter API
+    const formattedMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...messages.map((msg: any) => ({
+        role: msg.role === 'assistant' || msg.role === 'model' ? 'assistant' : 'user',
+        content: msg.text || msg.content || ''
+      }))
+    ];
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+    const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
     const payload = {
-      contents: formattedContents,
-      system_instruction: {
-        parts: [{ text: SYSTEM_PROMPT }]
-      },
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 1000,
-        topP: 0.95
-      }
+      model: 'qwen/qwen-2.5-72b-instruct:free',
+      messages: formattedMessages,
+      temperature: 0.7,
+      max_tokens: 1000,
+      top_p: 0.95
     };
 
-    const response = await axios.post(geminiUrl, payload, {
+    const response = await axios.post(openRouterUrl, payload, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': 'https://arkaloft.ru',
+        'X-Title': 'Arkaloft'
       },
       timeout: 15000 // 15 секунд лимит ожидания
     });
 
-    const candidate = response.data?.candidates?.[0];
-    const replyText = candidate?.content?.parts?.[0]?.text || 'Извините, не удалось получить ответ. Попробуйте еще раз!';
+    const candidate = response.data?.choices?.[0];
+    const replyText = candidate?.message?.content || 'Извините, не удалось получить ответ. Попробуйте еще раз!';
 
     return res.status(200).json({
       reply: replyText
     });
   } catch (error: any) {
-    console.error('Gemini API error:', error.response?.data || error.message);
+    console.error('OpenRouter API error:', error.response?.data || error.message);
     return res.status(500).json({
       error: 'Ошибка при обращении к ИИ',
       details: error.response?.data?.error?.message || error.message

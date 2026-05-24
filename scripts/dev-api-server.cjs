@@ -127,51 +127,50 @@ const server = http.createServer(async (req, res) => {
           return;
         }
 
-        if (!GEMINI_API_KEY) {
+        if (!process.env.OPENROUTER_API_KEY && !env.OPENROUTER_API_KEY) {
           res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'GEMINI_API_KEY отсутствует в файле .env' }));
+          res.end(JSON.stringify({ error: 'OPENROUTER_API_KEY отсутствует в файле .env' }));
           return;
         }
+        
+        const openRouterKey = process.env.OPENROUTER_API_KEY || env.OPENROUTER_API_KEY;
 
-        // Форматируем историю диалога под Gemini API
-        const formattedContents = messages.map(msg => {
-          const role = msg.role === 'assistant' || msg.role === 'model' ? 'model' : 'user';
-          return {
-            role,
-            parts: [{ text: msg.text || msg.content || '' }]
-          };
-        });
+        // Форматируем историю диалога под OpenAI API
+        const formattedMessages = [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...messages.map(msg => ({
+            role: msg.role === 'assistant' || msg.role === 'model' ? 'assistant' : 'user',
+            content: msg.text || msg.content || ''
+          }))
+        ];
 
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+        const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
-        // Делаем fetch запрос к Gemini API
-        const response = await fetch(geminiUrl, {
+        // Делаем fetch запрос к OpenRouter API
+        const response = await fetch(openRouterUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            'Authorization': `Bearer ${openRouterKey}`,
+            'HTTP-Referer': 'http://localhost:3000',
+            'X-Title': 'Arkaloft Dev'
           },
           body: JSON.stringify({
-            contents: formattedContents,
-            system_instruction: {
-              parts: [{ text: SYSTEM_PROMPT }]
-            },
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1000
-            }
+            model: 'qwen/qwen-2.5-72b-instruct:free', 
+            messages: formattedMessages,
+            temperature: 0.7,
+            max_tokens: 1000
           })
         });
 
         const dataText = await response.text();
-        console.log("Raw Google API response:", dataText);
         const data = JSON.parse(dataText);
 
         if (!response.ok) {
-          throw new Error(data.error?.message || 'Gemini API Error');
+          throw new Error(data.error?.message || 'OpenRouter API Error');
         }
 
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Не удалось получить ответ.';
+        const reply = data.choices?.[0]?.message?.content || 'Не удалось получить ответ.';
         
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ reply }));
