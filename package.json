@@ -15,13 +15,14 @@
     "functions:serve": "npm --prefix functions run serve",
     "vercel:dev": "vercel dev",
     "vercel:deploy": "vercel --prod",
-  "cloudflare:deploy": "wrangler pages deploy dist --project-name=arkaloft"
+    "cloudflare:deploy": "wrangler pages deploy dist --project-name=arkaloft"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.90.21",
     "@types/react-input-mask": "^3.0.6",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/node": "^5.7.15",
     "axios": "^1.6.0",
     "date-fns": "^2.30.0",
