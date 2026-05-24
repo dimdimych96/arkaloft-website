@@ -110,7 +110,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Обработка маршрута /api/chat
-  if (req.method === 'POST' && req.url === '/api/chat') {
+  if (req.method === 'POST' && req.url.startsWith('/api/chat')) {
     let body = '';
     req.on('data', chunk => {
       body += chunk.toString();
@@ -187,7 +187,7 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: 'Ошибка сервера при обращении к ИИ', details: err.message }));
       }
     });
-  } else if (req.method === 'POST' && req.url === '/api/amocrm') {
+  } else if (req.method === 'POST' && req.url.startsWith('/api/amocrm')) {
     let body = '';
     req.on('data', chunk => body += chunk.toString());
     req.on('end', async () => {
