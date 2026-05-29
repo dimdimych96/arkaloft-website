@@ -750,155 +750,6 @@ const ChatQuiz = ({ onSelect }: ChatQuizProps) => {
   );
 };
 
-interface ChatCalculatorProps {
-  onSelect: (text: string) => void;
-}
-
-const ChatCalculator = ({ onSelect }: ChatCalculatorProps) => {
-  const [hall, setHall] = useState<'kids' | 'teens' | 'both'>('kids');
-  const [hours, setHours] = useState(3);
-  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
-
-  const addonsList = [
-    { id: 'animator', name: 'Аниматор (1 час)', price: 4500 },
-    { id: 'bubble', name: 'Шоу мыльных пузырей', price: 8000 },
-    { id: 'cryo', name: 'Крио-шоу с азотом', price: 9000 },
-    { id: 'silver', name: 'Серебряная дискотека', price: 5500 },
-    { id: 'photo', name: 'Фотограф (1 час)', price: 3500 },
-    { id: 'quest', name: 'Квест (1 час)', price: 9500 }
-  ];
-
-  const handleToggleAddon = (id: string) => {
-    setSelectedAddons(prev =>
-      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
-    );
-  };
-
-  const calculateTotal = () => {
-    const hourlyRate = hall === 'both' ? 4500 : 2500;
-    const baseRental = hourlyRate * hours;
-    const addonsTotal = selectedAddons.reduce((sum, id) => {
-      const item = addonsList.find(a => a.id === id);
-      return sum + (item ? item.price : 0);
-    }, 0);
-    return baseRental + addonsTotal;
-  };
-
-  const total = calculateTotal();
-
-  return (
-    <div className="w-full my-3 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex flex-col font-sans">
-      <div className="flex items-center gap-2 pb-2.5 border-b border-gray-50 mb-3 text-primary">
-        <Calendar className="w-4 h-4" />
-        <span className="font-heading font-black text-xs sm:text-sm">Калькулятор бюджета праздника</span>
-      </div>
-
-      <div className="space-y-3.5">
-        {/* Шаг 1: Выбор зала */}
-        <div className="space-y-1.5">
-          <span className="text-[9px] uppercase font-black tracking-widest text-gray-400">1. Выберите зал:</span>
-          <div className="grid grid-cols-3 gap-1.5">
-            {[
-              { id: 'kids', label: 'Зал 0+' },
-              { id: 'teens', label: 'Зал 7+' },
-              { id: 'both', label: 'Оба зала' }
-            ].map(opt => (
-              <button
-                key={opt.id}
-                onClick={() => setHall(opt.id as any)}
-                className={`py-2 px-1 text-center rounded-xl text-xs font-bold transition-all border ${
-                  hall === opt.id
-                    ? 'bg-primary border-primary text-white shadow-sm'
-                    : 'bg-gray-50 border-gray-100 text-gray-600 hover:bg-gray-100'
-                } cursor-pointer`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Шаг 2: Часы аренды */}
-        <div className="flex items-center justify-between py-1 bg-gray-50/50 px-3 rounded-xl border border-gray-100">
-          <div className="flex flex-col">
-            <span className="text-[9px] uppercase font-black tracking-widest text-gray-400">2. Аренда лофта:</span>
-            <span className="text-xs text-gray-700 font-bold">{hall === 'both' ? 'Оба зала (4500 ₽/ч)' : 'Один зал (2500 ₽/ч)'}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setHours(prev => Math.max(2, prev - 1))}
-              disabled={hours <= 2}
-              className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-700 disabled:opacity-50 hover:bg-gray-50 cursor-pointer shadow-sm"
-            >
-              <Minus className="w-3.5 h-3.5" />
-            </button>
-            <span className="font-heading font-black text-sm text-gray-800 w-10 text-center">{hours} ч</span>
-            <button
-              onClick={() => setHours(prev => Math.min(8, prev + 1))}
-              disabled={hours >= 8}
-              className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-700 disabled:opacity-50 hover:bg-gray-50 cursor-pointer shadow-sm"
-            >
-              <Plus className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Шаг 3: Дополнения */}
-        <div className="space-y-1.5">
-          <span className="text-[9px] uppercase font-black tracking-widest text-gray-400">3. Услуги и шоу:</span>
-          <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 no-scrollbar">
-            {addonsList.map(addon => {
-              const selected = selectedAddons.includes(addon.id);
-              return (
-                <div
-                  key={addon.id}
-                  onClick={() => handleToggleAddon(addon.id)}
-                  className={`flex items-center justify-between p-2 rounded-xl border text-xs cursor-pointer select-none transition-all ${
-                    selected
-                      ? 'bg-primary/5 border-primary/20 text-gray-800'
-                      : 'bg-white border-gray-150 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 ${
-                      selected ? 'bg-primary border-primary text-white' : 'border-gray-300'
-                    }`}>
-                      {selected && <Check className="w-3 h-3 stroke-[3]" />}
-                    </div>
-                    <span className="font-medium">{addon.name}</span>
-                  </div>
-                  <span className="font-black text-gray-800">+{addon.price} ₽</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Итог */}
-        <div className="pt-3 border-t border-gray-50 flex items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-[9px] uppercase font-black text-gray-400">Предварительная смета:</span>
-            <span className="text-base font-heading font-black text-primary leading-tight">{total.toLocaleString('ru-RU')} ₽</span>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              const selectedNames = selectedAddons.map(id => addonsList.find(a => a.id === id)?.name || id);
-              const selectedText = selectedNames.length > 0 ? selectedNames.join(', ') : 'Без доп. услуг';
-              const hallName = hall === 'kids' ? 'Зал 0+' : hall === 'teens' ? 'Зал 7+' : 'Оба зала';
-              onSelect(`Расчет бюджета: ${hallName}, ${hours} ч. аренды. Доп. услуги: ${selectedText}. Итого: ${total} ₽.`);
-            }}
-            className="px-4 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-black rounded-xl shadow-sm cursor-pointer"
-          >
-            Отправить расчет
-          </motion.button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 interface ChatTourProps {
   onSelect: (text: string) => void;
 }
@@ -993,7 +844,7 @@ export const AIConsultant = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const parseMessageContent = (text: string) => {
-    const shortcodeRegex = /(\[gallery:[07]\]|\[button:[a-z]+\]|\[card:[a-z-]+\]|\[quiz:start\]|\[calculator:start\]|\[tour:show\])/g;
+    const shortcodeRegex = /(\[gallery:[07]\]|\[button:[a-z]+\]|\[card:[a-z-]+\]|\[quiz:start\]|\[tour:show\])/g;
     const parts = text.split(shortcodeRegex);
     
     const elements: React.ReactNode[] = [];
@@ -1033,9 +884,7 @@ export const AIConsultant = () => {
       } else if (part === '[quiz:start]') {
         flushButtons(index);
         elements.push(<ChatQuiz key={index} onSelect={handleSend} />);
-      } else if (part === '[calculator:start]') {
-        flushButtons(index);
-        elements.push(<ChatCalculator key={index} onSelect={handleSend} />);
+
       } else if (part === '[tour:show]') {
         flushButtons(index);
         elements.push(<ChatTour key={index} onSelect={handleSend} />);
