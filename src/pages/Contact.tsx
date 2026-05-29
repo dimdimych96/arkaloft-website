@@ -6,6 +6,8 @@ import { sendGAEvent, EventNames } from '../lib/googleAnalytics';
 import { motion } from 'framer-motion';
 import InputMask from 'react-input-mask';
 import { PackageBuilder } from '../components/PackageBuilder';
+import { packages as sitePackages } from '../data/siteData';
+import { SEO } from '../components/SEO';
 import {
   User,
   Phone,
@@ -36,62 +38,14 @@ interface ContactFormData {
 }
 
 const packages = [
-  {
-    id: 'paket-start',
-    name: 'Старт',
-    price: 'от 10 000 ₽',
-    priceDetails: 'В будние: 10 000 ₽\nВыходные: 12 000 ₽',
-    description: 'Бюджетный вариант для небольшого праздника',
-    features: ['2 часа аренды лофта', 'Аниматор (стандарт) 50 минут', 'Фотозона (фонтан и надпись)']
-  },
-  {
-    id: 'paket-1',
-    name: 'Минимальный',
-    price: 'от 15 000 ₽',
-    priceDetails: 'В будние: 15 000 ₽\nПт (с 18:00) и выходные: 18 000 ₽',
-    description: 'Базовый набор для отличного праздника',
-    features: ['3 часа аренды лофта', 'Аниматор (стандарт) 1 час', 'Дискотека со спецэффектами 30 минут', 'Фотозона']
-  },
-  {
-    id: 'paket-2',
-    name: 'Стандартный',
-    price: 'от 22 500 ₽',
-    priceDetails: 'В будние: 22 500 ₽\nПт (с 18:00) и выходные: 26 000 ₽',
-    description: 'Оптимальный выбор с аквагримом и фотографом',
-    features: ['3 часа аренды лофта', 'Аниматор (стандарт) 1 час', 'Аквагрим или блеск-тату 1 час', 'Фотограф 1 час', 'Дискотека со спецэффектами', 'Фотозона']
-  },
-  {
-    id: 'paket-4',
-    name: 'Хит',
-    price: 'от 21 500 ₽',
-    priceDetails: 'В будние: 21 500 ₽\nПт (с 18:00) и выходные: 24 500 ₽',
-    description: 'С шоу на выбор и мыльными пузырями',
-    features: ['3 часа аренды лофта', 'Аниматор (стандарт) 1 час', 'Погружение в мыльный пузырь', 'Шоу на выбор (серебряная/неоновая диско)', 'Фотозона под ключ']
-  },
-  {
-    id: 'paket-3',
-    name: 'VIP',
-    price: '48 500 ₽',
-    priceDetails: 'Единая цена на любые дни',
-    description: 'Всё включено по максимуму (фото, видео, шоу)',
-    features: ['3 часа аренды лофта', 'Аниматор (премиум) 1 час', 'Велком зона с героем или торт', 'Шоу на выбор', 'Фотограф и Видеограф', 'Фотозона под ключ и Пиньята']
-  },
-  {
-    id: 'wednesday-barbie',
-    name: 'Уэнсдей против Барби',
-    price: 'от 46 500 ₽',
-    priceDetails: 'Зал 7+: 46 500 ₽\nЗал 0+: 49 500 ₽',
-    description: 'Уникальная тематическая вечеринка',
-    features: ['3 часа аренды лофта', 'Вечеринка Уэнсдей против Барби 1 час', 'Неоновая розовая дискотека', 'Фотограф 1 час', 'Фотозона под ключ', 'Сахарная вата или торт 2.5 кг']
-  },
-  {
-    id: 'morning',
-    name: 'Утренние часы',
-    price: '2 000 ₽ / час',
-    priceDetails: 'Только в будние дни с 10:00 до 13:00',
-    description: 'Специальный тариф для утренних праздников',
-    features: ['Только аренда лофта', 'Бронирование от 3-х часов', 'Скидка на стоимость часа (вместо 3500₽)']
-  },
+  ...sitePackages.map(pkg => ({
+    id: pkg.id,
+    name: pkg.name,
+    price: pkg.price,
+    priceDetails: pkg.weekend.replace(/ \| /g, '\n'),
+    description: pkg.subtitle,
+    features: pkg.features
+  })),
   {
     id: 'custom',
     name: 'Индивидуальный расчёт',
@@ -133,22 +87,6 @@ export const Contact = () => {
       label: 'Конструктор',
       icon: '🛠️',
       description: 'Соберите сами'
-    }
-  };
-
-  // Готовые пакеты для вкладки "ready"
-  const readyPackages = {
-    basic: {
-      label: 'Базовые',
-      packages: [packages[0], packages[1], packages[2]] // Минимальный, Стандартный, Хит
-    },
-    premium: {
-      label: 'Премиум',
-      packages: [packages[3]] // VIP
-    },
-    special: {
-      label: 'Специальные',
-      packages: [packages[4], packages[5]] // Уэнсдей, Утренние часы
     }
   };
 
@@ -231,12 +169,41 @@ export const Contact = () => {
     visible: { opacity: 1, y: 0 }
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Контакты и бронирование | Arkaloft",
+    "description": "Форма бронирования лофта для праздника, контакты, адрес и телефон лофт-пространства Арка Лофт в Новосибирске.",
+    "url": "https://arkaloft.ru/contact",
+    "mainEntity": {
+      "@type": "LocalBusiness",
+      "name": "Arkaloft (Арка Лофт)",
+      "image": "https://arkaloft.ru/images/hero/main.jpg",
+      "telephone": "+79830012520",
+      "email": "arkaloft@mail.ru",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "пр. Дзержинского, 18",
+        "addressLocality": "Новосибирск",
+        "postalCode": "630000",
+        "addressCountry": "RU"
+      },
+      "url": "https://arkaloft.ru",
+      "priceRange": "$$"
+    }
+  };
+
   if (isSubmitted && submittedData) {
     const messageText = generateMessageText(submittedData);
     const phoneNum = '79830012520';
 
     return (
       <main className="min-h-screen bg-background-off-white flex items-center justify-center p-4">
+        <SEO
+          title="Заявка принята - Контакты лофт-пространства"
+          description="Ваша заявка успешно отправлена! Свяжитесь с нами через мессенджеры для быстрого подтверждения бронирования Арка Лофт."
+          noindex={true}
+        />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -305,6 +272,12 @@ export const Contact = () => {
 
   return (
     <main className="min-h-screen bg-background-off-white font-body text-text-main overflow-x-hidden">
+      <SEO
+        title="Контакты и бронирование - аренда лофта для праздника"
+        description="Забронируйте лофт для детского дня рождения или праздника в Новосибирске. Онлайн-форма бронирования, контакты, адрес: пр. Дзержинского, 18, телефон: +7 (983) 001-25-20."
+        keywords="забронировать лофт новосибирск, контакты арка лофт, телефон детский лофт"
+        structuredData={structuredData}
+      />
       {/* Hero Section */}
       <section className="relative pt-20 pb-12 sm:pb-16 overflow-hidden px-4">
         <motion.div
@@ -361,7 +334,14 @@ export const Contact = () => {
             <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-secondary-mint via-primary to-secondary-peach"></div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-6 sm:space-y-8"
+                {...{
+                  'webmcp-tool': 'bookEvent',
+                  'description': 'Форма онлайн-бронирования праздника, дня рождения или аренды лофта Arkaloft.'
+                }}
+              >
                 {submitError && (
                   <div className="p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 text-red-600 font-medium text-sm sm:text-base">
                     <AlertCircle className="w-5 h-5 shrink-0" />
@@ -387,6 +367,7 @@ export const Contact = () => {
                         aria-invalid={errors.name ? 'true' : 'false'}
                         aria-describedby={errors.name ? 'name-error' : undefined}
                         {...register('name', { required: 'Имя обязательно' })}
+                        {...{ description: "Имя клиента (именинника или организатора праздника)" }}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                         placeholder="Александр"
                       />
@@ -422,6 +403,7 @@ export const Contact = () => {
                             aria-required="true"
                             aria-invalid={errors.phone ? 'true' : 'false'}
                             aria-describedby={errors.phone ? 'phone-error' : undefined}
+                            {...{ description: "Контактный номер телефона для связи в формате +7 (999) 999-99-99" }}
                             className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                             placeholder="+7 (999) 000-00-00"
                           />
@@ -447,6 +429,7 @@ export const Contact = () => {
                         min={today}
                         aria-label="Дата праздника"
                         {...register('date')}
+                        {...{ description: "Планируемая дата проведения мероприятия в формате ГГГГ-ММ-ДД" }}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                       />
                     </div>
@@ -465,6 +448,7 @@ export const Contact = () => {
                         type="number"
                         aria-label="Количество гостей"
                         {...register('guests')}
+                        {...{ description: "Количество ожидаемых гостей (число)" }}
                         className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 text-base"
                         placeholder="15"
                       />
@@ -481,10 +465,17 @@ export const Contact = () => {
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
                         <Layout className="w-5 h-5" />
                       </div>
+                      <input
+                        type="hidden"
+                        id="contact-package"
+                        {...register('package')}
+                        {...{ description: "Выбранный пакет услуг: paket-start, paket-1, paket-2, paket-4, paket-3, wednesday-barbie, morning, custom или constructor" }}
+                      />
                       <select
                         id="contact-hall"
                         aria-label="Выберите пространство"
                         {...register('hall')}
+                        {...{ description: "Выбранный зал: big-loft (Зал 0+), teen-loft (Зал 7+) или both (Оба пространства)" }}
                         className="w-full pl-12 pr-10 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 appearance-none text-base"
                       >
                         <option value="">Выберите пространство</option>
@@ -699,6 +690,7 @@ export const Contact = () => {
                       rows={3}
                       aria-label="Ваши пожелания"
                       {...register('message')}
+                      {...{ description: "Дополнительные пожелания, комментарии или описание индивидуальной комплектации праздника" }}
                       className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-0 transition-all font-bold bg-gray-50/50 resize-none text-base"
                       placeholder="Напишите, что для вас важно в этот день..."
                     />

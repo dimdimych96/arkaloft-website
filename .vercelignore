@@ -1,0 +1,22 @@
+# Vercel Ignore Config
+
+# Temporary files and reports
+report-perf.json
+report-perf-optimized.json
+page-structure.html
+scratch/
+
+# Local scripts
+scripts/
+
+# AI and CodeGraph agent tools
+.agents/
+.codegraph/
+.gstack/
+skills-lock.json
+
+# Documentation
+LEGAL_CHECKLIST.md
+PROMOTION_PLAN.md
+SEO_CHECKLIST.md
+README.md

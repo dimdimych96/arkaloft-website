@@ -154,7 +154,14 @@ export const Footer = () => {
             <p className="text-xs text-gray-400 mb-4 leading-relaxed">
               Оставьте номер, мы перезвоним в течение 15 минут
             </p>
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-3"
+              {...{
+                'webmcp-tool': 'requestCallback',
+                'description': 'Форма быстрого заказа обратного звонка от менеджера Арка Лофт.'
+              }}
+            >
               <InputMask
                 mask="+7 (999) 999-99-99"
                 value={phone}
@@ -163,6 +170,7 @@ export const Footer = () => {
                 placeholder="+7 (___) ___-__-__"
                 type="tel"
                 required
+                {...{ description: "Контактный номер телефона для обратного звонка в формате +7 (999) 999-99-99" }}
               />
 
               <label className="flex items-start gap-2 text-xs text-gray-400 cursor-pointer group">

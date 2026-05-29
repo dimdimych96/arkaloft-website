@@ -8,14 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "firebase deploy",
-    "deploy:hosting": "firebase deploy --only hosting",
-    "deploy:functions": "firebase deploy --only functions",
-    "functions:build": "npm --prefix functions run build",
-    "functions:serve": "npm --prefix functions run serve",
     "vercel:dev": "vercel dev",
     "vercel:deploy": "vercel --prod",
-  "cloudflare:deploy": "wrangler pages deploy dist --project-name=arkaloft"
+    "cloudflare:deploy": "wrangler pages deploy dist --project-name=arkaloft"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -23,6 +18,7 @@
     "@tanstack/react-query": "^5.90.21",
     "@types/react-input-mask": "^3.0.6",
     "@vercel/node": "^5.7.15",
+    "@vercel/speed-insights": "^2.0.0",
     "axios": "^1.6.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^12.38.0",
@@ -45,9 +41,6 @@
     "eslint": "^9.39.3",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
-    "firebase": "^10.14.1",
-    "firebase-admin": "^12.0.0",
-    "firebase-functions": "^4.9.0",
     "globals": "^16.5.0",
     "prettier": "^3.8.1",
     "typescript": "^5.3.3",

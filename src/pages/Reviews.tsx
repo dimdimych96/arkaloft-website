@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { SEO } from '../components/SEO';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -408,8 +409,46 @@ export const Reviews = () => {
 
   const displayedReviews = reviews.slice(0, visibleReviews);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Arkaloft (Арка Лофт)",
+    "image": "https://arkaloft.ru/images/hero/main.jpg",
+    "telephone": "+79830012520",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "пр. Дзержинского, 18",
+      "addressLocality": "Новосибирск",
+      "postalCode": "630000",
+      "addressCountry": "RU"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "362"
+    },
+    "review": reviews.slice(0, 5).map(rev => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": rev.author
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": rev.rating.toString()
+      },
+      "reviewBody": rev.text
+    }))
+  };
+
   return (
     <main className="min-h-screen bg-white font-body text-text-main overflow-x-hidden">
+      <SEO
+        title="Отзывы клиентов лофт-пространства"
+        description="Отзывы и мнения семей об организации праздников в Арка Лофт в Новосибирске. Средний рейтинг 4.9 из 5 на основе 362 отзывов. Узнайте отзывы наших гостей!"
+        keywords="отзывы арка лофт, отзывы детский праздник новосибирск, лофт аренда отзывы"
+        structuredData={structuredData}
+      />
       {/* Hero Section */}
       <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden bg-gradient-to-br from-primary/5 via-secondary-mint/10 to-secondary-yellow/5">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>

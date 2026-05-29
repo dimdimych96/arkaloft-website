@@ -30,16 +30,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Firebase
-.firebase
-.firebaserc
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
 
-# Functions build
-functions/lib
-functions/.gcloudignore
 
 # Vercel
 .vercel
@@ -69,3 +60,12 @@ Thumbs.db
 
 # Old backups
 old-project-backup/
+
+# CodeGraph
+.codegraph/
+
+# Performance reports
+report-perf.json
+report-perf-optimized.json
+page-structure.html
+

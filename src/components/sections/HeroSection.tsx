@@ -33,6 +33,9 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
           img.onload = () => {
             setLoadedImages((prev) => new Set(prev).add(index));
           };
+          img.onerror = () => {
+            console.warn(`Failed to preload image: ${heroImages[index]}`);
+          };
         }
       });
     };
@@ -51,6 +54,9 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
       img.onload = () => {
         setLoadedImages((prev) => new Set(prev).add(nextIndex));
       };
+      img.onerror = () => {
+        console.warn(`Failed to preload image: ${heroImages[nextIndex]}`);
+      };
     }
   }, [currentImageIndex]);
 
@@ -66,16 +72,21 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
     <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-white">
       {/* Background Images with Auto-change */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.img
             key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 1.12, x: -10, y: -5 }}
+            animate={{ opacity: 1, scale: 1.02, x: 0, y: 0 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{
+              opacity: { duration: 2.0, ease: "easeInOut" },
+              scale: { duration: 6, ease: "linear" },
+              x: { duration: 6, ease: "linear" },
+              y: { duration: 6, ease: "linear" }
+            }}
             src={heroImages[currentImageIndex]}
             alt="Арка Лофт"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
           />
         </AnimatePresence>
 

@@ -41,16 +41,9 @@ const SYSTEM_PROMPT = `
 5. Если клиент готов забронировать или хочет расчет праздника, аккуратно собери:
    - Имя родителя
    - Номер телефона
+   - Дату праздника
    - Возраст ребенка и количество гостей
    Как только клиент оставит контактные данные (особенно имя и телефон), подтверди, что менеджер свяжется с ним в ближайшее время.
-   ОЧЕНЬ ВАЖНО: Если клиент пишет свой номер телефона (например, начинается с 8999...), ни в коем случае не меняй его цифры при ответе! Форматируй его строго как +7 (XXX) XXX-XX-XX, заменяя первую 8 на +7. Не придумывай несуществующие цифры.
-
-ССЫЛКИ НА САЙТ (Используй их в ответах через Markdown):
-- Фото залов (0+ и 7+): [/projects](/projects)
-- Услуги и пакеты: [/services](/services)
-- Отзывы: [/reviews](/reviews)
-- Контакты: [/contact](/contact)
-ПРАВИЛО: Когда предлагаешь залы или услуги, ОЧЕНЬ ЖЕЛАТЕЛЬНО органично вставлять ссылки в текст. Например: "Вы можете [посмотреть фото Зала 0+](/projects)" или "У нас есть много [готовых пакетов](/services)".
 
 КОНТАКТЫ И СВЕДЕНИЯ ОБ «ARKALOFT»:
 - Адрес: Новосибирск, пр. Дзержинского, 18 (удобная парковка, близко метро).
@@ -87,14 +80,14 @@ const SYSTEM_PROMPT = `
 ШОУ-ПРОГРАММЫ:
 - Шоу мыльных пузырей: 30 мин — 8000 ₽ (премиум 9500 ₽). Огненные и дымные пузыри, погружение в пузырь-гигант.
 - TikTok, Likee, YouTube PARTY (для подростков): 60 мин. 1 ведущий — 6500 ₽, 2 ведущих — 11 500 ₽. Тренды, челленджи, баттлы. (Если гостей > 15, обязательно 2 ведущих!).
-- Научное шоу (физика/химия в игре): опыты с сухим льдом, огнем, космические опыты. 30 мин — 8900 ₽ | 45 мин — 9900 ₽ | 60 мин — 10 900 ₽.
-- Серебряная дискотека: 30 мин — 5500 ₽. 10 кг блестящей фольги, светомузыка, прыжки в фольгу, баттлы.
-- Крио шоу с азотом и мороженым (от 5 лет): 45 мин — 8500 ₽. Опыты с жидким азотом, приготовление мороженого с топпингами.
-- Поролоновое шоу (активное): 45 мин — 5500 ₽. Множество мягких цветных кубиков, строительство башен и стен, битва кубиками, трон именинника.
-- Шоу «Нащупай» (для смелых от 7 лет): 60 мин — от 6500 ₽. 1 ведущий + 1 ассистент. Отгадывание на ощупь предметов и экзотических существ (змеи, ящерицы и др.) в чудо-коробе.
-- Шоу трансформеров: 45 мин — 7000 ₽. Роботы Бамблби, Оптимуспрайм или Мегатрон на выбор со светозвуковыми эффектами + ведущий.
-- Цирковое шоу с животными (отлично для любого возраста): 1 час — 8500 ₽. Выступление собачки Ляля, пуделей, змей, черепашек, 3-метрового питона, фокусы и фотосессия с животными.
-- Фокусник: 30-40 мин — от 11 000 ₽. Интерактивная магия, фокусы с картами и сюрприз из шляпы.
+- Научное шоу (физика/химия в игре): опыты с сухим льдом, огнем, космические опыты. 30 мин — 8 900 ₽ | 45 мин — 9 900 ₽ | 60 мин — 10 900 ₽.
+- Серебряная дискотека: 30 мин — 5 500 ₽. 10 кг блестящей фольги, светомузыка, прыжки в фольгу, баттлы.
+- Крио шоу с азотом и мороженым (от 5 лет): 45 мин — 9 000 ₽. Опыты с жидким азотом, приготовление мороженого с топпингами.
+- Поролоновое шоу (активное): 45 мин — 5 500 ₽. Множество мягких цветных кубиков, строительство башен и стен, битва кубиками, трон именинника.
+- Шоу «Нащупай» (для смелых от 7 лет): 60 мин — от 5 500 ₽. 1 ведущий + 1 ассистент. Отгадывание на ощупь предметов и экзотических существ (змеи, ящерицы и др.) в чудо-коробе.
+- Шоу трансформеров: 45 мин — 7 000 ₽. Роботы Бамблби, Оптимуспрайм или Мегатрон на выбор со светозвуковыми эффектами + ведущий.
+- Цирковое шоу с животными (отлично для любого возраста): 1 час — 11 000 ₽. Выступление собачки Ляля, пуделей, змей, черепашек, 3-метрового питона, фокусы и фотосессия с животными.
+- Фокусник: 30-40 мин — от 8 500 ₽. Интерактивная магия, фокусы с картами и сюрприз из шляпы.
 
 ОФОРМЛЕНИЕ ШАРАМИ (Гелиевые шары):
 - 1 обычный шар с обработкой — 200 ₽ (с рисунком/надписью +20 ₽).
@@ -117,7 +110,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Обработка маршрута /api/chat
-  if (req.method === 'POST' && req.url.startsWith('/api/chat')) {
+  if (req.method === 'POST' && req.url === '/api/chat') {
     let body = '';
     req.on('data', chunk => {
       body += chunk.toString();
@@ -142,12 +135,9 @@ const server = http.createServer(async (req, res) => {
         
         const openRouterKey = process.env.OPENROUTER_API_KEY || env.OPENROUTER_API_KEY;
 
-        // Формируем историю диалога под OpenAI API
-        const currentDateTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Novosibirsk' });
-        const dynamicSystemPrompt = `${SYSTEM_PROMPT}\n\nСИСТЕМНАЯ ИНФОРМАЦИЯ:\nТекущая дата и время: ${currentDateTime} (Новосибирск). Обязательно учитывай это, если клиент говорит "сегодня", "завтра" или называет день недели!`;
-
+        // Форматируем историю диалога под OpenAI API
         const formattedMessages = [
-          { role: 'system', content: dynamicSystemPrompt },
+          { role: 'system', content: SYSTEM_PROMPT },
           ...messages.map(msg => ({
             role: msg.role === 'assistant' || msg.role === 'model' ? 'assistant' : 'user',
             content: msg.text || msg.content || ''
@@ -166,11 +156,7 @@ const server = http.createServer(async (req, res) => {
             'X-Title': 'Arkaloft Dev'
           },
           body: JSON.stringify({
-            models: [
-              'z-ai/glm-4.5-air:free',
-              'meta-llama/llama-3.3-70b-instruct:free',
-              'qwen/qwen-2.5-72b-instruct:free'
-            ],
+            model: 'meta-llama/llama-3.3-70b-instruct:free', 
             messages: formattedMessages,
             temperature: 0.7,
             max_tokens: 1000
@@ -192,69 +178,6 @@ const server = http.createServer(async (req, res) => {
         console.error('Ошибка в обработчике /api/chat:', err);
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Ошибка сервера при обращении к ИИ', details: err.message }));
-      }
-    });
-  } else if (req.method === 'POST' && req.url.startsWith('/api/amocrm')) {
-    let body = '';
-    req.on('data', chunk => body += chunk.toString());
-    req.on('end', async () => {
-      try {
-        const payload = JSON.parse(body);
-        const { name, phone, date, hall, guests, message, source } = payload;
-        
-        if (!phone) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Телефон обязателен' }));
-          return;
-        }
-
-        const AMO_BASE_URL = env.AMO_BASE_URL || process.env.AMO_BASE_URL;
-        const AMO_TOKEN = env.AMO_LONG_LIVED_TOKEN || process.env.AMO_LONG_LIVED_TOKEN;
-
-        if (!AMO_BASE_URL || !AMO_TOKEN) {
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Конфигурация AmoCRM не настроена в .env' }));
-          return;
-        }
-
-        let leadName = `Заявка с сайта (Локальный тест)`;
-        if (name) leadName += `: ${name}`;
-
-        console.log(`[dev-server] Отправка лида в AmoCRM: ${leadName}, ${phone}, ${date}, ${hall}`);
-
-        const leadResponse = await fetch(`${AMO_BASE_URL}/api/v4/leads/complex`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${AMO_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify([{
-            name: leadName,
-            price: 0,
-            _embedded: {
-              tags: [
-                { name: "Сайт" },
-                ...(source ? [{ name: source }] : []),
-                ...(hall ? [{ name: hall }] : []),
-                ...(date ? [{ name: date }] : [])
-              ],
-              contacts: [{
-                first_name: name || 'Без имени',
-                custom_fields_values: [{ field_code: 'PHONE', values: [{ value: phone, enum_code: 'MOB' }] }]
-              }]
-            }
-          }])
-        });
-
-        const leadData = await leadResponse.json();
-        console.log('[dev-server] AmoCRM ответ:', leadResponse.status);
-        
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, data: leadData }));
-      } catch (err) {
-        console.error('Ошибка /api/amocrm:', err);
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Ошибка сервера AmoCRM', details: err.message }));
       }
     });
   } else {

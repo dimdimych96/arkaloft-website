@@ -1,4 +1,5 @@
 // Данные услуг для конструктора пакета
+import { PRICES } from './prices';
 
 export interface Service {
   id: string;
@@ -50,9 +51,9 @@ export const services: Service[] = [
     id: 'hall-0-weekday',
     category: 'venue',
     name: 'Зал 0+ (будни)',
-    price: 2500,
+    price: PRICES.halls.kidsWeekday,
     unit: 'руб/час',
-    priceDetails: 'Первые 3 часа: 2500 руб/час. С 4-го часа: 2500 руб/час',
+    priceDetails: `Первые 3 часа: ${PRICES.halls.kidsWeekday} руб/час. С 4-го часа: ${PRICES.halls.kidsWeekdayExtra} руб/час`,
     minQuantity: 3,
     maxQuantity: 8
   },
@@ -60,9 +61,9 @@ export const services: Service[] = [
     id: 'hall-0-weekend',
     category: 'venue',
     name: 'Зал 0+ (выходные)',
-    price: 3500,
+    price: PRICES.halls.kidsWeekend,
     unit: 'руб/час',
-    priceDetails: 'Первые 3 часа: 3500 руб/час. С 4-го часа: 3000 руб/час',
+    priceDetails: `Первые 3 часа: ${PRICES.halls.kidsWeekend} руб/час. С 4-го часа: ${PRICES.halls.kidsWeekendExtra} руб/час`,
     minQuantity: 3,
     maxQuantity: 8
   },
@@ -70,9 +71,9 @@ export const services: Service[] = [
     id: 'hall-7-any',
     category: 'venue',
     name: 'Зал 7+ (любой день)',
-    price: 2500,
+    price: PRICES.halls.teens,
     unit: 'руб/час',
-    priceDetails: 'Первые 3 часа: 2500 руб/час. С 4-го часа: 2000 руб/час',
+    priceDetails: `Первые 3 часа: ${PRICES.halls.teens} руб/час. С 4-го часа: ${PRICES.halls.teensExtra} руб/час`,
     minQuantity: 3,
     maxQuantity: 8
   },
@@ -82,7 +83,7 @@ export const services: Service[] = [
     id: 'animator-standard',
     category: 'animation',
     name: 'Аниматор (стандарт)',
-    price: 4500,
+    price: PRICES.animators.standard,
     unit: 'руб/50 мин',
     minQuantity: 1,
     maxQuantity: 3
@@ -91,9 +92,9 @@ export const services: Service[] = [
     id: 'animator-premium',
     category: 'animation',
     name: 'Аниматор (премиум костюм)',
-    price: 5500,
+    price: PRICES.animators.premium,
     unit: 'руб/50 мин',
-    priceDetails: 'Стандарт 4500 руб + премиум костюм 1000 руб',
+    priceDetails: `Стандарт ${PRICES.animators.standard} руб + премиум костюм ${PRICES.animators.premium - PRICES.animators.standard} руб`,
     minQuantity: 1,
     maxQuantity: 3
   },
@@ -101,9 +102,9 @@ export const services: Service[] = [
     id: 'mascot',
     category: 'animation',
     name: 'Ростовая кукла',
-    price: 5500,
+    price: PRICES.animators.mascot,
     unit: 'руб/30 мин',
-    priceDetails: 'От 5500 руб за 30 минут',
+    priceDetails: `От ${PRICES.animators.mascot} руб за 30 минут`,
     minQuantity: 1,
     maxQuantity: 2
   },
@@ -111,7 +112,7 @@ export const services: Service[] = [
     id: 'aquagrim',
     category: 'animation',
     name: 'Аквагрим, блеск-тату',
-    price: 2500,
+    price: PRICES.animators.facePaint,
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 3
@@ -122,7 +123,7 @@ export const services: Service[] = [
     id: 'bubble-immersion',
     category: 'entertainment',
     name: 'Погружение в мыльный пузырь',
-    price: 2000,
+    price: PRICES.shows.bubbleImmersion,
     unit: 'руб',
     minQuantity: 1,
     maxQuantity: 1
@@ -131,7 +132,7 @@ export const services: Service[] = [
     id: 'silver-disco',
     category: 'entertainment',
     name: 'Серебряная дискотека',
-    price: 5500,
+    price: PRICES.shows.silver,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 2
@@ -140,7 +141,7 @@ export const services: Service[] = [
     id: 'cryo-show',
     category: 'entertainment',
     name: 'Крио-шоу с азотом',
-    price: 9000,
+    price: PRICES.shows.cryo,
     unit: 'руб/45 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -149,7 +150,7 @@ export const services: Service[] = [
     id: 'disco-effects',
     category: 'entertainment',
     name: 'Дискотека со спецэффектами',
-    price: 500,
+    price: PRICES.shows.discoEffects,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 3
@@ -158,7 +159,7 @@ export const services: Service[] = [
     id: 'themed-party',
     category: 'entertainment',
     name: 'Тематическая вечеринка',
-    price: 6500,
+    price: PRICES.shows.themedParty,
     unit: 'руб/час',
     priceDetails: 'Пижамная, YouTube, Brawl Stars и т.п.',
     minQuantity: 1,
@@ -168,7 +169,7 @@ export const services: Service[] = [
     id: 'quest',
     category: 'entertainment',
     name: 'Квест',
-    price: 9500,
+    price: PRICES.shows.quest,
     unit: 'руб/час',
     priceDetails: 'Детективный, Форт Боярд, Джуманджи и т.п.',
     minQuantity: 1,
@@ -178,7 +179,7 @@ export const services: Service[] = [
     id: 'bubble-show',
     category: 'entertainment',
     name: 'Шоу мыльных пузырей',
-    price: 7500,
+    price: PRICES.shows.bubble,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -187,7 +188,7 @@ export const services: Service[] = [
     id: 'magic-show',
     category: 'entertainment',
     name: 'Фокусная программа',
-    price: 8500,
+    price: PRICES.shows.magician,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -196,7 +197,7 @@ export const services: Service[] = [
     id: 'circus-show',
     category: 'entertainment',
     name: 'Цирковое шоу',
-    price: 11000,
+    price: PRICES.shows.circus,
     unit: 'руб/30 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -205,7 +206,7 @@ export const services: Service[] = [
     id: 'touch-show',
     category: 'entertainment',
     name: 'Шоу нащупай',
-    price: 5500,
+    price: PRICES.shows.touch,
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 1
@@ -214,7 +215,7 @@ export const services: Service[] = [
     id: 'foam-show',
     category: 'entertainment',
     name: 'Поролоновое шоу',
-    price: 5500,
+    price: PRICES.shows.foam,
     unit: 'руб/45 мин',
     minQuantity: 1,
     maxQuantity: 1
@@ -223,7 +224,7 @@ export const services: Service[] = [
     id: 'masterclass',
     category: 'entertainment',
     name: 'Мастер-класс',
-    price: 6000,
+    price: PRICES.shows.masterclass,
     unit: 'руб',
     minQuantity: 1,
     maxQuantity: 2
@@ -234,7 +235,7 @@ export const services: Service[] = [
     id: 'photographer',
     category: 'photo-video',
     name: 'Фотограф',
-    price: 3500,
+    price: PRICES.photoVideo.photographer,
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 3
@@ -243,7 +244,7 @@ export const services: Service[] = [
     id: 'videographer',
     category: 'photo-video',
     name: 'Видеограф',
-    price: 6000,
+    price: PRICES.photoVideo.videographer,
     unit: 'руб',
     minQuantity: 1,
     maxQuantity: 2
@@ -254,7 +255,7 @@ export const services: Service[] = [
     id: 'photozone',
     category: 'decoration',
     name: 'Оформление фотозоны',
-    price: 4500,
+    price: PRICES.decor.photozone,
     unit: 'руб',
     minQuantity: 1,
     maxQuantity: 1
@@ -263,7 +264,7 @@ export const services: Service[] = [
     id: 'candy-bar',
     category: 'decoration',
     name: 'Декор кенди-бара (аренда)',
-    price: 2500,
+    price: PRICES.decor.candyBar,
     unit: 'руб',
     minQuantity: 1,
     maxQuantity: 1
@@ -272,7 +273,7 @@ export const services: Service[] = [
     id: 'balloons',
     category: 'decoration',
     name: 'Шары гелиевые',
-    price: 160,
+    price: PRICES.decor.balloonClassic,
     unit: 'руб/шт',
     minQuantity: 1,
     maxQuantity: 100
@@ -283,9 +284,9 @@ export const services: Service[] = [
     id: 'catering',
     category: 'catering',
     name: 'Фуршет (кейтеринг)',
-    price: 5000,
+    price: PRICES.catering.buffet,
     unit: 'руб',
-    priceDetails: 'От 5000 руб',
+    priceDetails: `От ${PRICES.catering.buffet} руб`,
     minQuantity: 1,
     maxQuantity: 1
   },
@@ -293,7 +294,7 @@ export const services: Service[] = [
     id: 'cake',
     category: 'catering',
     name: 'Торт',
-    price: 3000,
+    price: PRICES.catering.cake,
     unit: 'руб/кг',
     minQuantity: 1,
     maxQuantity: 5
@@ -302,7 +303,7 @@ export const services: Service[] = [
     id: 'cotton-candy',
     category: 'catering',
     name: 'Сахарная вата безлимит',
-    price: 6000,
+    price: PRICES.catering.cottonCandy,
     unit: 'руб/час',
     minQuantity: 1,
     maxQuantity: 3

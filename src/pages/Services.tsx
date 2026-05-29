@@ -5,6 +5,9 @@ import { ShowModal } from '../components/ShowModal';
 import { showsData, ShowDetail } from '../data/showsData';
 import { questsData, QuestDetail } from '../data/questsData';
 import { QuestModal } from '../components/QuestModal';
+import { servicesData } from '../data/siteData';
+import { PRICES } from '../data/prices';
+import { SEO } from '../components/SEO';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,6 +25,11 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
 };
 
+const rentCategory = servicesData.find(c => c.category === 'rent')!;
+const animatorsCategory = servicesData.find(c => c.category === 'animators')!;
+const decorCategory = servicesData.find(c => c.category === 'decor')!;
+const cateringCategory = servicesData.find(c => c.category === 'catering')!;
+
 const services = [
   {
     category: 'rent',
@@ -30,26 +38,14 @@ const services = [
     iconColor: 'text-primary',
     title: 'Аренда залов',
     subtitle: 'Выберите идеальное пространство для вашего праздника',
-    items: [
-      {
-        name: 'Зал 0+ (будни)',
-        description: '135 м², горка, сухой бассейн, до 30 гостей',
-        price: '2 500 ₽/час',
-        details: 'С 4-го часа: 2 500 ₽/час',
-      },
-      {
-        name: 'Зал 0+ (выходные)',
-        description: '135 м², горка, сухой бассейн, до 30 гостей',
-        price: '3 500 ₽/час',
-        details: 'С 4-го часа: 3 000 ₽/час',
-      },
-      {
-        name: 'Зал 7+ (любой день)',
-        description: '75 м², PS5, проектор, караоке, до 25 гостей',
-        price: '2 500 ₽/час',
-        details: 'С 4-го часа: 2 000 ₽/час',
-      },
-    ],
+    items: rentCategory.items.map(item => ({
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      details: item.name.includes('0+') 
+        ? (item.name.includes('будни') ? `С 4-го часа: ${PRICES.halls.kidsWeekdayExtra.toLocaleString('ru-RU')} ₽/час` : `С 4-го часа: ${PRICES.halls.kidsWeekendExtra.toLocaleString('ru-RU')} ₽/час`)
+        : `С 4-го часа: ${PRICES.halls.teensExtra.toLocaleString('ru-RU')} ₽/час`
+    }))
   },
   {
     category: 'shows',
@@ -90,12 +86,24 @@ const services = [
     iconColor: 'text-orange-500',
     title: 'Аниматоры',
     subtitle: 'Любимые герои сказок и мультфильмов',
-    items: [
-      { name: 'Аниматор (стандарт)', price: '4 500 ₽/50 мин', description: 'Профессиональный аниматор в костюме', emoji: '🎭' },
-      { name: 'Аниматор (премиум)', price: '5 500 ₽/50 мин', description: 'Премиум костюм +1000 ₽', emoji: '⭐' },
-      { name: 'Ростовая кукла', price: 'от 5 500 ₽/30 мин', description: 'Большая ростовая кукла', emoji: '🐻' },
-      { name: 'Аквагрим, блеск-тату', price: 'от 2 500 ₽/час', description: 'Рисунки на лице и теле', emoji: '🎨' },
-    ],
+    items: animatorsCategory.items.map(item => ({
+      name: item.name,
+      price: item.price,
+      description: item.name.includes('стандарт') 
+        ? 'Профессиональный аниматор в костюме'
+        : item.name.includes('премиум')
+          ? 'Премиум костюм +1000 ₽'
+          : item.name.includes('Ростовая')
+            ? 'Большая ростовая кукла'
+            : 'Рисунки на лице и теле',
+      emoji: item.name.includes('стандарт') 
+        ? '🎭' 
+        : item.name.includes('премиум') 
+          ? '⭐' 
+          : item.name.includes('Ростовая') 
+            ? '🐻' 
+            : '🎨'
+    })),
     heroes: [
       { name: 'Трансформеры', emoji: '🤖' },
       { name: 'Уэнсдей', emoji: '🖤' },
@@ -108,17 +116,33 @@ const services = [
     ]
   },
   {
+    category: 'photo-video',
+    icon: 'photo_camera',
+    iconBg: 'bg-teal-100',
+    iconColor: 'text-teal-600',
+    title: 'Фотограф и видеограф',
+    subtitle: 'Профессиональная съемка ярких моментов вашего праздника',
+    items: [
+      {
+        name: 'Фотограф',
+        description: 'Репортажная и постановочная съемка детского праздника, портреты гостей, цветокоррекция всех хороших кадров (от 70-100 фото за час).',
+        price: `${PRICES.photoVideo.photographer.toLocaleString('ru-RU')} ₽ / час`
+      },
+      {
+        name: 'Видеограф',
+        description: 'Съемка видео на профессиональное оборудование. Изготовление динамичного клипа о празднике (Reels/Shorts формат или мини-фильм).',
+        price: `${PRICES.photoVideo.videographer.toLocaleString('ru-RU')} ₽ / час`
+      }
+    ]
+  },
+  {
     category: 'decor',
     icon: 'palette',
     iconBg: 'bg-pink-100',
     iconColor: 'text-pink-500',
     title: 'Оформление и декор',
     subtitle: 'Создадим праздничную атмосферу',
-    items: [
-      { name: 'Фотозона', description: 'Индивидуальный дизайн под ваш праздник', price: 'от 4 500 ₽' },
-      { name: 'Декор кенди-бара', description: 'Оформление под стиль фотозоны', price: '2 500 ₽' },
-      { name: 'Шары гелиевые', description: 'Фонтаны, арки, гирлянды', price: 'от 160 ₽/шт' },
-    ],
+    items: decorCategory.items,
   },
   {
     category: 'catering',
@@ -127,11 +151,7 @@ const services = [
     iconColor: 'text-blue-500',
     title: 'Кейтеринг',
     subtitle: 'Вкусные угощения для гостей',
-    items: [
-      { name: 'Фуршет (кейтеринг)', description: 'Полноценное меню', price: 'от 5 000 ₽' },
-      { name: 'Торт', description: 'На заказ', price: 'от 3 000 ₽/кг' },
-      { name: 'Сахарная вата безлимит', description: 'Неограниченное количество', price: '6 000 ₽/час' },
-    ],
+    items: cateringCategory.items,
   },
 ];
 
@@ -141,19 +161,6 @@ export const Services = () => {
   const [selectedQuest, setSelectedQuest] = useState<QuestDetail | null>(null);
   const [isQuestModalOpen, setIsQuestModalOpen] = useState(false);
   const [isBalloonsExpanded, setIsBalloonsExpanded] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 450) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const smoothScrollTo = (targetY: number, duration: number = 400) => {
     const startY = window.scrollY;
@@ -191,9 +198,7 @@ export const Services = () => {
     }
   };
 
-  const scrollToTop = () => {
-    smoothScrollTo(0, 350); // Snappy scroll to top
-  };
+
 
   const handleShowClick = (showId: string) => {
     const show = showsData.find(s => s.id === showId);
@@ -211,8 +216,80 @@ export const Services = () => {
     }
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "numberOfItems": 4,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Product",
+          "name": "Аренда Зала 0+ (Kids)",
+          "description": "Игровое пространство 135 м² с деревянной горкой, сухим бассейном и банкетной зоной для праздников.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.halls.kidsWeekend.toString(),
+            "priceCurrency": "RUB",
+            "description": "Аренда зала в час в выходные"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Product",
+          "name": "Аренда Зала 7+ (Teens)",
+          "description": "Стильная лаунж-пространство 76 м² с PS5, караоке, проектором и светомузыкой.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.halls.teens.toString(),
+            "priceCurrency": "RUB",
+            "description": "Аренда зала в час"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Product",
+          "name": "Шоу мыльных пузырей",
+          "description": "Интерактивное шоу мыльных пузырей на детский праздник.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.shows.bubble.toString(),
+            "priceCurrency": "RUB"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "Product",
+          "name": "Крио шоу с мороженым",
+          "description": "Фантастическое научное шоу с азотом и приготовлением мороженого для ребят.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.shows.cryo.toString(),
+            "priceCurrency": "RUB"
+          }
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-white font-body text-text-main overflow-x-hidden">
+      <SEO
+        title="Услуги и цены - развлечения и аренда лофта"
+        description="Полный список услуг лофт-пространства Арка Лофт в Новосибирске. Аренда залов, аниматоры на детский праздник, шоу-программы, квесты и кейтеринг."
+        keywords="услуги лофта новосибирск, аниматоры новосибирск цены, крио шоу заказать, квесты для детей новосибирск"
+        structuredData={structuredData}
+      />
       <ShowModal
         show={selectedShow}
         isOpen={isModalOpen}
@@ -258,38 +335,41 @@ export const Services = () => {
             Мы берем на себя все заботы: от подбора аниматора до украшения торта. Профессиональная организация событий в наших уютных лофтах.
           </motion.p>
 
-          {/* Quick Navigation - 2 Columns Grid on Mobile, Flex on Desktop */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="grid grid-cols-2 gap-2.5 max-w-md mx-auto md:max-w-none md:flex md:flex-wrap md:justify-center md:gap-4 px-4 sm:px-0"
-          >
-            {services.map((service) => {
-              // Кастомные стили для каждой категории при наведении
-              const categoryHoverStyles: Record<string, string> = {
-                rent: 'hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50/40 hover:shadow-emerald-100',
-                shows: 'hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50/40 hover:shadow-purple-100',
-                quests: 'hover:border-rose-500 hover:text-rose-600 hover:bg-rose-50/40 hover:shadow-rose-100',
-                animators: 'hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50/40 hover:shadow-orange-100',
-                decor: 'hover:border-pink-500 hover:text-pink-600 hover:bg-pink-50/40 hover:shadow-pink-100',
-                catering: 'hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50/40 hover:shadow-blue-100'
-              };
-              const hoverStyle = categoryHoverStyles[service.category] || 'hover:border-primary hover:text-primary hover:bg-primary/5';
+          {/* Quick Navigation Panel */}
+          <div className="px-4 sm:px-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="grid grid-cols-2 gap-2 p-2 bg-gray-100/50 backdrop-blur-sm rounded-2xl border border-gray-200/50 max-w-md mx-auto md:max-w-[760px] md:inline-flex md:flex-wrap md:justify-center md:gap-2.5 md:rounded-3xl md:p-2 md:bg-gray-150/40"
+            >
+              {services.map((service, idx) => {
+                // Кастомные стили для каждой категории при наведении
+                const categoryHoverStyles: Record<string, string> = {
+                  rent: 'hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50/40 hover:shadow-emerald-100',
+                  shows: 'hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50/40 hover:shadow-purple-100',
+                  quests: 'hover:border-rose-500 hover:text-rose-600 hover:bg-rose-50/40 hover:shadow-rose-100',
+                  animators: 'hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50/40 hover:shadow-orange-100',
+                  'photo-video': 'hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50/40 hover:shadow-teal-100',
+                  decor: 'hover:border-pink-500 hover:text-pink-600 hover:bg-pink-50/40 hover:shadow-pink-100',
+                  catering: 'hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50/40 hover:shadow-blue-100'
+                };
+                const hoverStyle = categoryHoverStyles[service.category] || 'hover:border-primary hover:text-primary hover:bg-primary/5';
 
-              return (
-                <a
-                  key={service.category}
-                  href={`#${service.category}`}
-                  onClick={(e) => handleNavClick(e, service.category)}
-                  className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-xl md:rounded-full bg-white/95 backdrop-blur-sm border border-gray-150 md:border-2 text-gray-700 font-bold shadow-sm hover:shadow-md transition-all active:scale-95 text-xs sm:text-sm w-full md:w-auto shrink-0 justify-center md:justify-start ${hoverStyle}`}
-                >
-                  <span className={`material-symbols-outlined ${service.iconColor} text-lg shrink-0`}>{service.icon}</span>
-                  <span className="truncate">{service.title}</span>
-                </a>
-              );
-            })}
-          </motion.div>
+                return (
+                  <a
+                    key={service.category}
+                    href={`#${service.category}`}
+                    onClick={(e) => handleNavClick(e, service.category)}
+                    className={`flex items-center gap-2 px-3 py-2.5 sm:px-4.5 sm:py-3 rounded-xl md:rounded-full bg-white border border-gray-150/70 text-gray-700 font-bold shadow-sm hover:shadow transition-all active:scale-95 text-xs sm:text-sm w-full md:w-auto shrink-0 justify-center md:justify-start ${hoverStyle} ${idx === services.length - 1 ? 'col-span-2' : ''}`}
+                  >
+                    <span className={`material-symbols-outlined ${service.iconColor} text-lg shrink-0`}>{service.icon}</span>
+                    <span className="truncate">{service.title}</span>
+                  </a>
+                );
+              })}
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -313,7 +393,19 @@ export const Services = () => {
             </div>
           )}
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className={`mx-auto px-4 sm:px-6 lg:px-8 relative z-10 ${
+            section.category === 'rent'
+              ? 'max-w-4xl'
+              : section.category === 'photo-video'
+                ? 'max-w-3xl'
+                : section.category === 'animators'
+                  ? 'max-w-5xl'
+                  : section.category === 'catering'
+                    ? 'max-w-4xl'
+                    : section.category === 'quests'
+                      ? 'max-w-6xl'
+                      : 'max-w-7xl'
+          }`}>
             {/* Section Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -341,7 +433,7 @@ export const Services = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"
               >
                 {section.items.map((item: any) => {
                   // Определяем эмодзи для каждого шоу
@@ -428,7 +520,7 @@ export const Services = () => {
                 </div>
 
                 {/* Desktop View: Regular Cards Grid */}
-                <div className="hidden md:grid md:grid-cols-3 gap-4">
+                <div className="hidden md:grid md:grid-cols-2 gap-6">
                   {section.items.map((item: any) => (
                     <motion.div
                       key={item.name}
@@ -530,7 +622,7 @@ export const Services = () => {
               </motion.div>
             )}
 
-            {(section.category === 'entertainment' || section.category === 'photo-video') && (
+            {section.category === 'entertainment' && (
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -550,6 +642,52 @@ export const Services = () => {
                     <h3 className="text-xs sm:text-sm font-black text-gray-800 font-heading mb-2 text-center leading-tight">{item.name}</h3>
                     <p className="text-[10px] sm:text-xs text-gray-600 mb-2 leading-relaxed text-center line-clamp-2">{item.description}</p>
                     <div className="text-primary font-black text-xs text-center">{item.price}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+
+            {section.category === 'photo-video' && (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6"
+              >
+                {section.items.map((item: any) => (
+                  <motion.div
+                    key={item.name}
+                    variants={itemVariants}
+                    className="bg-gradient-to-br from-white to-teal-50/15 rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-t-4 border-gray-150/70 border-t-teal-500 hover:shadow-xl hover:border-teal-200 hover:border-t-teal-500 transition-all flex flex-col justify-between h-full group"
+                  >
+                    <div>
+                      <div className="flex items-center gap-3.5 mb-4 border-b border-gray-100 pb-4">
+                        <div className={`size-12 rounded-xl ${section.iconBg} flex items-center justify-center shrink-0`}>
+                          <span className={`material-symbols-outlined text-2xl ${section.iconColor}`}>
+                            {item.name === 'Фотограф' ? 'photo_camera' : 'videocam'}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-base sm:text-lg font-black text-gray-900 font-heading leading-tight">{item.name}</h3>
+                          <span className="text-[10px] text-teal-600 font-bold uppercase tracking-wider">Профессионально</span>
+                        </div>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium mb-6">{item.description}</p>
+                    </div>
+                    
+                    <div className="border-t border-gray-100 pt-4 mt-auto">
+                      <div className="flex justify-between items-baseline mb-4">
+                        <span className="text-[10px] text-gray-400 font-black uppercase tracking-wider">Стоимость:</span>
+                        <span className="text-primary font-black text-base sm:text-lg font-heading">{item.price}</span>
+                      </div>
+                      <Link
+                        to={`/contact?service=${item.name === 'Фотограф' ? 'photographer' : 'videographer'}`}
+                        className="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs sm:text-sm text-center block shadow-md hover:shadow-lg active:scale-95 transition-all touch-target"
+                      >
+                        Заказать съемку
+                      </Link>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -585,7 +723,7 @@ export const Services = () => {
                     <div className="flex flex-col items-center justify-center border-r border-rose-100">
                       <span className="material-symbols-outlined text-rose-500 text-lg sm:text-xl mb-0.5">payments</span>
                       <span className="text-[9px] sm:text-xs text-gray-500 font-medium">Цена</span>
-                      <span className="text-[10px] sm:text-sm font-black text-gray-800">от 6 000 ₽</span>
+                       <span className="text-[10px] sm:text-sm font-black text-gray-800">от {Math.min(...Object.values(PRICES.quests)).toLocaleString('ru-RU')} ₽</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                       <span className="material-symbols-outlined text-rose-500 text-lg sm:text-xl mb-0.5">checkroom</span>
@@ -596,13 +734,13 @@ export const Services = () => {
                 </motion.div>
 
                 {/* Quests Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="flex flex-wrap justify-center gap-6">
                   {section.items.map((item: any) => (
                     <motion.div
                       key={item.id}
                       variants={itemVariants}
                       onClick={() => handleQuestClick(item.id)}
-                      className="bg-white rounded-2xl overflow-hidden border-2 border-gray-100 hover:border-rose-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all group cursor-pointer flex flex-col h-full"
+                      className="bg-white rounded-2xl overflow-hidden border-2 border-gray-100 hover:border-rose-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all group cursor-pointer flex flex-col h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-[360px]"
                     >
                       <div className="relative h-44 sm:h-48 overflow-hidden bg-gray-100">
                         <img
@@ -713,20 +851,16 @@ export const Services = () => {
                         </h4>
                         <ul className="space-y-2 text-xs sm:text-sm">
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
-                            <span className="text-gray-600">Пастель (1 шт.)</span>
-                            <span className="font-bold text-gray-800">190 ₽</span>
-                          </li>
-                          <li className="flex justify-between py-1.5 border-b border-gray-50">
-                            <span className="text-gray-600">С обработкой (1 шт.)</span>
-                            <span className="font-bold text-gray-800">200 ₽</span>
+                            <span className="text-gray-600">Шар с обработкой (1 шт.)</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonClassic.toLocaleString('ru-RU')} ₽</span>
                           </li>
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">С рисунком / надписью</span>
-                            <span className="font-bold text-gray-800">+20 ₽</span>
+                            <span className="font-bold text-gray-800">+50 ₽</span>
                           </li>
                           <li className="flex justify-between py-1.5">
                             <span className="text-gray-600">Перламутр (с обработкой)</span>
-                            <span className="font-bold text-gray-800">220 ₽</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonPearl.toLocaleString('ru-RU')} ₽</span>
                           </li>
                         </ul>
                       </div>
@@ -741,15 +875,15 @@ export const Services = () => {
                         <ul className="space-y-2 text-xs sm:text-sm">
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Хром / С конфетти</span>
-                            <span className="font-bold text-gray-800">250 ₽/шт</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonChrome.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Агат с обработкой</span>
-                            <span className="font-bold text-gray-800">350 ₽/шт</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonAgate.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                           <li className="flex justify-between py-1.5">
                             <span className="text-gray-600">Кристалл (шар в шаре)</span>
-                            <span className="font-bold text-gray-800">230 ₽/шт</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonCrystal.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                         </ul>
                       </div>
@@ -764,23 +898,23 @@ export const Services = () => {
                         <ul className="space-y-2 text-xs sm:text-sm">
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Звезда / Сердце фольга</span>
-                            <span className="font-bold text-gray-800">300 ₽/шт</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonFoilStar.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Фольгированный с рисунком</span>
-                            <span className="font-bold text-gray-800">400 ₽/шт</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonFoilPattern.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Фигурный фольгированный</span>
-                            <span className="font-bold text-gray-800">от 600 ₽/шт</span>
+                            <span className="font-bold text-gray-800">от {PRICES.decor.balloonFoilFigure.toLocaleString('ru-RU')} ₽/шт</span>
                           </li>
                           <li className="flex justify-between py-1.5 border-b border-gray-50">
                             <span className="text-gray-600">Цифра фольгированная</span>
-                            <span className="font-bold text-gray-800">1 350 ₽</span>
+                            <span className="font-bold text-gray-800">{PRICES.decor.balloonNumber.toLocaleString('ru-RU')} ₽</span>
                           </li>
                           <li className="flex justify-between py-1.5">
                             <span className="text-gray-600">Шар-гигант</span>
-                            <span className="font-bold text-gray-800">от 2 000 ₽ <span className="text-[10px] text-gray-400 font-normal">(на тассел +300₽)</span></span>
+                            <span className="font-bold text-gray-800">от {PRICES.decor.balloonGiant.toLocaleString('ru-RU')} ₽ <span className="text-[10px] text-gray-400 font-normal">(на тассел +300₽)</span></span>
                           </li>
                         </ul>
                       </div>
@@ -860,7 +994,7 @@ export const Services = () => {
                 </div>
 
                 {/* Desktop View: Grid */}
-                <div className="hidden md:grid md:grid-cols-3 gap-4">
+                <div className="hidden md:grid md:grid-cols-3 gap-6">
                   {section.items.map((item: any) => (
                     <motion.div
                       key={item.name}
@@ -934,21 +1068,6 @@ export const Services = () => {
           </svg>
         </div>
       </section>
-      {/* Floating Scroll to Top button */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            onClick={scrollToTop}
-            className="fixed bottom-24 right-4 sm:bottom-40 sm:right-6 z-40 size-12 sm:size-14 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-2xl active:scale-95 transition-all focus:outline-none border-2 border-white/20"
-            aria-label="Наверх"
-          >
-            <span className="material-symbols-outlined text-2xl font-bold">arrow_upward</span>
-          </motion.button>
-        )}
-      </AnimatePresence>
     </main>
   );
 };

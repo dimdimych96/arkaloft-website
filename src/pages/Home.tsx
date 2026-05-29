@@ -10,31 +10,7 @@ import { ServicesTeaserSection } from '../components/sections/ServicesTeaserSect
 import { ReviewsSection } from '../components/ReviewsSection';
 import { AmenitiesSection } from '../components/sections/AmenitiesSection';
 
-const ScrollToTop = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const toggleVisibility = () => setIsVisible(window.pageYOffset > 500);
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.5, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.5, y: 20 }}
-          onClick={scrollToTop}
-          aria-label="Прокрутить наверх"
-          className="fixed bottom-24 right-4 sm:bottom-40 sm:right-6 z-40 p-3 sm:p-4 rounded-2xl bg-primary text-white shadow-2xl hover:bg-primary-hover active:scale-95 transition-all flex items-center justify-center group"
-        >
-          <span className="material-symbols-outlined text-2xl group-hover:-translate-y-1 transition-transform">arrow_upward</span>
-        </motion.button>
-      )}
-    </AnimatePresence>
-  );
-};
+
 
 export const Home = () => {
 
@@ -101,7 +77,6 @@ export const Home = () => {
       <ServicesTeaserSection />
       <ReviewsSection />
       <AmenitiesSection />
-      <ScrollToTop />
     </main>
   );
 };

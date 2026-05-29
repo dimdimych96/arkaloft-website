@@ -1,6 +1,3 @@
-import { callFunction } from '../firebase/config';
-import apiClient from '../axios';
-
 export interface LeadData {
   name?: string;
   phone: string;

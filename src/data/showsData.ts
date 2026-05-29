@@ -1,3 +1,5 @@
+import { PRICES } from './prices';
+
 export interface ShowDetail {
   id: string;
   name: string;
@@ -29,8 +31,8 @@ export const showsData: ShowDetail[] = [
       'И это ещё не все сюрпризы, которые ждут вас!'
     ],
     pricing: [
-      { label: '30 минут', price: '8 000 ₽' },
-      { label: '30 минут (премиум)', price: '9 500 ₽' }
+      { label: '30 минут', price: `${PRICES.shows.bubble.toLocaleString('ru-RU')} ₽` },
+      { label: '30 минут (премиум)', price: `${PRICES.shows.bubblePremium.toLocaleString('ru-RU')} ₽` }
     ],
     image: '/images/show/bubble/bubble1.jpg',
     badge: 'Hit'
@@ -49,8 +51,8 @@ export const showsData: ShowDetail[] = [
       'Интерактивы: «Перевертыши», «Брендомания», «Угадай хит по шифру»'
     ],
     pricing: [
-      { label: '60 минут (1 ведущий)', price: '6 500 ₽' },
-      { label: '60 минут (2 ведущих)', price: '11 500 ₽' }
+      { label: '60 минут (1 ведущий)', price: `${PRICES.shows.tiktok1Leader.toLocaleString('ru-RU')} ₽` },
+      { label: '60 минут (2 ведущих)', price: `${PRICES.shows.tiktok2Leaders.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '⚡️ Важно: Если участников больше 15, необходимо заказывать двух ведущих.',
@@ -70,9 +72,9 @@ export const showsData: ShowDetail[] = [
       'Научное шоу «Космическое путешествие»'
     ],
     pricing: [
-      { label: '30 минут', price: '8 900 ₽' },
-      { label: '45 минут', price: '9 900 ₽' },
-      { label: '60 минут', price: '10 900 ₽' }
+      { label: '30 минут', price: `${PRICES.shows.science30m.toLocaleString('ru-RU')} ₽` },
+      { label: '45 минут', price: `${PRICES.shows.science45m.toLocaleString('ru-RU')} ₽` },
+      { label: '60 минут', price: `${PRICES.shows.science60m.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '💡 Кстати: Все опыты безопасны и проводятся под строгим контролем аниматоров.'
@@ -92,7 +94,7 @@ export const showsData: ShowDetail[] = [
       'И конечно, фотографироваться!'
     ],
     pricing: [
-      { label: '30 минут', price: '5 500 ₽' }
+      { label: '30 минут', price: `${PRICES.shows.silver.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       'Равнодушных не останется — гарантируем!!!',
@@ -126,7 +128,7 @@ export const showsData: ShowDetail[] = [
       'Добавление различных топпингов, мармелада, шоколада и других сладостей'
     ],
     pricing: [
-      { label: '45 минут', price: '9 000 ₽' }
+      { label: '45 минут', price: `${PRICES.shows.cryo.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '🍨 Безопасно, познавательно и невероятно вкусно!'
@@ -155,7 +157,7 @@ export const showsData: ShowDetail[] = [
       'Кубическое пати под зажигательную музыку'
     ],
     pricing: [
-      { label: '45 минут', price: '5 500 ₽' }
+      { label: '45 минут', price: `${PRICES.shows.foam.toLocaleString('ru-RU')} ₽` }
     ],
     image: '/images/show/porolonshow.jpg',
     notes: [
@@ -174,7 +176,7 @@ export const showsData: ShowDetail[] = [
       'Отличная фотосессия с содержимым короба'
     ],
     pricing: [
-      { label: '60 минут (1 ведущий + 1 ассистент)', price: 'от 5 500 ₽' }
+      { label: '60 минут (1 ведущий + 1 ассистент)', price: `от ${PRICES.shows.touch.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '🕵️‍♂️ Рекомендовано для детей от 7 лет и взрослых. Все участники программы в полной безопасности.'
@@ -198,7 +200,7 @@ export const showsData: ShowDetail[] = [
       'Памятные фотографии с героем в конце программы'
     ],
     pricing: [
-      { label: '45 минут (в паре с ведущим)', price: '7 000 ₽' }
+      { label: '45 минут (в паре с ведущим)', price: `${PRICES.shows.transformers.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '🤖 Мечта каждого любителя роботов! Фигуры трансформеров обладают световыми и звуковыми эффектами.'
@@ -226,7 +228,7 @@ export const showsData: ShowDetail[] = [
       'Уникальная возможность сделать фото на память с героями программы после представления'
     ],
     pricing: [
-      { label: '1 час (40 минут шоу + время на фото)', price: '11 000 ₽' }
+      { label: '1 час (40 минут шоу + время на фото)', price: `${PRICES.shows.circus.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '🎪 Подходит для детей любого возраста. Море радости и живого общения с животными!'
@@ -257,7 +259,7 @@ export const showsData: ShowDetail[] = [
       'Долгожданный пушистый сюрприз из волшебной шляпы фокусника'
     ],
     pricing: [
-      { label: '30-40 минут', price: 'от 8 500 ₽' }
+      { label: '30-40 минут', price: `от ${PRICES.shows.magician.toLocaleString('ru-RU')} ₽` }
     ],
     notes: [
       '🎩 Настоящее волшебство, которое происходит прямо на глазах у детей!'

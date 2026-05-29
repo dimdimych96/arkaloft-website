@@ -1,18 +1,18 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy } from 'react';
 import App from './App';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Projects } from './pages/Projects';
-import { Services } from './pages/Services';
-import { Contact } from './pages/Contact';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import { Reviews } from './pages/Reviews';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import { NotFound } from './pages/NotFound';
-import { PrivacyPolicy } from './pages/PrivacyPolicy';
-import { TermsOfService } from './pages/TermsOfService';
+
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
+const Projects = lazy(() => import('./pages/Projects').then(m => ({ default: m.Projects })));
+const Services = lazy(() => import('./pages/Services').then(m => ({ default: m.Services })));
+const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
+const Reviews = lazy(() => import('./pages/Reviews').then(m => ({ default: m.Reviews })));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
+const TermsOfService = lazy(() => import('./pages/TermsOfService').then(m => ({ default: m.TermsOfService })));
 
 export const router = createBrowserRouter([
   {
@@ -25,8 +25,6 @@ export const router = createBrowserRouter([
       { path: 'services', element: <Services /> },
       { path: 'reviews', element: <Reviews /> },
       { path: 'contact', element: <Contact /> },
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:slug', element: <BlogPost /> },
       { path: 'privacy', element: <PrivacyPolicy /> },

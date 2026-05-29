@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { packages } from '../data/siteData';
+import { PRICES } from '../data/prices';
+import { SEO } from '../components/SEO';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,8 +21,127 @@ const itemVariants = {
 };
 
 export const Projects = () => {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "numberOfItems": 7,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «Старт»",
+          "description": "Бюджетный вариант для небольшого праздника: 2 часа аренды лофта, аниматор (стандарт) 50 минут, дискотека со спецэффектами 30 минут.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.startWeekday.toString(),
+            "priceCurrency": "RUB",
+            "description": "Цена в будние дни"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «Минимальный»",
+          "description": "Базовый набор для отличного праздника: 3 часа аренды лофта, аниматор (стандарт) 1 час, дискотека со спецэффектами 30 минут, фотозона.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.minWeekday.toString(),
+            "priceCurrency": "RUB",
+            "description": "Цена в будние дни"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «Стандартный»",
+          "description": "Оптимальный выбор с аквагримом и фотографом: 3 часа аренды лофта, аниматор (стандарт) 1 час, аквагрим или блеск-тату 1 час, фотограф 1 час, дискотека со спецэффектами, фотозона.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.stdWeekday.toString(),
+            "priceCurrency": "RUB",
+            "description": "Цена в будние дни"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «ХИТ»",
+          "description": "С шоу на выбор и мыльными пузырями: 3 часа аренды лофта, аниматор (стандарт) 1 час, погружение в мыльный пузырь, шоу на выбор (серебряная/неоновая диско), фотозона под ключ.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.hitWeekday.toString(),
+            "priceCurrency": "RUB",
+            "description": "Цена в будние дни"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «VIP»",
+          "description": "Всё включено по максимуму: 3 часа аренды лофта, аниматор (премиум) 1 час, велком зона с героем или торт, шоу на выбор, фотограф и видеограф, фотозона под ключ и пиньята.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.vip.toString(),
+            "priceCurrency": "RUB",
+            "description": "Единая цена на любые дни"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "item": {
+          "@type": "Product",
+          "name": "Пакет «Уэнсдей против Барби»",
+          "description": "Уникальная тематическая вечеринка: 3 часа аренды лофта, вечеринка Уэнсдей против Барби 1 час, неоновая розовая дискотека, фотограф 1 час, фотозона под ключ, сахарная вата или торт 2.5 кг.",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.wednesdayTeens.toString(),
+            "priceCurrency": "RUB",
+            "description": "Цена для Зала 7+"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "item": {
+          "@type": "Product",
+          "name": "Тариф «Утренние часы»",
+          "description": "Специальный тариф для утренних праздников: только аренда лофта от 3-х часов со скидкой (в будние дни с 10:00 до 13:00).",
+          "offers": {
+            "@type": "Offer",
+            "price": PRICES.packages.morningHour.toString(),
+            "priceCurrency": "RUB",
+            "description": "Стоимость аренды за час"
+          }
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-white font-body text-text-main overflow-x-hidden">
+      <SEO
+        title="Пакеты услуг - готовые решения для праздников"
+        description="Выгодные готовые пакеты для организации детского дня рождения или подростковой вечеринки в Арка Лофт Новосибирск. Подробное описание и цены пакетов Старт, Минимальный, Стандартный, ХИТ, VIP."
+        keywords="готовые пакеты детский день рождения новосибирск, организация праздников под ключ, детский лофт цены"
+        structuredData={structuredData}
+      />
       {/* Header Section */}
       <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden bg-gradient-to-br from-primary/5 via-secondary-mint/10 to-secondary-yellow/5">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
@@ -220,40 +341,40 @@ export const Projects = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
             <motion.div
-              variants={itemVariants}
-              className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
-            >
-              <div className="size-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl text-purple-500">theater_comedy</span>
-              </div>
-              <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Шоу-программы</h3>
-              <p className="text-gray-600 text-sm mb-4 leading-relaxed">Научные шоу, мыльные пузыри, бумажная дискотека и многое другое!</p>
-              <div className="text-primary font-black text-lg">от 5 000 ₽</div>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
-            >
-              <div className="size-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl text-orange-500">face</span>
-              </div>
-              <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Аниматоры</h3>
-              <p className="text-gray-600 text-sm mb-4 leading-relaxed">Любимые герои сказок и мультфильмов для детей любого возраста</p>
-              <div className="text-primary font-black text-lg">от 3 500 ₽/час</div>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
-            >
-              <div className="size-14 bg-pink-100 rounded-2xl flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl text-pink-500">palette</span>
-              </div>
-              <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Оформление</h3>
-              <p className="text-gray-600 text-sm mb-4 leading-relaxed">Фотозоны, шары, тематический декор для незабываемых кадров</p>
-              <div className="text-primary font-black text-lg">от 7 000 ₽</div>
-            </motion.div>
+               variants={itemVariants}
+               className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
+             >
+               <div className="size-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-4">
+                 <span className="material-symbols-outlined text-3xl text-purple-500">theater_comedy</span>
+               </div>
+               <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Шоу-программы</h3>
+               <p className="text-gray-600 text-sm mb-4 leading-relaxed">Научные шоу, мыльные пузыри, бумажная дискотека и многое другое!</p>
+               <div className="text-primary font-black text-lg">от {Math.min(PRICES.shows.silver, PRICES.shows.foam).toLocaleString('ru-RU')} ₽</div>
+             </motion.div>
+ 
+             <motion.div
+               variants={itemVariants}
+               className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
+             >
+               <div className="size-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
+                 <span className="material-symbols-outlined text-3xl text-orange-500">face</span>
+               </div>
+               <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Аниматоры</h3>
+               <p className="text-gray-600 text-sm mb-4 leading-relaxed">Любимые герои сказок и мультфильмов для детей любого возраста</p>
+               <div className="text-primary font-black text-lg">от {PRICES.animators.standard.toLocaleString('ru-RU')} ₽/50 мин</div>
+             </motion.div>
+ 
+             <motion.div
+               variants={itemVariants}
+               className="bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-6 hover:shadow-xl hover:-translate-y-2 transition-all"
+             >
+               <div className="size-14 bg-pink-100 rounded-2xl flex items-center justify-center mb-4">
+                 <span className="material-symbols-outlined text-3xl text-pink-500">palette</span>
+               </div>
+               <h3 className="text-xl font-black text-gray-800 mb-2 font-heading">Оформление</h3>
+               <p className="text-gray-600 text-sm mb-4 leading-relaxed">Фотозоны, шары, тематический декор для незабываемых кадров</p>
+               <div className="text-primary font-black text-lg">от {PRICES.decor.photozone.toLocaleString('ru-RU')} ₽</div>
+             </motion.div>
           </motion.div>
         </div>
       </section>

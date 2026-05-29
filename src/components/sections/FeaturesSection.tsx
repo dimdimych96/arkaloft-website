@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/Card';
+import { PRICES } from '../../data/prices';
 
 const features = [
   {
@@ -33,7 +34,7 @@ const features = [
     items: [
       'Фотозоны под ключ',
       'Кенди бар',
-      'Гелиевые шары от 150₽',
+      `Гелиевые шары от ${PRICES.decor.balloonClassic}₽`,
       'Тематические декорации',
       'Оформление на выезд'
     ],

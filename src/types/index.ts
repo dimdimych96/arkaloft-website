@@ -1,50 +1,9 @@
-// User types
-export interface User {
-  uid: string;
-  email: string;
-  displayName?: string;
-  photoURL?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Project types
-export interface Project {
-  id: string;
-  title: string;
-  description?: string;
-  userId: string;
-  status: 'draft' | 'in_progress' | 'completed';
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Message types for Telegram
-export interface Message {
-  id: string;
-  chatId: string;
-  text: string;
-  type: 'text' | 'image' | 'document';
-  createdAt: Date;
-}
-
 // Form types
 export interface ContactForm {
   name: string;
   email: string;
   phone?: string;
   message: string;
-}
-
-export interface LoginForm {
-  email: string;
-  password: string;
-}
-
-export interface RegisterForm {
-  name: string;
-  email: string;
-  password: string;
 }
 
 // API Response types

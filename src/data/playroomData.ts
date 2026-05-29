@@ -1,3 +1,5 @@
+import { PRICES } from './prices';
+
 export interface PlayroomDetail {
   id: string;
   name: string;
@@ -29,8 +31,8 @@ export const playroomData: PlayroomDetail = {
     'Чистота и порядок'
   ],
   pricing: [
-    { label: '2 взрослых + 1 ребенок', price: '450 ₽/час' },
-    { label: 'За 2-го ребенка', price: '+300 ₽/час' }
+    { label: '2 взрослых + 1 ребенок', price: `${PRICES.playroom.standard.toLocaleString('ru-RU')} ₽/час` },
+    { label: 'За 2-го ребенка', price: `+${PRICES.playroom.extraChild.toLocaleString('ru-RU')} ₽/час` }
   ],
   schedule: 'Ежедневно, когда зал свободен от мероприятий',
   notes: [
