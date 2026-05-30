@@ -18,7 +18,7 @@ export default function Blog() {
         title="Блог о детских праздниках | Арка Лофт"
         description="Полезные статьи об организации детских праздников, идеи для мероприятий и советы родителям. Блог Арка Лофт — лофт-пространство в Новосибирске."
         keywords="блог детские праздники, организация праздников советы, идеи детский день рождения, как организовать праздник"
-        ogImage="/images/halls/0/halls (1).jpg"
+        ogImage="/images/halls/0/halls (1).webp"
       />
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 pb-16">

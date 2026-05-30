@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEO } from '../components/SEO';
 import { HeroSection } from '../components/sections/HeroSection';
 import { PartyFormatsSection } from '../components/sections/PartyFormatsSection';
-import { WhyUsSection } from '../components/sections/WhyUsSection';
-import { HallsSectionStatic } from '../components/sections/HallsSectionStatic';
-import { PackagesSectionStatic } from '../components/sections/PackagesSectionStatic';
-import { ServicesTeaserSection } from '../components/sections/ServicesTeaserSection';
-import { ReviewsSection } from '../components/ReviewsSection';
-import { AmenitiesSection } from '../components/sections/AmenitiesSection';
+
+const WhyUsSection = lazy(() => import('../components/sections/WhyUsSection').then(m => ({ default: m.WhyUsSection })));
+const HallsSectionStatic = lazy(() => import('../components/sections/HallsSectionStatic').then(m => ({ default: m.HallsSectionStatic })));
+const PackagesSectionStatic = lazy(() => import('../components/sections/PackagesSectionStatic').then(m => ({ default: m.PackagesSectionStatic })));
+const ServicesTeaserSection = lazy(() => import('../components/sections/ServicesTeaserSection').then(m => ({ default: m.ServicesTeaserSection })));
+const ReviewsSection = lazy(() => import('../components/ReviewsSection').then(m => ({ default: m.ReviewsSection })));
+const AmenitiesSection = lazy(() => import('../components/sections/AmenitiesSection').then(m => ({ default: m.AmenitiesSection })));
 
 
 
@@ -71,12 +72,14 @@ export const Home = () => {
 
       <HeroSection />
       <PartyFormatsSection />
-      <WhyUsSection />
-      <HallsSectionStatic />
-      <PackagesSectionStatic />
-      <ServicesTeaserSection />
-      <ReviewsSection />
-      <AmenitiesSection />
+      <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+        <WhyUsSection />
+        <HallsSectionStatic />
+        <PackagesSectionStatic />
+        <ServicesTeaserSection />
+        <ReviewsSection />
+        <AmenitiesSection />
+      </Suspense>
     </main>
   );
 };

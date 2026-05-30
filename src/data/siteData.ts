@@ -160,12 +160,12 @@ export const reviewTags = [
 ];
 
 export const partyFormats = [
-  { name: 'Зал 0+', image: '/images/halls/0/halls (1).jpg', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
-  { name: 'Зал 7+', image: '/images/halls/7/halls7 (1).JPG', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
-  { name: 'ДР', image: '/images/halls/0/halls (5).jpg', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
-  { name: 'Гендер пати', image: '/images/halls/7/halls7 (10).JPG', border: 'border-purple-200', bgClass: 'bg-purple-200' },
-  { name: 'Вечеринки', image: '/images/halls/0/halls (15).jpg', border: 'border-blue-200', bgClass: 'bg-blue-200' },
-  { name: 'Фотосессии', image: '/images/halls/7/halls7 (5).JPG', border: 'border-pink-200', bgClass: 'bg-pink-200' },
+  { name: 'Зал 0+', image: '/images/halls/0/halls (1)-thumb.webp', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
+  { name: 'Зал 7+', image: '/images/halls/7/halls7 (1)-thumb.webp', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
+  { name: 'ДР', image: '/images/halls/0/halls (5)-thumb.webp', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
+  { name: 'Гендер пати', image: '/images/halls/7/halls7 (10)-thumb.webp', border: 'border-purple-200', bgClass: 'bg-purple-200' },
+  { name: 'Вечеринки', image: '/images/halls/0/halls (15)-thumb.webp', border: 'border-blue-200', bgClass: 'bg-blue-200' },
+  { name: 'Фотосессии', image: '/images/halls/7/halls7 (5)-thumb.webp', border: 'border-pink-200', bgClass: 'bg-pink-200' },
 ];
 
 export const features = [
@@ -268,7 +268,7 @@ export const hallsData = [
     capacity: 'До 30 гостей',
     price: `${PRICES.halls.kidsWeekend.toLocaleString('ru-RU')} ₽/час`,
     description: 'Идеальное пространство для малышей и шумных компаний. Огромная игровая зона, где можно бегать, прыгать и веселиться без ограничений!',
-    image: '/images/halls/0/halls (1).jpg',
+    image: '/images/halls/0/halls (1).webp',
     images: getHallImages(0),
     available: true,
     features: [
@@ -293,7 +293,7 @@ export const hallsData = [
     capacity: 'До 25 гостей',
     price: `${PRICES.halls.teens.toLocaleString('ru-RU')} ₽/час`,
     description: 'Стильное и современное пространство для подростков и взрослых. Лаунж-зона, приставка и атмосфера настоящего лофта для ваших лучших тусовок.',
-    image: '/images/halls/7/halls7 (1).JPG',
+    image: '/images/halls/7/halls7 (1).webp',
     images: getHallImages(1),
     available: true,
     features: [
@@ -327,7 +327,7 @@ export const servicesData = [
         guests: 'до 30 чел.',
         price: `${PRICES.halls.kidsWeekend.toLocaleString('ru-RU')} ₽/час`,
         priceColor: 'text-primary',
-        image: '/images/halls/0/halls (1).jpg',
+        image: '/images/halls/0/halls (1).webp',
       },
       {
         name: 'Зал 7+',
@@ -336,7 +336,7 @@ export const servicesData = [
         guests: 'до 25 чел.',
         price: `${PRICES.halls.teens.toLocaleString('ru-RU')} ₽/час`,
         priceColor: 'text-orange-500',
-        image: '/images/halls/7/halls7 (1).JPG',
+        image: '/images/halls/7/halls7 (1).webp',
       },
     ],
   },
@@ -353,25 +353,25 @@ export const servicesData = [
         description: 'Килограммы блестящей фольги, в которой можно купаться и танцевать.',
         price: `от ${PRICES.shows.silver.toLocaleString('ru-RU')} ₽`,
         badge: 'Hit',
-        image: '/images/halls/7/halls7 (8).JPG',
+        image: '/images/halls/7/halls7 (8).webp',
       },
       {
         name: 'Шоу мыльных пузырей',
         description: 'Шоу мыльных пузырей на празднике впечатлит как детей, так и взрослых. А особенный восторг шоу вызовет у малышей!',
         price: `от ${PRICES.shows.bubble.toLocaleString('ru-RU')} ₽`,
-        image: '/images/halls/0/halls (10).jpg',
+        image: '/images/halls/0/halls (10).webp',
       },
       {
         name: 'Бумажная дискотека',
         description: 'Танцы с конфетти, серпантином и светящимися палочками.',
         price: `от ${PRICES.shows.foam.toLocaleString('ru-RU')} ₽`,
-        image: '/images/halls/7/halls7 (12).JPG',
+        image: '/images/halls/7/halls7 (12).webp',
       },
       {
         name: 'Научное шоу',
         description: 'Яркая демонстрация законов химии и физики в игровой форме для детей младшего школьного возраста.',
         price: `от ${PRICES.shows.science30m.toLocaleString('ru-RU')} ₽`,
-        image: '/images/halls/0/halls (20).jpg',
+        image: '/images/halls/0/halls (20).webp',
       },
     ],
   },
@@ -383,10 +383,10 @@ export const servicesData = [
     title: 'Аниматоры',
     subtitle: 'Любимые герои сказок и мультфильмов',
     items: [
-      { name: 'Аниматор (стандарт)', price: `${PRICES.animators.standard.toLocaleString('ru-RU')} ₽/50 мин`, image: '/images/halls/0/halls (15).jpg' },
-      { name: 'Аниматор (премиум)', price: `${PRICES.animators.premium.toLocaleString('ru-RU')} ₽/50 мин`, image: '/images/halls/7/halls7 (5).JPG' },
-      { name: 'Ростовая кукла', price: `от ${PRICES.animators.mascot.toLocaleString('ru-RU')} ₽/30 мин`, image: '/images/halls/7/halls7 (10).JPG' },
-      { name: 'Аквагрим, блеск-тату', price: `от ${PRICES.animators.facePaint.toLocaleString('ru-RU')} ₽/час`, image: '/images/halls/0/halls (18).jpg' },
+      { name: 'Аниматор (стандарт)', price: `${PRICES.animators.standard.toLocaleString('ru-RU')} ₽/50 мин`, image: '/images/halls/0/halls (15).webp' },
+      { name: 'Аниматор (премиум)', price: `${PRICES.animators.premium.toLocaleString('ru-RU')} ₽/50 мин`, image: '/images/halls/7/halls7 (5).webp' },
+      { name: 'Ростовая кукла', price: `от ${PRICES.animators.mascot.toLocaleString('ru-RU')} ₽/30 мин`, image: '/images/halls/7/halls7 (10).webp' },
+      { name: 'Аквагрим, блеск-тату', price: `от ${PRICES.animators.facePaint.toLocaleString('ru-RU')} ₽/час`, image: '/images/halls/0/halls (18).webp' },
     ],
   },
   {

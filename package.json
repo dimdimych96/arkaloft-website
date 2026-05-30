@@ -29,6 +29,7 @@
     "react-input-mask": "^2.0.4",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.8.1",
+    "sharp": "^0.34.5",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },

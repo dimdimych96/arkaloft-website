@@ -8,14 +8,14 @@ interface HeroSectionProps {
 }
 
 const heroImages = [
-  '/images/hero/hero (1).JPG',
-  '/images/hero/hero (2).JPG',
-  '/images/hero/hero (3).jpg',
-  '/images/hero/hero (4).jpg',
-  '/images/hero/hero (5).jpg',
-  '/images/hero/hero (6).jpg',
-  '/images/hero/hero (7).jpg',
-  '/images/hero/hero (8).JPG',
+  '/images/hero/hero (1).webp',
+  '/images/hero/hero (2).webp',
+  '/images/hero/hero (3).webp',
+  '/images/hero/hero (4).webp',
+  '/images/hero/hero (5).webp',
+  '/images/hero/hero (6).webp',
+  '/images/hero/hero (7).webp',
+  '/images/hero/hero (8).webp',
 ];
 
 export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
@@ -72,10 +72,10 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
     <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-white">
       {/* Background Images with Auto-change */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           <motion.img
             key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.12, x: -10, y: -5 }}
+            initial={currentImageIndex === 0 ? false : { opacity: 0, scale: 1.12, x: -10, y: -5 }}
             animate={{ opacity: 1, scale: 1.02, x: 0, y: 0 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{
@@ -86,6 +86,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
             }}
             src={heroImages[currentImageIndex]}
             alt="Арка Лофт"
+            fetchPriority={currentImageIndex === 0 ? "high" : "auto"}
             className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
           />
         </AnimatePresence>
@@ -109,14 +110,14 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Logo */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
           className="mb-6 sm:mb-8"
         >
           <img
-            src="/logo/arka3.png"
+            src="/logo/arka3-thumb.webp"
             alt="Арка Лофт"
+            fetchPriority="high"
             className="h-16 sm:h-20 md:h-24 w-auto mx-auto drop-shadow-2xl"
           />
         </motion.div>
@@ -125,7 +126,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          transition={{ delay: 0.1, duration: 0.8 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[900] text-white leading-[1.1] mb-4 sm:mb-6 tracking-tight drop-shadow-2xl"
         >
           ЛОФТ ДЛЯ<br />
@@ -138,7 +139,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
           className="text-base sm:text-lg lg:text-xl text-white/90 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-lg"
         >
           Пространство-трансформер в Новосибирске<br className="hidden sm:block" /> для детских праздников, вечеринок и камерных свадеб
@@ -148,7 +149,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
           className="flex flex-row items-center justify-center gap-3 mb-8 sm:mb-12 px-4"
         >
           <Link
@@ -173,7 +174,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
           className="flex flex-wrap justify-center gap-6 sm:gap-8"
         >
           {[
@@ -196,7 +197,7 @@ export const HeroSection = ({ onBookingClick }: HeroSectionProps) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
+        transition={{ delay: 0.6, duration: 0.8 }}
         className="absolute bottom-24 sm:bottom-32 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 text-white/60"
       >
         <span className="text-xs font-bold uppercase tracking-wider">Листайте вниз</span>

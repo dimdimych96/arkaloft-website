@@ -182,13 +182,13 @@ export const Footer = () => {
                   className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/10 text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
                 />
                 <span className="leading-relaxed">
-                  Я согласен с{' '}
+                  Даю согласие на обработку персональных данных в соответствии с{' '}
                   <Link to="/privacy" className="text-primary hover:underline">
                     политикой конфиденциальности
                   </Link>
-                  {' '}и{' '}
+                  {' '}и принимаю{' '}
                   <Link to="/terms" className="text-primary hover:underline">
-                    пользовательским соглашением
+                    пользовательское соглашение
                   </Link>
                 </span>
               </label>

@@ -388,7 +388,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 10 000 ₽',
     duration: '2 часа',
     features: ['2 часа аренды лофта', 'Аниматор (50 мин)', 'Дискотека со спецэффектами (30 мин)'],
-    image: '/images/halls/0/halls (1).jpg',
+    image: '/images/halls/0/halls (1).webp',
     type: 'package',
     link: '/projects'
   },
@@ -397,7 +397,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 15 000 ₽',
     duration: '3 часа',
     features: ['3 часа аренды лофта', 'Аниматор (1 час)', 'Дискотека со спецэффектами (30 мин)', 'Фотозона'],
-    image: '/images/halls/0/halls (2).jpg',
+    image: '/images/halls/0/halls (2).webp',
     type: 'package',
     link: '/projects'
   },
@@ -406,7 +406,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 22 500 ₽',
     duration: '3 часа',
     features: ['3 часа аренды', 'Аниматор (1 час)', 'Аквагрим / блеск-тату (1 час)', 'Фотограф (1 час)', 'Дискотека + фотозона'],
-    image: '/images/halls/0/halls (3).jpg',
+    image: '/images/halls/0/halls (3).webp',
     type: 'package',
     link: '/projects'
   },
@@ -415,7 +415,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 21 500 ₽',
     duration: '3 часа',
     features: ['3 часа аренды', 'Аниматор (1 час)', 'Шоу мыльных пузырей + погружение', 'Серебряная/неоновая дискотека', 'Фотозона'],
-    image: '/images/halls/0/halls (5).jpg',
+    image: '/images/halls/0/halls (5).webp',
     type: 'package',
     link: '/projects'
   },
@@ -424,7 +424,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: '48 500 ₽',
     duration: '3 часа',
     features: ['3 часа аренды', 'Премиум-аниматор', 'Шоу на выбор', 'Фотограф и видеограф', 'Фотозона + пиньята'],
-    image: '/images/halls/0/halls (10).jpg',
+    image: '/images/halls/0/halls (10).webp',
     type: 'package',
     link: '/projects'
   },
@@ -433,7 +433,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 9 500 ₽',
     duration: '1 час',
     features: ['Реалистичный реквизит', 'Испытания на смелость', 'Сбор золотых монет', 'Рекомендуется для детей 7+ лет'],
-    image: '/images/halls/7/halls7 (1).JPG',
+    image: '/images/halls/7/halls7 (1).webp',
     type: 'quest',
     link: '/services'
   },
@@ -442,7 +442,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: '9 000 ₽',
     duration: '45 мин',
     features: ['Эксперименты с жидким азотом', 'Супер-заморозка предметов', 'Приготовление мороженого', 'Топпинги для всех участников'],
-    image: '/images/halls/7/halls7 (5).JPG',
+    image: '/images/halls/7/halls7 (5).webp',
     type: 'show',
     link: '/services'
   },
@@ -451,7 +451,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 8 000 ₽',
     duration: '30 мин',
     features: ['Огненные и дымные пузыри', 'Шоу на световом столе', 'Погружение в пузырь-гигант', 'Фотосессия в пузыре'],
-    image: '/images/halls/0/halls (15).jpg',
+    image: '/images/halls/0/halls (15).webp',
     type: 'show',
     link: '/services'
   },
@@ -460,7 +460,7 @@ const SERVICE_CARDS_DATA: Record<string, {
     price: 'от 5 500 ₽',
     duration: '1 час',
     features: ['Чудо-коробка с отверстиями', '1 ведущий + 1 ассистент', 'Разгадывание на ощупь предметов', 'Настоящие ящерицы и змейки'],
-    image: '/images/halls/7/halls7 (10).JPG',
+    image: '/images/halls/7/halls7 (10).webp',
     type: 'show',
     link: '/services'
   }
@@ -760,7 +760,7 @@ const ChatTour = ({ onSelect }: ChatTourProps) => {
   return (
     <div className="w-full my-3 bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden flex flex-col font-sans">
       <div className="relative h-28 w-full">
-        <img src="/images/halls/0/halls (6).jpg" alt="Виртуальный тур" className="w-full h-full object-cover" />
+        <img src="/images/halls/0/halls (6).webp" alt="Виртуальный тур" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center text-white" />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-4">
           <Eye className="w-6 h-6 mb-1 text-secondary-yellow animate-pulse" />
@@ -1411,29 +1411,43 @@ export const AIConsultant = () => {
                 )}
 
                 {/* Ввод сообщения */}
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSend(input);
-                  }}
-                  className="p-3 border-t border-gray-100 bg-white flex items-center gap-2"
-                >
-                  <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Спросите меня о чем угодно..."
-                    disabled={isLoading}
-                    className="flex-1 bg-gray-50 border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-2.5 text-sm outline-none transition-all disabled:opacity-50"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!input.trim() || isLoading}
-                    className="w-10 h-10 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-gray-100 text-white disabled:text-gray-400 flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-95"
+                <div className="flex flex-col border-t border-gray-100 bg-white">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSend(input);
+                    }}
+                    className="p-3 pb-1.5 flex items-center gap-2"
                   >
-                    <Send className="w-4 h-4" />
-                  </button>
-                </form>
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder="Спросите меня о чем угодно..."
+                      aria-label="Ваше сообщение для ИИ-ассистента"
+                      disabled={isLoading}
+                      className="flex-1 bg-gray-50 border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-2.5 text-sm outline-none transition-all disabled:opacity-50"
+                    />
+                    <button
+                      type="submit"
+                      aria-label="Отправить сообщение"
+                      disabled={!input.trim() || isLoading}
+                      className="w-10 h-10 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-gray-100 text-white disabled:text-gray-400 flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-95"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </form>
+                  <p className="text-[9px] text-gray-400 text-center pb-2.5 px-3 leading-tight font-medium font-sans">
+                    Нажимая кнопку отправки, вы даете согласие на обработку персональных данных в соответствии с{' '}
+                    <a
+                      href="/privacy"
+                      onClick={() => setIsOpen(false)}
+                      className="text-primary hover:underline font-bold"
+                    >
+                      Политикой конфиденциальности
+                    </a>
+                  </p>
+                </div>
               </motion.div>
             </div>
           </div>

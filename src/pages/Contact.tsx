@@ -698,8 +698,9 @@ export const Contact = () => {
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
-                  <label className="flex items-start gap-3 text-sm text-gray-700 cursor-pointer group">
+                  <label htmlFor="contact-policy-agree" className="flex items-start gap-3 text-sm text-gray-700 cursor-pointer group">
                     <input
+                      id="contact-policy-agree"
                       type="checkbox"
                       checked={agreedToPolicy}
                       onChange={(e) => setAgreedToPolicy(e.target.checked)}
@@ -707,13 +708,13 @@ export const Contact = () => {
                       className="mt-1 w-5 h-5 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
                     />
                     <span className="leading-relaxed">
-                      Я согласен с{' '}
+                      Даю согласие на обработку персональных данных в соответствии с{' '}
                       <Link to="/privacy" className="text-primary hover:underline font-semibold">
                         политикой конфиденциальности
                       </Link>
-                      {' '}и{' '}
+                      {' '}и принимаю{' '}
                       <Link to="/terms" className="text-primary hover:underline font-semibold">
-                        пользовательским соглашением
+                        пользовательское соглашение
                       </Link>
                     </span>
                   </label>
@@ -745,8 +746,8 @@ export const Contact = () => {
                       </>
                     )}
                   </button>
-                  <p className="mt-6 text-center text-xs sm:text-sm text-text-secondary font-medium">
-                    Нажимая кнопку, вы соглашаетесь с{' '}
+                  <p className="mt-6 text-center text-xs sm:text-sm text-text-secondary font-medium font-sans">
+                    Нажимая кнопку, вы даете согласие на обработку персональных данных в соответствии с{' '}
                     <Link to="/privacy" className="text-primary hover:underline font-bold">
                       политикой конфиденциальности
                     </Link>

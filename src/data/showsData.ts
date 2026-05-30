@@ -101,7 +101,7 @@ export const showsData: ShowDetail[] = [
       'Технические детали: Серебряная фольга 10 кг',
       '✨ На заметку: Это шоу отлично сочетается с программой TikTok Party.'
     ],
-    image: '/images/halls/7/halls7 (8).JPG',
+    image: '/images/halls/7/halls7 (8).webp',
     badge: 'Hit',
     media: {
       photos: [

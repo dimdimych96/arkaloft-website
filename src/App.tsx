@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { AIConsultant } from './components/AIConsultant';
 import { ScrollToTop } from './components/ScrollToTop';
+import { CookieBanner } from './components/CookieBanner';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import './App.css';
 
@@ -29,6 +30,7 @@ function App() {
       <Footer />
       <AIConsultant />
       <ScrollToTop />
+      <CookieBanner />
       <SpeedInsights />
     </div>
   );
