@@ -167,14 +167,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
     const payload = {
-      model: 'meta-llama/llama-3.3-70b-instruct:free',
+      model: 'openrouter/free',
       models: [
-        'meta-llama/llama-3.3-70b-instruct:free',
-        'google/gemini-2.0-flash-lite-preview-02-05:free',
-        'google/gemini-2.0-flash-exp:free',
-        'deepseek/deepseek-chat:free',
-        'qwen/qwen-2.5-72b-instruct:free',
-        'mistralai/mistral-7b-instruct:free'
+        'openrouter/free',
+        'minimax/minimax-m3:free',
+        'z-ai/glm-5.2:free',
+        'minimax/minimax-m2.7:free',
+        'nvidia/nemotron-3.5-lightning:free',
+        'google/gemma-4-31b-it:free'
       ],
       messages: formattedMessages,
       temperature: 0.7,
