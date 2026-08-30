@@ -160,12 +160,12 @@ export const reviewTags = [
 ];
 
 export const partyFormats = [
-  { name: 'Зал 0+', image: '/images/halls/0/halls (1)-thumb.webp', border: 'border-secondary-mint', bgClass: 'bg-secondary-mint' },
-  { name: 'Зал 7+', image: '/images/halls/7/halls7 (1)-thumb.webp', border: 'border-secondary-peach', bgClass: 'bg-secondary-peach' },
-  { name: 'ДР', image: '/images/halls/0/halls (5)-thumb.webp', border: 'border-secondary-yellow', bgClass: 'bg-secondary-yellow' },
-  { name: 'Гендер пати', image: '/images/halls/7/halls7 (10)-thumb.webp', border: 'border-purple-200', bgClass: 'bg-purple-200' },
-  { name: 'Вечеринки', image: '/images/halls/0/halls (15)-thumb.webp', border: 'border-blue-200', bgClass: 'bg-blue-200' },
-  { name: 'Фотосессии', image: '/images/halls/7/halls7 (5)-thumb.webp', border: 'border-pink-200', bgClass: 'bg-pink-200' },
+  { name: 'Зал 0+', emoji: '🧸', gradient: 'from-emerald-100 via-teal-100 to-cyan-100', border: 'border-emerald-300 hover:border-emerald-400', bgClass: 'bg-emerald-100' },
+  { name: 'Зал 7+', emoji: '🎮', gradient: 'from-orange-100 via-amber-100 to-yellow-100', border: 'border-orange-300 hover:border-orange-400', bgClass: 'bg-orange-100' },
+  { name: 'ДР', emoji: '🎂', gradient: 'from-yellow-100 via-amber-100 to-orange-100', border: 'border-yellow-400 hover:border-yellow-500', bgClass: 'bg-yellow-100' },
+  { name: 'Гендер пати', emoji: '🎀', gradient: 'from-pink-100 via-purple-100 to-blue-100', border: 'border-purple-300 hover:border-purple-400', bgClass: 'bg-purple-100' },
+  { name: 'Вечеринки', emoji: '🪩', gradient: 'from-indigo-100 via-purple-100 to-pink-100', border: 'border-indigo-300 hover:border-indigo-400', bgClass: 'bg-indigo-100' },
+  { name: 'Фотосессии', emoji: '📸', gradient: 'from-rose-100 via-pink-100 to-red-100', border: 'border-pink-300 hover:border-pink-400', bgClass: 'bg-pink-100' },
 ];
 
 export const features = [

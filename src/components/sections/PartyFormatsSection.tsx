@@ -169,11 +169,14 @@ export const PartyFormatsSection = () => {
                   onClick={() => handleCategoryClick(format.name)}
                   className="group flex flex-col items-center gap-3 sm:gap-4 w-full cursor-pointer"
                 >
-                  <div className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full border-4 ${format.border} p-1 bg-white shadow-lg group-hover:scale-105 group-active:scale-95 transition-transform duration-300 relative overflow-hidden`}>
-                    <img alt={format.name} className="w-full h-full object-cover rounded-full" src={format.image} loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-full" aria-hidden="true"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-white text-2xl sm:text-3xl drop-shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
+                  <div className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full border-4 ${format.border} p-1 bg-white shadow-md group-hover:shadow-xl group-hover:scale-105 group-active:scale-95 transition-all duration-300 relative overflow-hidden flex items-center justify-center`}>
+                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${format.gradient} flex items-center justify-center relative shadow-inner`}>
+                      <span className="text-3xl sm:text-4xl md:text-5xl select-none transform group-hover:scale-115 transition-transform duration-300 filter drop-shadow-sm">
+                        {format.emoji}
+                      </span>
+                      <div className="absolute inset-0 bg-black/15 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white text-2xl sm:text-3xl drop-shadow-lg">play_circle</span>
+                      </div>
                     </div>
                   </div>
                   <h3 className="text-center font-bold text-xs sm:text-sm text-gray-800 group-hover:text-primary transition-colors line-clamp-2">{format.name}</h3>
