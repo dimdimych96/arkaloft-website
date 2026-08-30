@@ -167,14 +167,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
     const payload = {
-      model: 'openrouter/free',
       models: [
         'openrouter/free',
         'minimax/minimax-m3:free',
-        'z-ai/glm-5.2:free',
-        'minimax/minimax-m2.7:free',
-        'nvidia/nemotron-3.5-lightning:free',
-        'google/gemma-4-31b-it:free'
+        'z-ai/glm-5.2:free'
       ],
       messages: formattedMessages,
       temperature: 0.7,
