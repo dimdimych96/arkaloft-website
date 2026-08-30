@@ -167,10 +167,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
     const payload = {
+      model: 'meta-llama/llama-3.3-70b-instruct:free',
       models: [
-        'z-ai/glm-4.5-air:free',
         'meta-llama/llama-3.3-70b-instruct:free',
-        'qwen/qwen-2.5-72b-instruct:free'
+        'google/gemini-2.0-flash-lite-preview-02-05:free',
+        'google/gemini-2.0-flash-exp:free',
+        'deepseek/deepseek-chat:free',
+        'qwen/qwen-2.5-72b-instruct:free',
+        'mistralai/mistral-7b-instruct:free'
       ],
       messages: formattedMessages,
       temperature: 0.7,
@@ -185,7 +189,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'HTTP-Referer': 'https://arkaloft.ru',
         'X-Title': 'Arkaloft'
       },
-      timeout: 15000 // 15 секунд лимит ожидания
+      timeout: 25000 // 25 секунд лимит ожидания
     });
 
     const candidate = response.data?.choices?.[0];
@@ -195,7 +199,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       reply: replyText
     });
   } catch (error: any) {
-    console.error('OpenRouter API error:', error.response?.data || error.message);
+    const errorDetails = error.response?.data || error.message;
+    console.error('OpenRouter API error full:', JSON.stringify(errorDetails));
     return res.status(500).json({
       error: 'Ошибка при обращении к ИИ',
       details: error.response?.data?.error?.message || error.message
