@@ -299,7 +299,7 @@ export const hallsData = [
     features: [
       { icon: 'sports_esports', text: 'PS5' },
       { icon: 'videocam', text: 'Проектор' },
-      { icon: 'tv', text: '65" экран' },
+      { icon: 'tv', text: 'Телевизор' },
       { icon: 'mic', text: 'Караоке' },
       { icon: 'kitchen', text: 'Кухня' },
       { icon: 'weekend', text: 'Лаунж-зона' },
